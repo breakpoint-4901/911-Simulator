@@ -6,6 +6,7 @@ CSCE 4901 Course Project
 - Agustin Vallejo
 - Zachary Ferris
 - Alexander Perkovich
+- Dakota Lambert
 
 ### Instructor Advisor
 - Dr. Bill Buckles
