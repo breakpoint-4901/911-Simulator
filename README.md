@@ -14,3 +14,7 @@ CSCE 4901 Course Project
 ### Wireframe Walkthrough
 
 <img src="https://i.imgur.com/Et0sivV.gif">
+
+### Class Diagram
+
+<img src="https://i.imgur.com/w7yrW0s.png">
