@@ -10,3 +10,7 @@ CSCE 4901 Course Project
 
 ### Instructor Advisor
 - Dr. Bill Buckles
+
+### Wireframe Walkthrough
+
+<img src="https://i.imgur.com/Et0sivV.gif">
