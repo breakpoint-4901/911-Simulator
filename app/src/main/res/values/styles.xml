@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -10,6 +10,16 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
 
+        <!-- Sets global button style -->
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+    </style>
+
+    <!-- Sets RobotoButton to wireframe's style -->
+    <style name="RobotoButtonStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">40sp</item>
     </style>
 
 </resources>
