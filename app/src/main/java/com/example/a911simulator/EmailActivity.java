@@ -35,7 +35,7 @@ public class EmailActivity extends AppCompatActivity {
                 //validate email
                 if(isValidEmail(email)){
                     //create email intent
-                    
+
 
                 }
                 else{
