@@ -22,4 +22,9 @@
         <item name="android:textSize">40sp</item>
     </style>
 
+    <!-- Used for email dialogs -->
+    <style name="EmailDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/logoDarkBlue</item>
+    </style>
+
 </resources>

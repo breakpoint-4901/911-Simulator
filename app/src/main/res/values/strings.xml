@@ -9,6 +9,12 @@
     <string name="survey"><u>Need the survey?</u></string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Used in the Email activity -->
+    <string name="send_survey">Enter your email to have the survey sent to you.</string>
+    <string name="send_survey_hint">enter your email here</string>
+    <string name="submit_email">Submit</string>
+
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -80,6 +86,5 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <!-- TODO: figure out why survey button text wont underline  (maybe need underlined font) -->
 
 </resources>
