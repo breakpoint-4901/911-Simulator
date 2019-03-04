@@ -19,6 +19,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
@@ -48,45 +49,47 @@ public class EmailActivity extends AppCompatActivity {
 
                 //validate email
                 if(isValidEmail(email)){
+                    //reformat email address into structure intents understand (array of strings)
                     String[] addresses = new String[]{email};
-                    //TODO: change out string values for string refs from strings.xml
 
-                    //open the survey pdf
+                    //retrieve assets
                     AssetManager assetManager = getAssets();
                     try{
-                        InputStream in = assetManager.open("sample_doc.pdf");
+                        //grab filename from strings.xml
+                        String filename = getString(R.string.survey_file_name);
+
+                        //open PDF
+                        InputStream in = assetManager.open(filename);
 
                         //grab survey file
                         File surveyFile = streamToFile(in);
 
-                        //create email intent
-                        Intent emailIntent = new Intent();
-                        emailIntent.setAction(Intent.ACTION_SEND);
-
-                        //set intent type as email
-                        emailIntent.setType("text/plain");
-
-                        emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//brings app back after done
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
-
-                        //grant permission
-                        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        //create email intent and set necessary fields
+                        Intent emailIntent = emailIntent(addresses);
 
                         try{
                             //grab file Uri
                             Uri surveyUri = FileProvider.getUriForFile(EmailActivity.this, BuildConfig.APPLICATION_ID + ".com.example.a911simulator", surveyFile);
 
-                            //attach survey
+                            //attach survey and subject to intent
                             emailIntent.putExtra(Intent.EXTRA_STREAM, surveyUri);
-
                             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Sim");
-
 
                             //send email
                             try{
                                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+                                //handle correct email sending
+
+                                //clear text
+                                emailEditText.setText("", TextView.BufferType.EDITABLE);
+
+                                //send to home (unnecessary b.c. we may want multiple emails sent out)
+                                //causes email intent to never showup
+                                //Intent homeIntent = new Intent(EmailActivity.this, HomeActivity.class);
+                                //startActivity(homeIntent);
                             }
-                            catch(android.content.ActivityNotFoundException ex){
+                            catch(android.content.ActivityNotFoundException ex) {
                                 Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -98,75 +101,14 @@ public class EmailActivity extends AppCompatActivity {
                     catch(java.io.IOException ex){
                         Toast.makeText(EmailActivity.this, "There file does not exist.", Toast.LENGTH_SHORT).show();
                     }
-
-                    //create email intent
-
-                    //failed attempts
-                    /*
-                    Uri uri = Uri.fromFile(new File("///android_asset/sample_doc.pdf"));
-                            //Uri.parse("android.resource://com.example.a911simulator/assets/sample_doc.pdf");//Uri.fromFile(file);
-
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND,Uri.parse("mailto:"));
-                    emailIntent.setType("text/plain");
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Subject");
-
-                    emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-
-                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                    emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                    startActivity(emailIntent);*/
-
-                    /*Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-
-                    //set type
-                    //emailIntent.setType("text/plain");
-                    emailIntent.setData(Uri.parse("mailto:"));
-
-                    //grab pdf
-                    //File survey = new File("res/raw/sample_doc.pdf");
-                    //Uri surveyUri = Uri.fromFile(survey);
-                    //Uri surveyUri = Uri.parse("android.resource://" + getPackage() + "/raw/sample_doc");
-
-
-                    Uri surveyUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://com.example.a911simulator/assets/sample_doc");
-
-
-
-                    //set email
-                    emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
-
-                    //getResources().openRawResource(R.assets.sample_doc);
-
-                    //set content
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Survey");
-                    //emailIntent.putExtra(Intent.EXTRA_TEXT, "yooo whaddup");
-                    emailIntent.putExtra(Intent.EXTRA_STREAM, surveyUri);
-                    //have to allow gmail to access photos/media/apps
-                    //set flag
-                    emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
-/*
-                    try{
-                        //startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                    }
-                    catch(android.content.ActivityNotFoundException ex){
-                        Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }*/
-
-                    /*File sur = getResources().
-                            openRawResource(getResources().
-                                    getIdentifier("sample_doc", "raw", getPackageName()));*/
                 }
                 else{
                     //create alert dialog
                     DialogFragment alert = new InvalidEmailDialogFragment();
 
                     //show alert
-                    alert.show(getSupportFragmentManager(), "something");
+                    alert.show(getSupportFragmentManager(), "Error");
                 }
-
-
             }
         });
     }
@@ -182,8 +124,9 @@ public class EmailActivity extends AppCompatActivity {
         return getApplicationContext().getPackageName();
     }
 
+    //converts an input stream into an intent-ready file
     public File streamToFile(InputStream in) throws IOException {
-        final File tempFile = File.createTempFile("sample_doc", ".pdf", EmailActivity.this.getExternalCacheDir());
+        final File tempFile = File.createTempFile("survey", ".pdf", EmailActivity.this.getExternalCacheDir());
 
         tempFile.deleteOnExit();
 
@@ -192,5 +135,24 @@ public class EmailActivity extends AppCompatActivity {
         IOUtils.copy(in, out);
 
         return tempFile;
+    }
+
+    //creates an intent to handle emails and passes-in the appropriate 'TO' address
+    public Intent emailIntent(String[] addresses){
+        //create email intent
+        Intent emailIntent = new Intent();
+        emailIntent.setAction(Intent.ACTION_SEND);
+
+        //set intent type as email
+        emailIntent.setType("text/plain");
+
+        //brings app back after done sending email
+        emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+
+        //grant permission to read any attachments
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        return emailIntent;
     }
 }
