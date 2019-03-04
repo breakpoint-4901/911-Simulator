@@ -87,4 +87,12 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
+
+    <!-- Example Settings for ConnectActivity -->
+    <string name="discover">Discover</string>
+    <string name="connection_status">Connection Status</string>
+
+
+
+
 </resources>
