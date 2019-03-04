@@ -9,6 +9,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class EmailActivity extends AppCompatActivity {
@@ -44,6 +50,55 @@ public class EmailActivity extends AppCompatActivity {
                 if(isValidEmail(email)){
                     String[] addresses = new String[]{email};
                     //TODO: change out string values for string refs from strings.xml
+
+                    //open the survey pdf
+                    AssetManager assetManager = getAssets();
+                    try{
+                        InputStream in = assetManager.open("sample_doc.pdf");
+
+                        //grab survey file
+                        File surveyFile = streamToFile(in);
+
+                        //create email intent
+                        Intent emailIntent = new Intent();
+                        emailIntent.setAction(Intent.ACTION_SEND);
+
+                        //set intent type as email
+                        emailIntent.setType("text/plain");
+
+                        emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//brings app back after done
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+
+                        //grant permission
+                        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                        try{
+                            //grab file Uri
+                            Uri surveyUri = FileProvider.getUriForFile(EmailActivity.this, BuildConfig.APPLICATION_ID + ".com.example.a911simulator", surveyFile);
+
+                            //attach survey
+                            emailIntent.putExtra(Intent.EXTRA_STREAM, surveyUri);
+
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Sim");
+
+
+                            //send email
+                            try{
+                                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                            }
+                            catch(android.content.ActivityNotFoundException ex){
+                                Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        catch(IllegalArgumentException ex){
+                            Toast.makeText(EmailActivity.this, "File is outside the paths supported by provider.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    catch(java.io.IOException ex){
+                        Toast.makeText(EmailActivity.this, "There file does not exist.", Toast.LENGTH_SHORT).show();
+                    }
+
                     //create email intent
 
                     //failed attempts
@@ -91,13 +146,13 @@ public class EmailActivity extends AppCompatActivity {
                     //have to allow gmail to access photos/media/apps
                     //set flag
                     emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
-
+/*
                     try{
                         //startActivity(Intent.createChooser(emailIntent, "Send mail..."));
                     }
                     catch(android.content.ActivityNotFoundException ex){
                         Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                     /*File sur = getResources().
                             openRawResource(getResources().
@@ -125,5 +180,17 @@ public class EmailActivity extends AppCompatActivity {
     //returns the package name (e.g. com.example.a911simulator)
     public String getPackage(){
         return getApplicationContext().getPackageName();
+    }
+
+    public File streamToFile(InputStream in) throws IOException {
+        final File tempFile = File.createTempFile("sample_doc", ".pdf", EmailActivity.this.getExternalCacheDir());
+
+        tempFile.deleteOnExit();
+
+        FileOutputStream out = new FileOutputStream(tempFile);
+
+        IOUtils.copy(in, out);
+
+        return tempFile;
     }
 }
