@@ -1,7 +1,13 @@
 package com.example.a911simulator;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetManager;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +18,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.File;
 
 
 public class EmailActivity extends AppCompatActivity {
@@ -34,16 +42,73 @@ public class EmailActivity extends AppCompatActivity {
 
                 //validate email
                 if(isValidEmail(email)){
+                    String[] addresses = new String[]{email};
+                    //TODO: change out string values for string refs from strings.xml
                     //create email intent
 
+                    //failed attempts
+                    /*
+                    Uri uri = Uri.fromFile(new File("///android_asset/sample_doc.pdf"));
+                            //Uri.parse("android.resource://com.example.a911simulator/assets/sample_doc.pdf");//Uri.fromFile(file);
 
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND,Uri.parse("mailto:"));
+                    emailIntent.setType("text/plain");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "My Subject");
+
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                    emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    startActivity(emailIntent);*/
+
+                    /*Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+
+                    //set type
+                    //emailIntent.setType("text/plain");
+                    emailIntent.setData(Uri.parse("mailto:"));
+
+                    //grab pdf
+                    //File survey = new File("res/raw/sample_doc.pdf");
+                    //Uri surveyUri = Uri.fromFile(survey);
+                    //Uri surveyUri = Uri.parse("android.resource://" + getPackage() + "/raw/sample_doc");
+
+
+                    Uri surveyUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://com.example.a911simulator/assets/sample_doc");
+
+
+
+                    //set email
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
+
+                    //getResources().openRawResource(R.assets.sample_doc);
+
+                    //set content
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Survey");
+                    //emailIntent.putExtra(Intent.EXTRA_TEXT, "yooo whaddup");
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, surveyUri);
+                    //have to allow gmail to access photos/media/apps
+                    //set flag
+                    emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);*/
+
+                    try{
+                        //startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                    }
+                    catch(android.content.ActivityNotFoundException ex){
+                        Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /*File sur = getResources().
+                            openRawResource(getResources().
+                                    getIdentifier("sample_doc", "raw", getPackageName()));*/
                 }
                 else{
                     //create alert dialog
                     DialogFragment alert = new InvalidEmailDialogFragment();
 
                     //show alert
-                    alert.show(getSupportFragmentManager(), "sum");
+                    alert.show(getSupportFragmentManager(), "something");
                 }
 
 
@@ -55,5 +120,10 @@ public class EmailActivity extends AppCompatActivity {
     //https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    //returns the package name (e.g. com.example.a911simulator)
+    public String getPackage(){
+        return getApplicationContext().getPackageName();
     }
 }
