@@ -56,7 +56,7 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
-        int testing = 1; // CHANGE THIS IF YOU HAVE A PHYSICAL DEVICE TO TEST ON.
+        int testing = 0; // CHANGE THIS IF YOU HAVE A PHYSICAL DEVICE TO TEST ON.
 
 
         // BEGIN SECTION OF FUNCTIONS FOR DEVICE CONNECTION
