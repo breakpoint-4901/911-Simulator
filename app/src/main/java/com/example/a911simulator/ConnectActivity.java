@@ -7,6 +7,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class ConnectActivity extends AppCompatActivity {
 
     // BEGIN SECTION OF VARIABLES FOR BUTTON LISTENERS
     Button btnDiscover; //three objects for button
+    Button btnDisconnect;
     TextView connectionStatus;
     TextView connectionStatus2;
     ListView listView;
@@ -83,6 +85,34 @@ public class ConnectActivity extends AppCompatActivity {
             }
         });
 
+        btnDisconnect.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Log.d("ERR", "ATTEMPTING TO REMOVE");
+               if (mManager != null && mChannel != null) {
+                   mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+                       @Override
+                       public void onGroupInfoAvailable(WifiP2pGroup group) {
+                           if (group != null && mManager != null && mChannel != null&& group.isGroupOwner()) {
+                               mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+                                   @Override
+                                   public void onSuccess() {
+                                       Log.d("", "removeGroup onSuccess -");
+                                   }
+
+                                   @Override
+                                   public void onFailure(int reason) {
+                                       Log.d("", "removeGroup onFailure -" + reason);
+                                   }
+
+                               });
+                           }
+                       }
+                   });
+               }
+           }
+        });
+
         // video 5 of the tutorial
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,6 +142,7 @@ public class ConnectActivity extends AppCompatActivity {
     private void initialWork() { //initialization function called upon start up for the application
 
         btnDiscover = (Button) findViewById(R.id.discover);
+        btnDisconnect = (Button) findViewById(R.id.disconnect);
         listView = (ListView) findViewById(R.id.peerListView);
         connectionStatus = (TextView) findViewById(R.id.connectionStatus);
         connectionStatus2 = (TextView) findViewById(R.id.connectionStatus2);
