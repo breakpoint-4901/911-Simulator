@@ -92,6 +92,7 @@
     <!-- Example Settings for ConnectActivity -->
     <string name="discover">Discover</string>
     <string name="connection_status">Connection Status</string>
+    <string name="connection_status2">Unpaired Device</string>
 
 
 

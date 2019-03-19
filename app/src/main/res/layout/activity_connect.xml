@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ConnectActivity">
 
+    <TextView
+        android:id="@+id/connectionStatus2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="136dp"
+        android:text="@string/connection_status"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
         android:id="@+id/discover"
         android:layout_width="228dp"

@@ -30,6 +30,7 @@ public class ConnectActivity extends AppCompatActivity {
     // BEGIN SECTION OF VARIABLES FOR BUTTON LISTENERS
     Button btnDiscover; //three objects for button
     TextView connectionStatus;
+    TextView connectionStatus2;
     ListView listView;
     // END SECTION OF VARIABLES FOR BUTTON LISTENERS
 
@@ -113,6 +114,7 @@ public class ConnectActivity extends AppCompatActivity {
         btnDiscover = (Button) findViewById(R.id.discover);
         listView = (ListView) findViewById(R.id.peerListView);
         connectionStatus = (TextView) findViewById(R.id.connectionStatus);
+        connectionStatus2 = (TextView) findViewById(R.id.connectionStatus2);
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE); //does what?
 
@@ -149,10 +151,6 @@ public class ConnectActivity extends AppCompatActivity {
 //                Log.d("ADebugTag", "Value: " + peerList.getDeviceList());
 
 
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
-//                listView.setAdapter(adapter);
-
-
                 ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceNameArray);
                 listView.setAdapter( listAdapter );
 
@@ -172,10 +170,12 @@ public class ConnectActivity extends AppCompatActivity {
             final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
 
             if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner) {
-                connectionStatus.setText("Host");
+                connectionStatus2.setText("Teacher");
+                //move to a different activity?
             }
             else {
-                connectionStatus.setText("Client");
+                connectionStatus2.setText("Student");
+                //move to a different activity?  //does the connection follow?
             }
         }
     };
