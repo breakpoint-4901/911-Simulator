@@ -85,26 +85,25 @@ public class ConnectActivity extends AppCompatActivity {
             }
         });
 
+        //this unpairs the phones group. I believe either phone can break the connection but typically the host is expected to perform this.
         btnDisconnect.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Log.d("ERR", "ATTEMPTING TO REMOVE");
-               if (mManager != null && mChannel != null) {
+               if (mManager != null && mChannel != null) { //prevents any errors
                    mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
                        @Override
                        public void onGroupInfoAvailable(WifiP2pGroup group) {
                            if (group != null && mManager != null && mChannel != null&& group.isGroupOwner()) {
-                               mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
-                                   @Override
+                               mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() { //the process of actually removing the group from our phones.
+                                   @Override //this just does logging, doesn't actually launch anythng. THE TEXT TODO TEXT CHANGE WOULD GO HERE.
                                    public void onSuccess() {
                                        Log.d("", "removeGroup onSuccess -");
                                    }
-
                                    @Override
                                    public void onFailure(int reason) {
                                        Log.d("", "removeGroup onFailure -" + reason);
                                    }
-
                                });
                            }
                        }
