@@ -29,7 +29,7 @@ public class wifiDirectBroadcastReceiver extends BroadcastReceiver {
         if(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
 
-            //This is uncessary (Part of the tutorial) I left it incase this is necessary
+            //This is Part of the tutorial I left it incase this is necessary
             if(state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
                 Toast.makeText(context, "Wifi is ON", Toast.LENGTH_SHORT).show();
             }
