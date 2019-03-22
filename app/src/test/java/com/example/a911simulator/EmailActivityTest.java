@@ -1,7 +1,5 @@
 package com.example.a911simulator;
 
-import android.text.TextUtils;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
