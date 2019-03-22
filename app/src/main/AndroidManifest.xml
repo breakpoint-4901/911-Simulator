@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a911simulator">
 
-    <uses-sdk android:minSdkVersion="14" />
     <!--App permissions-->
     <uses-permission
         android:required="true"
