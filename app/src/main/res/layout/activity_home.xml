@@ -51,7 +51,7 @@
 
     <Button
         android:id="@+id/settingsButton"
-        android:layout_width="228dp"
+        android:layout_width="281dp"
         android:layout_height="51dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"

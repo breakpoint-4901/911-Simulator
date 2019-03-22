@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">911 Simulator</string>
+    <string name="logo_description">NCTCOG logo</string>
+
+    <!-- Used in the Home Activity -->
+    <string name="welcome">¡Bienvenido a la aplicación de simulación NCTCOG 9–1–1!</string>
+    <string name="start_app">Empezar</string>
+    <string name="settings">Cambiar Idioma</string>
+    <string name="survey"><u>¿Necesitas la encuesta?</u></string>
+
+    <!-- Used in the Email activity -->
+    <string name="send_survey">Ingrese su correo electrónico para que le envíen la encuesta.</string>
+    <string name="send_survey_hint">su correo electrónico aquí</string>
+    <string name="submit_email">Envia</string>
+    <string name="survey_file_name">sample_doc.pdf</string>
+
+    <!-- Used in the Connect Activity -->
+    <string name="discover">Descubre</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="connection_status">Estado de conexión</string>
+    <string name="connection_status2">Dispositivo no pareado</string>
+    <string name="choose_language">Elige Lengua…</string>
+
+
+</resources>
