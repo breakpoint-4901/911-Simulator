@@ -1,0 +1,62 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Dak\\Documents\\GitHub\\android-udp-audio-chat-master\\app\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Dak\\Documents\\GitHub\\android-udp-audio-chat-master\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "17,4,3,7,12,14,5,10,16,13,18,8,6,11,15,9",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "797,101,56,259,539,629,154,425,738,587,839,305,214,478,674,374",
+                        "endColumns": "41,52,44,45,47,44,59,52,58,41,41,68,44,60,63,50",
+                        "endOffsets": "834,149,96,300,582,669,209,473,792,624,876,369,254,534,733,420"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "169,211,264,309,355,403,448,508,561,620,662,704,773,818,879,943",
+                        "endColumns": "41,52,44,45,47,44,59,52,58,41,41,68,44,60,63,50",
+                        "endOffsets": "206,259,304,350,398,443,503,556,615,657,699,768,813,874,938,989"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Dak\\Documents\\GitHub\\android-udp-audio-chat-master\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "6,15",
+                        "startColumns": "4,4",
+                        "startOffsets": "186,510",
+                        "endLines": "12,17",
+                        "endColumns": "12,12",
+                        "endOffsets": "472,665"
+                    },
+                    "to": {
+                        "startLines": "20,27",
+                        "startColumns": "4,4",
+                        "startOffsets": "994,1285",
+                        "endLines": "26,29",
+                        "endColumns": "12,12",
+                        "endOffsets": "1280,1440"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Dak\\Documents\\GitHub\\android-udp-audio-chat-master\\app\\src\\main\\res\\values\\dimens.xml",
+                    "from": {
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "89,147",
+                        "endColumns": "57,55",
+                        "endOffsets": "142,198"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,113",
+                        "endColumns": "57,55",
+                        "endOffsets": "108,164"
+                    }
+                }
+            ]
+        }
+    ]
+}

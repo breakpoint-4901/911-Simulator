@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\menu_main.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_make_call.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\layout\\activity_make_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_receive_call.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\layout\\activity_receive_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\menu_make_call.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\menu\\make_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\menu_receive_call.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\menu\\receive_call.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\menu_call.xml.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\menu\\call.xml"
+    },
+    {
+        "merged": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_launcher.png.flat",
+        "source": "C:\\Users\\Dak\\Documents\\GitHub\\911-Simulator\\app\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    }
+]
