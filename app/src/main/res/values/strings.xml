@@ -20,4 +20,10 @@
     <string name="disconnect">Disconnect</string>
     <string name="connection_status">Connection Status</string>
     <string name="connection_status2">Unpaired Device</string>
+
+
+
+
+    <!--menu directory (connections) -->
+    <string name="action_settings">Settings</string>
 </resources>

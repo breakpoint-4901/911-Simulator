@@ -22,4 +22,7 @@
     <string name="choose_language">Elige Lengua…</string>
 
 
+    <!--menu directory (connections) -->
+    <string name="action_settings">Settings</string>
+
 </resources>

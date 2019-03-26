@@ -1,394 +1,285 @@
 package com.example.a911simulator;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.IntentFilter;
+import android.view.View.OnClickListener;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pConfig;
-import android.net.wifi.p2p.WifiP2pDevice;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pGroup;
-import android.net.wifi.p2p.WifiP2pInfo;
-import android.net.wifi.p2p.WifiP2pManager;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+
 
 public class ConnectActivity extends AppCompatActivity {
 
-    // BEGIN SECTION OF VARIABLES FOR BUTTON LISTENERS
-    Button btnDiscover; //three objects for button
-    Button btnDisconnect;
-    TextView connectionStatus;
-    TextView connectionStatus2;
-    ListView listView;
-    Button btnSend;
-    // END SECTION OF VARIABLES FOR BUTTON LISTENERS
 
+    static final String LOG_TAG = "UDPchat";
+    private static final int LISTENER_PORT = 50003;
+    private static final int BUF_SIZE = 1024;
+    private ContactManager contactManager;
+    private String displayName;
+    private boolean STARTED = false;
+    private boolean IN_CALL = false;
+    private boolean LISTEN = false;
 
-
-    // BEGIN SECTION OF VARIABLES FOR DEVICE CONNECTION
-    WifiManager wifiManager;
-    WifiP2pManager mManager;
-    WifiP2pManager.Channel mChannel;
-
-    BroadcastReceiver mReceiver;
-    IntentFilter mIntentFilter;
-
-    List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>(); // holds the found devices nearby. (DISCOVER BUTTON FUNCTIONALITY)
-    String[] deviceNameArray; //personal names for the devices nearby
-    WifiP2pDevice[] deviceArray; //the actual devices we find in our nearby enviornment.
-    // END SECTION OF VARIABLES FOR DEVICE CONNECTION
-
-    static final int MESSAGE_READ = 1;
-
-    ServerClass serverClass;
-    ClientClass clientClass;
-    SendReceive sendReceive;
-
+    public final static String EXTRA_CONTACT = "hw.dt83.udpchat.CONTACT";
+    public final static String EXTRA_IP = "hw.dt83.udpchat.IP";
+    public final static String EXTRA_DISPLAYNAME = "hw.dt83.udpchat.DISPLAYNAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
-        int testing = 0; // CHANGE THIS IF YOU HAVE A PHYSICAL DEVICE TO TEST ON.
+        Log.i(LOG_TAG, "UDPChat started");
 
+        // START BUTTON
+        // Pressing this buttons initiates the main functionality
+        final Button btnStart = (Button) findViewById(R.id.buttonStart);
+        btnStart.setOnClickListener(new OnClickListener() {
 
-        // BEGIN SECTION OF FUNCTIONS FOR DEVICE CONNECTION
-        if(testing == 0) {
-            initialWork();
-            exqListener();
-        }
-        // END SECTION OF FUNCTIONS FOR DEVICE CONNECTION
-    }
-
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch(msg.what) //this is where the buffer actually sets to the screen.
-            {
-                case MESSAGE_READ:
-                    byte [] readBuff = (byte[]) msg.obj;
-                    String tempMsg = new String(readBuff, 0, msg.arg1);
-                    //ggread_msg_box.setText(tempMsg);
-                    Toast.makeText(getApplicationContext(), tempMsg, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-            return true;
-        }
-    });
-
-    private void exqListener() {
-//        Functionality for the "Discover" button.
-        btnDiscover.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        connectionStatus.setText("Discovery Started");
-                    }
+            public void onClick(View v) {
 
-                    @Override //wifi turned off ( i did not get this to trigger with wifi turned on )
-                    public void onFailure(int i) {
-                        connectionStatus.setText("Discovery Starting Failed");
-                        wifiManager.setWifiEnabled(false);
-                        wifiManager.setWifiEnabled(true);
-                    }
-                });
+                Log.i(LOG_TAG, "Start button pressed");
+                STARTED = true;
+
+                EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
+                displayName = displayNameText.getText().toString();
+
+                displayNameText.setEnabled(false);
+                btnStart.setEnabled(false);
+
+                TextView text = (TextView) findViewById(R.id.textViewSelectContact);
+                text.setVisibility(View.VISIBLE);
+
+                Button updateButton = (Button) findViewById(R.id.buttonUpdate);
+                updateButton.setVisibility(View.VISIBLE);
+
+                Button callButton = (Button) findViewById(R.id.buttonCall);
+                callButton.setVisibility(View.VISIBLE);
+
+                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+                scrollView.setVisibility(View.VISIBLE);
+
+                contactManager = new ContactManager(displayName, getBroadcastIp());
+                startCallListener();
             }
         });
 
-        //this unpairs the phones group. I believe either phone can break the connection but typically the host is expected to perform this.
-        btnDisconnect.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Log.d("ERR", "ATTEMPTING TO REMOVE");
-               if (mManager != null && mChannel != null) { //prevents any errors
-                   mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
-                       @Override
-                       public void onGroupInfoAvailable(WifiP2pGroup group) {
-                           if (group != null && mManager != null && mChannel != null&& group.isGroupOwner()) {
-                               mManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() { //the process of actually removing the group from our phones.
-                                   @Override //this just does logging, doesn't actually launch anythng. THE TEXT TODO TEXT CHANGE WOULD GO HERE.
-                                   public void onSuccess() {
-                                       Log.d("", "removeGroup onSuccess -");
-                                   }
-                                   @Override
-                                   public void onFailure(int reason) {
-                                       Log.d("", "removeGroup onFailure -" + reason);
-                                   }
-                               });
-                           }
-                       }
-                   });
-               }
-           }
-        });
+        // UPDATE BUTTON
+        // Updates the list of reachable devices
+        final Button btnUpdate = (Button) findViewById(R.id.buttonUpdate);
+        btnUpdate.setOnClickListener(new OnClickListener() {
 
-        // video 5 of the tutorial
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final WifiP2pDevice device = deviceArray[i];
+            public void onClick(View v) {
 
-                WifiP2pConfig config = new WifiP2pConfig();
-                config.deviceAddress = device.deviceAddress;
-
-                mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(getApplicationContext(), "Connected to" + device.deviceName, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(int i) {
-                        Toast.makeText(getApplicationContext(), "Not Connected" , Toast.LENGTH_SHORT).show();
-                    }
-
-                });
+                updateContactList();
             }
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        // CALL BUTTON
+        // Attempts to initiate an audio chat session with the selected device
+        final Button btnCall = (Button) findViewById(R.id.buttonCall);
+        btnCall.setOnClickListener(new OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                String msg="test";
-                // sendReceive.write(msg.getBytes());
-                try {
-                    sendtask t1 = new sendtask(msg);
-                    t1.execute();
-                }catch (Exception  e) {
-                    e.printStackTrace();
+            public void onClick(View v) {
+
+                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.contactList);
+                int selectedButton = radioGroup.getCheckedRadioButtonId();
+                if(selectedButton == -1) {
+                    // If no device was selected, present an error message to the user
+                    Log.w(LOG_TAG, "Warning: no contact selected");
+                    final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
+                    alert.setTitle("Oops");
+                    alert.setMessage("You must select a contact first");
+                    alert.setButton(-1, "OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            alert.dismiss();
+                        }
+                    });
+                    alert.show();
+                    return;
                 }
+                // Collect details about the selected contact
+                RadioButton radioButton = (RadioButton) findViewById(selectedButton);
+                String contact = radioButton.getText().toString();
+                InetAddress ip = contactManager.getContacts().get(contact);
+                IN_CALL = true;
+
+                // Send this information to the MakeCallActivity and start that activity
+                Intent intent = new Intent(ConnectActivity.this, MakeCallActivity.class);
+                intent.putExtra(EXTRA_CONTACT, contact);
+                String address = ip.toString();
+                address = address.substring(1, address.length());
+                intent.putExtra(EXTRA_IP, address);
+                intent.putExtra(EXTRA_DISPLAYNAME, displayName);
+                startActivity(intent);
             }
         });
     }
 
-    public class sendtask extends AsyncTask<Void, Void, Void> {
+    private void updateContactList() {
+        // Create a copy of the HashMap used by the ContactManager
+        HashMap<String, InetAddress> contacts = contactManager.getContacts();
+        // Create a radio button for each contact in the HashMap
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.contactList);
+        radioGroup.removeAllViews();
 
-        String message;
+        for(String name : contacts.keySet()) {
 
-
-        sendtask(String msg) {
-            message=msg;
-
+            RadioButton radioButton = new RadioButton(getBaseContext());
+            radioButton.setText(name);
+            radioButton.setTextColor(Color.BLACK);
+            radioGroup.addView(radioButton);
         }
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            try {
-                sendReceive.write(message.getBytes());
-            } catch (Exception e) { //if the button is pressed without a socket being created
-                e.printStackTrace();
-            }
+        radioGroup.clearCheck();
+    }
 
+    private InetAddress getBroadcastIp() {
+        // Function to return the broadcast address, based on the IP address of the device
+        try {
+
+            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            String addressString = toBroadcastIp(ipAddress);
+            InetAddress broadcastAddress = InetAddress.getByName(addressString);
+            return broadcastAddress;
+        }
+        catch(UnknownHostException e) {
+
+            Log.e(LOG_TAG, "UnknownHostException in getBroadcastIP: " + e);
             return null;
         }
 
-        @Override
-        protected void onPostExecute(Void result) {
-
-            super.onPostExecute(result);
-
-        }
-
     }
 
-    private void initialWork() { //initialization function called upon start up for the application
-
-        btnDiscover = (Button) findViewById(R.id.discover);
-        btnDisconnect = (Button) findViewById(R.id.disconnect);
-        listView = (ListView) findViewById(R.id.peerListView);
-        connectionStatus = (TextView) findViewById(R.id.connectionStatus);
-        connectionStatus2 = (TextView) findViewById(R.id.connectionStatus2);
-        btnSend = (Button) findViewById(R.id.sendButton);
-
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE); //does what?
-
-
-        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel = mManager.initialize(this, getMainLooper(), null);
-        mReceiver = new wifiDirectBroadcastReceiver(mManager, mChannel, this);
-
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
-
+    private String toBroadcastIp(int ip) {
+        // Returns converts an IP address in int format to a formatted string
+        return (ip & 0xFF) + "." +
+                ((ip >> 8) & 0xFF) + "." +
+                ((ip >> 16) & 0xFF) + "." +
+                "255";
     }
 
-    WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
-        @Override
-        public void onPeersAvailable(WifiP2pDeviceList peerList) {
-            if(!peerList.getDeviceList().equals(peers)) {
-                peers.clear(); //empty out whatever contents are inside of our list
-                peers.addAll(peerList.getDeviceList()); //merges the list into peers
+    private void startCallListener() {
+        // Creates the listener thread
+        LISTEN = true;
+        Thread listener = new Thread(new Runnable() {
 
-                deviceNameArray = new String[peerList.getDeviceList().size()];
-                deviceArray = new WifiP2pDevice[peerList.getDeviceList().size()];
+            @Override
+            public void run() {
 
-                int index = 0;
-                for(WifiP2pDevice device : peerList.getDeviceList()) {
-                    deviceNameArray[index] = device.deviceName;  //store the NAMES of our device into an array to look at possible options nearby
-                    deviceArray[index] = device; //store the actual objects into an array
-                    index++; //increment out index variable
-                }
-
-//                Log.d("ADebugTag", "Value: " + peerList.getDeviceList());
-
-
-                ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceNameArray);
-                listView.setAdapter( listAdapter );
-
-            }
-
-            if(peers.size() == 0){
-                Toast.makeText(getApplicationContext(), "No Device Found", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-        }
-    };
-
-    WifiP2pManager.ConnectionInfoListener connectionInfoListener = new WifiP2pManager.ConnectionInfoListener() {
-        @Override
-        public void onConnectionInfoAvailable(WifiP2pInfo wifiP2pInfo) {
-            final InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
-
-            if(wifiP2pInfo.groupFormed && wifiP2pInfo.isGroupOwner) {
-                connectionStatus.setText("Teacher");
-                serverClass = new ServerClass();
-                serverClass.start();
-                //move to a different activity?
-            }
-            else {
-                connectionStatus.setText("Student");
-                clientClass = new ClientClass(groupOwnerAddress);
-                clientClass.start();
-                //move to a different activity?
-            }
-        }
-    };
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        registerReceiver(mReceiver, mIntentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-    }
-
-    //video #6 server code
-    public class ServerClass extends Thread {
-        Socket socket;
-        ServerSocket serverSocket;
-
-        @Override
-        public void run() {
-            try{ //creates the socket where we can send messages back and forth.
-                serverSocket = new ServerSocket(8888);
-                socket = serverSocket.accept();
-                sendReceive = new SendReceive(socket);
-                sendReceive.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //video #8 code
-    private class SendReceive extends Thread{
-        private Socket socket;
-        private InputStream inputStream;
-        private OutputStream outputStream;
-
-        public SendReceive(Socket skt) {
-            socket = skt;
-
-            try {
-                inputStream = socket.getInputStream();
-                outputStream = socket.getOutputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            byte[] buffer = new byte[1024];
-            int bytes;
-
-            while(socket != null) {
                 try {
-                    bytes = inputStream.read(buffer);
-                    if(bytes > 0 ) {//we have something to read
-                        handler.obtainMessage(MESSAGE_READ, bytes,-1, buffer).sendToTarget();
+                    // Set up the socket and packet to receive
+                    Log.i(LOG_TAG, "Incoming call listener started");
+                    DatagramSocket socket = new DatagramSocket(LISTENER_PORT);
+                    socket.setSoTimeout(1000);
+                    byte[] buffer = new byte[BUF_SIZE];
+                    DatagramPacket packet = new DatagramPacket(buffer, BUF_SIZE);
+                    while(LISTEN) {
+                        // Listen for incoming call requests
+                        try {
+                            Log.i(LOG_TAG, "Listening for incoming calls");
+                            socket.receive(packet);
+                            String data = new String(buffer, 0, packet.getLength());
+                            Log.i(LOG_TAG, "Packet received from "+ packet.getAddress() +" with contents: " + data);
+                            String action = data.substring(0, 4);
+                            if(action.equals("CAL:")) {
+                                // Received a call request. Start the ReceiveCallActivity
+                                String address = packet.getAddress().toString();
+                                String name = data.substring(4, packet.getLength());
+
+                                Intent intent = new Intent(ConnectActivity.this, ReceiveCallActivity.class);
+                                intent.putExtra(EXTRA_CONTACT, name);
+                                intent.putExtra(EXTRA_IP, address.substring(1, address.length()));
+                                IN_CALL = true;
+                                //LISTEN = false;
+                                //stopCallListener();
+                                startActivity(intent);
+                            }
+                            else {
+                                // Received an invalid request
+                                Log.w(LOG_TAG, packet.getAddress() + " sent invalid message: " + data);
+                            }
+                        }
+                        catch(Exception e) {}
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.i(LOG_TAG, "Call Listener ending");
+                    socket.disconnect();
+                    socket.close();
+                }
+                catch(SocketException e) {
+
+                    Log.e(LOG_TAG, "SocketException in listener " + e);
                 }
             }
+        });
+        listener.start();
+    }
+
+    private void stopCallListener() {
+        // Ends the listener thread
+        LISTEN = false;
+    }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+        if(STARTED) {
+
+            contactManager.bye(displayName);
+            contactManager.stopBroadcasting();
+            contactManager.stopListening();
+            //STARTED = false;
         }
+        stopCallListener();
+        Log.i(LOG_TAG, "App paused!");
+    }
 
-        public void write(byte[] bytes) {
+    @Override
+    public void onStop() {
 
-            try {
-                outputStream.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        super.onStop();
+        Log.i(LOG_TAG, "App stopped!");
+        stopCallListener();
+        if(!IN_CALL) {
+
+            finish();
         }
     }
-    //video #7 client code
-    public class ClientClass extends Thread {
-        Socket socket;
-        String hostAdd;
-        public ClientClass(InetAddress hostAddress) {
-            hostAdd = hostAddress.getHostAddress();
-            socket = new Socket();
-        }
-        @Override
-        public void run() {
-            try {
-                socket.connect(new InetSocketAddress(hostAdd, 8888), 500);
-                sendReceive = new SendReceive(socket);
-                sendReceive.start();
-                //future code for s ending and receiving
-            }catch(IOException e) {
-                e.printStackTrace();
-            }
-        }
+
+    @Override
+    public void onRestart() {
+
+        super.onRestart();
+        Log.i(LOG_TAG, "App restarted!");
+        IN_CALL = false;
+        STARTED = true;
+        contactManager = new ContactManager(displayName, getBroadcastIp());
+        startCallListener();
     }
 }
 

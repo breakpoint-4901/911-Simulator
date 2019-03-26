@@ -1,100 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context=".ConnectActivity">
 
-    <Button
-        android:id="@+id/sendButton"
+    <TextView
+        android:id="@+id/textViewEnterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:text="Send"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintBottom_toTopOf="@+id/peerListView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/discover"
-        app:layout_constraintVertical_bias="0.0" />
+        android:text="Enter a display name:" />
 
-    <Button
-        android:id="@+id/disconnect"
-        android:layout_width="228dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_selector"
-        android:text="@string/disconnect"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/peerListView" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextDisplayName"
+            style="@android:style/Widget.Holo.Light.EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLength="15"
+            android:singleLine="true">
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/buttonStart"
+            style="@android:style/Widget.Holo.Light.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/connectionStatus2"
-        android:layout_width="match_parent"
+        android:id="@+id/textViewSelectContact"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="136dp"
-        android:text="@string/connection_status"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="18sp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Select a contact to call"
+        android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/discover"
-        android:layout_width="228dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_selector"
-        android:text="@string/discover"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/peerListView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectionStatus" />
-
-    <TextView
-        android:id="@+id/connectionStatus"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="76dp"
-        android:text="@string/connection_status"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="18sp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="76dp">
 
-    <ListView
-        android:id="@+id/peerListView"
+        <Button
+            android:id="@+id/buttonUpdate"
+            style="@android:style/Widget.Holo.Light.Button.Small"
+            android:layout_width="181dp"
+            android:layout_height="wrap_content"
+            android:text="UPDATE CONTACTS"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/buttonCall"
+            style="@android:style/Widget.Holo.Light.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CALL CONTACTS"
+            android:textColorLink="@color/logoLightBlue"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        style="@android:style/Widget.Holo.Light.ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="180dp"
-        android:background="@color/logoLightBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
-</android.support.constraint.ConstraintLayout>
+        <RadioGroup
+            android:id="@+id/contactList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        </RadioGroup>
+    </ScrollView>
+
+</LinearLayout>
