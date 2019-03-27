@@ -15,8 +15,7 @@
         android:id="@+id/textViewEnterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter a display name:"
-        tools:text="@string/display_name" />
+        android:text="@string/display_name" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,17 +41,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Start"
-            tools:text="@string/connect_start" />
+            android:text="@string/connect_start" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textViewSelectContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select a contact to call"
-        android:visibility="invisible"
-        tools:text="@string/select_contacts" />
+        android:text="@string/select_contacts"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,19 +60,17 @@
             style="@android:style/Widget.Holo.Light.Button.Small"
             android:layout_width="181dp"
             android:layout_height="wrap_content"
-            android:text="UPDATE CONTACTS"
-            android:visibility="invisible"
-            tools:text="@string/update_contacts" />
+            android:text="@string/update_contacts"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/buttonCall"
             style="@android:style/Widget.Holo.Light.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Call Contacts"
+            android:text="@string/call_contacts"
             android:textColorLink="@color/logoLightBlue"
-            android:visibility="invisible"
-            tools:text="@string/call_contacts" />
+            android:visibility="invisible" />
     </LinearLayout>
 
     <ScrollView
