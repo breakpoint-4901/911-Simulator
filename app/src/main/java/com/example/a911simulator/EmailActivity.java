@@ -77,6 +77,8 @@ public class EmailActivity extends AppCompatActivity {
 
                             //send email
                             try{
+                                //TODO: no wifi
+                                //TODO: no email account logged-in?
                                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 
                                 //handle correct email sending
