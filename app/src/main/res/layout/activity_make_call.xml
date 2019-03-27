@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Calling"
+        android:text="@string/calling"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -29,9 +29,8 @@
             style="@android:style/Widget.Holo.Light.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Call"
-            android:textColor="@color/colorBlack"
-            tools:text="End Call" />
+            android:text="@string/end_call"
+            android:textColor="@color/colorBlack" />
 
     </LinearLayout>
 

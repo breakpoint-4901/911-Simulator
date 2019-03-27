@@ -25,4 +25,15 @@
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
 
+    <!-- Used in Make call activity -->
+    <string name="incoming_call">Llamada entrante</string>
+    <string name="accept_call">Aceptar</string>
+    <string name="reject_call">Rechazar</string>
+
+    <!-- Used in receive call activity -->
+    <string name="calling">Vocación</string>
+
+    <!-- Used in receive call activity & make a call -->
+    <string name="end_call">Finalizar llamada</string>
+
 </resources>

@@ -22,8 +22,18 @@
     <string name="connection_status2">Unpaired Device</string>
 
 
-
-
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
+
+    <!-- Used in Make call activity -->
+    <string name="incoming_call">Incoming call</string>
+    <string name="accept_call">Accept</string>
+    <string name="reject_call">Reject</string>
+
+    <!-- Used in receive call activity -->
+    <string name="calling">Calling</string>
+
+    <!-- Used in receive call activity & make a call -->
+    <string name="end_call">End call</string>
+
 </resources>
