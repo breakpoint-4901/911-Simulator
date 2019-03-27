@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Random;
 
 
 public class ConnectActivity extends AppCompatActivity {
@@ -48,10 +49,11 @@ public class ConnectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
-
+        Random rand = new Random();
         // Set Display Name
         final EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
-        displayNameText.setText(Build.USER);
+        displayNameText.setText(" " + rand.nextInt());
+        // displayNameText.setText(Build.MODEL);
         displayName = displayNameText.getText().toString();
         displayNameText.setEnabled(false);
 

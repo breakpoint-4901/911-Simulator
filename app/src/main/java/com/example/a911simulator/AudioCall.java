@@ -62,7 +62,7 @@ public class AudioCall {
             public void run() {
                 // Create an instance of the AudioRecord class
                 Log.i(LOG_TAG, "Send thread started. Thread id: " + Thread.currentThread().getId());
-                AudioRecord audioRecorder = new AudioRecord (MediaRecorder.AudioSource.VOICE_CALL, SAMPLE_RATE,
+                AudioRecord audioRecorder = new AudioRecord (MediaRecorder.AudioSource.MIC, SAMPLE_RATE,
                         AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT,
                         AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT)*10);
                 int bytes_read = 0;
@@ -126,7 +126,7 @@ public class AudioCall {
                 public void run() {
                     // Create an instance of AudioTrack, used for playing back audio
                     Log.i(LOG_TAG, "Receive thread started. Thread id: " + Thread.currentThread().getId());
-                    AudioTrack track = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
+                    AudioTrack track = new AudioTrack(AudioManager.STREAM_VOICE_CALL, SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
                             AudioFormat.ENCODING_PCM_16BIT, BUF_SIZE, AudioTrack.MODE_STREAM);
                     track.play();
                     try {
