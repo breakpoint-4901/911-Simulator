@@ -15,6 +15,10 @@ CSCE 4901 Course Project
 
 <img src="https://i.imgur.com/Et0sivV.gif">
 
+### Spring 1 App Demo
+
+<img src="https://i.imgur.com/rbEwcCY.gifv">
+
 ### Class Diagram
 
 <img src="https://i.imgur.com/w7yrW0s.png">
