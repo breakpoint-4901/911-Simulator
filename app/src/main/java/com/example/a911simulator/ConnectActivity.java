@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.wifi.WifiInfo;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +49,12 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
+        // Set Display Name
+        final EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
+        displayNameText.setText(Build.USER);
+        displayName = displayNameText.getText().toString();
+        displayNameText.setEnabled(false);
+
         Log.i(LOG_TAG, "UDPChat started");
 
         // START BUTTON
@@ -60,10 +68,6 @@ public class ConnectActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, "Start button pressed");
                 STARTED = true;
 
-                EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
-                displayName = displayNameText.getText().toString();
-
-                displayNameText.setEnabled(false);
                 btnStart.setEnabled(false);
 
                 TextView text = (TextView) findViewById(R.id.textViewSelectContact);
@@ -124,6 +128,24 @@ public class ConnectActivity extends AppCompatActivity {
                 RadioButton radioButton = (RadioButton) findViewById(selectedButton);
                 String contact = radioButton.getText().toString();
                 InetAddress ip = contactManager.getContacts().get(contact);
+
+                // Same Device, don't try to call itself
+                if(contact.equals(displayName)) {
+                    // present an error message to the user
+                    Log.w(LOG_TAG, "Warning: Cannot Call Yourself");
+                    final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
+                    alert.setTitle("Oops");
+                    alert.setMessage("Cannot Call Yourself. Please Select Another Contact");
+                    alert.setButton(-1, "OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            alert.dismiss();
+                        }
+                    });
+                    alert.show();
+                    return;
+
+                }
                 IN_CALL = true;
 
                 // Send this information to the MakeCallActivity and start that activity
@@ -160,12 +182,24 @@ public class ConnectActivity extends AppCompatActivity {
         // Function to return the broadcast address, based on the IP address of the device
         try {
 
-            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-            String addressString = toBroadcastIp(ipAddress);
-            InetAddress broadcastAddress = InetAddress.getByName(addressString);
-            return broadcastAddress;
+                WifiManager wifi = (WifiManager) getSystemService(WIFI_SERVICE);
+                DhcpInfo dhcp = wifi.getDhcpInfo();
+                // handle null somehow
+
+                int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+                byte[] quads = new byte[4];
+                for (int k = 0; k < 4; k++)
+                    quads[k] = (byte) (broadcast >> (k * 8));
+                return InetAddress.getByAddress(quads);
+
+//            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+//            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//
+//            int ipAddress = wifiInfo.getIpAddress();
+//            DhcpInfo dhcp = wifi.getDhcpInfo();
+//            String addressString = toBroadcastIp(ipAddress);
+//            InetAddress broadcastAddress = InetAddress.getByName(addressString);
+//            return broadcastAddress;
         }
         catch(UnknownHostException e) {
 
