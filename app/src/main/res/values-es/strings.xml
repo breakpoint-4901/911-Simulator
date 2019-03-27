@@ -25,4 +25,11 @@
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
 
+    <!--activty_connect -->
+    <string name="connect_start">Comienzo</string>
+    <string name="display_name">Ingrese el nombre para mostrar:</string>
+    <string name="select_contacts">Seleccione un contacto para llamar</string>
+    <string name="update_contacts">Actualizar Contactos</string>
+    <string name="call_contacts">Llamar a Contactos</string>
+
 </resources>
