@@ -20,6 +20,7 @@
         android:required="true"
         android:name="android.permission.RECORD_AUDIO" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,6 +31,8 @@
         <activity android:name=".EmailActivity"></activity>
         <activity android:name=".ConnectActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".MakeCallActivity" />
+        <activity android:name=".ReceiveCallActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
