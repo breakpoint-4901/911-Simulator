@@ -36,4 +36,11 @@
     <!-- Used in receive call activity & make a call -->
     <string name="end_call">End call</string>
 
+    <!--activty_connect -->
+    <string name="connect_start">Start</string>
+    <string name="display_name">Enter a display name:</string>
+    <string name="select_contacts">Select a contact to call</string>
+    <string name="update_contacts">Update Contacts</string>
+    <string name="call_contacts">Call Contacts</string>
+
 </resources>
