@@ -13,7 +13,7 @@ CSCE 4901 Course Project
 
 ### Wireframe Walkthrough
 
-<img src="https://i.imgur.com/Et0sivV.gif">
+[Imgur .gifv](https://i.imgur.com/rbEwcCY.gifv)
 
 ### Spring 1 App Demo
 
