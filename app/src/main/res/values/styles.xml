@@ -11,12 +11,12 @@
         <item name="android:windowNoTitle">true</item>
 
         <!-- Sets global button style -->
-        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="android:buttonStyle">@style/CalibriButtonStyle</item>
     </style>
 
     <!-- Sets RobotoButton to wireframe's style -->
-    <style name="RobotoButtonStyle">
-        <item name="android:fontFamily">@font/roboto</item>
+    <style name="CalibriButtonStyle">
+        <item name="android:fontFamily">@font/calibri</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">40sp</item>
@@ -24,7 +24,7 @@
 
     <!-- Used for email dialogs -->
     <style name="EmailDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColor">@color/logoDarkBlue</item>
+        <item name="android:textColor">@color/NCTBlue</item>
     </style>
 
 </resources>

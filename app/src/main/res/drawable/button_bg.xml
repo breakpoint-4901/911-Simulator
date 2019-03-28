@@ -12,7 +12,7 @@
 
     <!-- Sets background color -->
     <solid
-        android:color="#00456A"
+        android:color="@color/NCTBlue"
         />
     <size
         android:width="300dp"

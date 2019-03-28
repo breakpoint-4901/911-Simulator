@@ -8,7 +8,7 @@
             <solid android:color="@color/colorWhite"/>
             <stroke
                 android:width="2sp"
-                android:color="@color/logoDarkBlue" />
+                android:color="@color/NCTBlue" />
             <corners
                 android:radius="40sp" />
         </shape>
@@ -19,7 +19,7 @@
             <solid android:color="@color/colorWhite"/>
             <stroke
                 android:width="2sp"
-                android:color="@color/logoDarkBlue" />
+                android:color="@color/NCTBlue" />
             <corners
                 android:radius="40sp" />
         </shape>
@@ -30,7 +30,7 @@
             <solid android:color="@color/colorWhite"/>
             <stroke
                 android:width="2sp"
-                android:color="@color/logoDarkBlue" />
+                android:color="@color/NCTBlue" />
             <corners
                 android:radius="40sp" />
         </shape>
@@ -46,7 +46,7 @@
                 />
             <stroke
                 android:width="0.7dp"
-                android:color="@color/logoDarkBlue" />
+                android:color="@color/NCTBlue" />
             <corners
                 android:radius="15dp" />
         </shape>

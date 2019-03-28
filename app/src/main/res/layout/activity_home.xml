@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nctcog_logo" />
+        app:srcCompat="@drawable/nct911_logo" />
 
     <TextView
         android:id="@+id/welcomeTextView"
@@ -71,7 +71,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="8dp"
         android:text="@string/survey"
-        android:textColor="@color/logoDarkBlue"
+        android:textColor="@color/NCTBlue"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

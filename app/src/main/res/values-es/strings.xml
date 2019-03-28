@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">911 Simulator</string>
-    <string name="logo_description">NCTCOG logo</string>
+    <string name="logo_description">NCT911 logo</string>
 
     <!-- Used in the Home Activity -->
-    <string name="welcome">¡Bienvenido a la aplicación de simulación NCTCOG 9–1–1!</string>
+    <string name="welcome">¡Bienvenidos a la aplicación de simulación NCT9–1–1!</string>
     <string name="start_app">Empezar</string>
     <string name="settings">Cambiar Idioma</string>
     <string name="survey"><u>¿Necesitas la encuesta?</u></string>
