@@ -20,9 +20,12 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -50,9 +53,10 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
         Random rand = new Random();
+
         // Set Display Name
         final EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
-        displayNameText.setText(" " + rand.nextInt());
+        displayNameText.setText(Build.MODEL + " " + Integer.toString(rand.nextInt()));
         // displayNameText.setText(Build.MODEL);
         displayName = displayNameText.getText().toString();
         displayNameText.setEnabled(false);
@@ -111,7 +115,7 @@ public class ConnectActivity extends AppCompatActivity {
 
                 RadioGroup radioGroup = (RadioGroup) findViewById(R.id.contactList);
                 int selectedButton = radioGroup.getCheckedRadioButtonId();
-                if(selectedButton == -1) {
+                if (selectedButton == -1) {
                     // If no device was selected, present an error message to the user
                     Log.w(LOG_TAG, "Warning: no contact selected");
                     final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
@@ -132,7 +136,7 @@ public class ConnectActivity extends AppCompatActivity {
                 InetAddress ip = contactManager.getContacts().get(contact);
 
                 // Same Device, don't try to call itself
-                if(contact.equals(displayName)) {
+                if (contact.equals(displayName)) {
                     // present an error message to the user
                     Log.w(LOG_TAG, "Warning: Cannot Call Yourself");
                     final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
@@ -169,7 +173,7 @@ public class ConnectActivity extends AppCompatActivity {
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.contactList);
         radioGroup.removeAllViews();
 
-        for(String name : contacts.keySet()) {
+        for (String name : contacts.keySet()) {
 
             RadioButton radioButton = new RadioButton(getBaseContext());
             radioButton.setText(name);
@@ -180,28 +184,50 @@ public class ConnectActivity extends AppCompatActivity {
         radioGroup.clearCheck();
     }
 
+    private int getNetmask(int ipAddress) {
+        try {
+
+            // Convert device IP address to InetAddress class
+            byte[] quads = new byte[4];
+            for (int k = 0; k < 4; k++)
+                quads[k] = (byte) (ipAddress >> (k * 8));
+            InetAddress inetAddress = InetAddress.getByAddress(quads);
+
+            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
+
+            // Get Network Prefix
+            int netPrefix = 0;
+            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
+                netPrefix = (int)address.getNetworkPrefixLength();
+            }
+
+            // Convert Prefix to Mask
+            int mask = 0xffffffff << (32 - netPrefix);
+            return mask;
+        }
+        catch (IOException e) {
+            Log.e(LOG_TAG, e.getMessage());
+            return -1;
+        }
+
+    }
+
     private InetAddress getBroadcastIp() {
         // Function to return the broadcast address, based on the IP address of the device
         try {
 
-                WifiManager wifi = (WifiManager) getSystemService(WIFI_SERVICE);
-                DhcpInfo dhcp = wifi.getDhcpInfo();
-                // handle null somehow
+            WifiManager wifi = (WifiManager) getSystemService(WIFI_SERVICE);
+            DhcpInfo dhcp = wifi.getDhcpInfo();
 
-                int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
-                byte[] quads = new byte[4];
-                for (int k = 0; k < 4; k++)
-                    quads[k] = (byte) (broadcast >> (k * 8));
-                return InetAddress.getByAddress(quads);
+            // Get device IP address
+            int ipAddress = dhcp.ipAddress;
+            int netMask = getNetmask(ipAddress);
 
-//            WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-//            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-//
-//            int ipAddress = wifiInfo.getIpAddress();
-//            DhcpInfo dhcp = wifi.getDhcpInfo();
-//            String addressString = toBroadcastIp(ipAddress);
-//            InetAddress broadcastAddress = InetAddress.getByName(addressString);
-//            return broadcastAddress;
+            int broadcast = (ipAddress & netMask) | ~netMask;
+            byte[] quads = new byte[4];
+            for (int k = 0; k < 4; k++)
+                quads[k] = (byte) (broadcast >> (k * 8));
+            return InetAddress.getByAddress(quads);
         }
         catch(UnknownHostException e) {
 
@@ -209,14 +235,6 @@ public class ConnectActivity extends AppCompatActivity {
             return null;
         }
 
-    }
-
-    private String toBroadcastIp(int ip) {
-        // Returns converts an IP address in int format to a formatted string
-        return (ip & 0xFF) + "." +
-                ((ip >> 8) & 0xFF) + "." +
-                ((ip >> 16) & 0xFF) + "." +
-                "255";
     }
 
     private void startCallListener() {
