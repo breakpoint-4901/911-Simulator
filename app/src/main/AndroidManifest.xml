@@ -23,6 +23,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".TeacherActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".StudentScenarioActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -50,4 +50,6 @@
     <string name="scenario_file_name">scenarios.txt</string>
     <string name="scenario_regen">New Scenario</string>
 
+    <!--Teacher student-->
+    <string name="teacher_toolbar">Teacher</string>
 </resources>
