@@ -2,26 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.a911simulator">
-
-    <!--App permissions-->
+    <!-- App permissions -->
     <uses-permission
-        android:required="true"
-        android:name="android.permission.ACCESS_WIFI_STATE"/>
+        android:name="android.permission.ACCESS_WIFI_STATE"
+        android:required="true" />
     <uses-permission
-        android:required="true"
-        android:name="android.permission.INTERNET"/>
-
+        android:name="android.permission.INTERNET"
+        android:required="true" />
     <uses-permission
-        android:required="true"
-        android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- Tells app we will use portrait mode -->
+        android:name="android.permission.RECORD_AUDIO"
+        android:required="true" /> <!-- Tells app we will use portrait mode -->
     <uses-feature android:name="android.hardware.screen.portrait" />
-
-    <!--
-        README: When you create a new application, add
-        android:screenOrientation="portrait" inside the activity tag
-     -->
 
     <application
         android:allowBackup="true"
@@ -31,19 +22,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".EmailActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".ConnectActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".HomeActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".MakeCallActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".ReceiveCallActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".SplashActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".StudentScenarioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EmailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ConnectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MakeCallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ReceiveCallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,17 +52,15 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <!-- Used for FileProvider Class -->
+            android:resource="@array/preloaded_fonts" /> <!-- Used for FileProvider Class -->
         <provider
-            android:authorities="${applicationId}.com.example.a911simulator"
             android:name=".GenericFileProvider"
+            android:authorities="${applicationId}.com.example.a911simulator"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

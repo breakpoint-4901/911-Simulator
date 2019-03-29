@@ -73,7 +73,12 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(connect);
                 }
                 else {
+                    // TODO Remove this when we link the UI together. (testing purposes)
+                    Intent connect = new Intent(HomeActivity.this, StudentScenarioActivity.class);
+                    startActivity(connect);
                     Toast.makeText(getApplicationContext(),"Please enable the permissions under app preferences.",Toast.LENGTH_LONG).show();
+
+
                 }
 
             }

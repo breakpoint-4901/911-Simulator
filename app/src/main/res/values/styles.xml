@@ -10,6 +10,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
 
+        <!--Sets global status bar color-->
+        <item name="android:statusBarColor">@color/NCTGold</item>
         <!-- Sets global button style -->
         <item name="android:buttonStyle">@style/CalibriButtonStyle</item>
     </style>

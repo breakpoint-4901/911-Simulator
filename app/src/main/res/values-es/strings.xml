@@ -43,4 +43,11 @@
     <string name="update_contacts">Actualizar Contactos</string>
     <string name="call_contacts">Llamar a Contactos</string>
 
+    <!-- Student scenario-->
+    <string name="scenario_toolbar">Escenario</string>
+    <string name="scenario_start">Start Simulation</string>
+    <string name="scenario_default_text">Default Text</string>
+    <string name="scenario_file_name">scenarios.txt</string>
+    <string name="scenario_regen">New Scenario</string>
+
 </resources>
