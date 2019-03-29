@@ -27,4 +27,10 @@
         <item name="android:textColor">@color/NCTBlue</item>
     </style>
 
+    <!--Used for the permissions app -->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/NCTBlue</item>
+    </style>
+
+
 </resources>
