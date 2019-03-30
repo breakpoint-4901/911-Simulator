@@ -9,9 +9,11 @@
     <uses-permission
         android:name="android.permission.INTERNET"
         android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:required="true"/>
     <uses-permission
         android:name="android.permission.RECORD_AUDIO"
-        android:required="true" /> <!-- Tells app we will use portrait mode -->
+        android:required="true" />
     <uses-feature android:name="android.hardware.screen.portrait" />
 
     <application
@@ -21,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"> <!-- Removes index warning -->
+
         <activity
             android:name=".TeacherActivity"
             android:screenOrientation="portrait" />
@@ -46,6 +49,8 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
+
+            <!-- Designates this activity as 'first' to load -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,9 +58,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Uses downloaded Calibri font -->
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" /> <!-- Used for FileProvider Class -->
+            android:resource="@array/preloaded_fonts" />
+
+        <!-- Used for FileProvider Class -->
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.com.example.a911simulator"

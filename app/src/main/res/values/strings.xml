@@ -13,7 +13,8 @@
     <string name="send_survey">Enter your email to have the survey sent to you.</string>
     <string name="send_survey_hint">enter your email here</string>
     <string name="submit_email">Submit</string>
-    <string name="survey_file_name">sample_doc.pdf</string>
+    <string name="survey_file_name">9_1_1_Survey.pdf</string>
+    <string name="no_internet">Please check your internet connection and restart the app.</string>
 
     <!-- Used in the Connect Activity -->
     <string name="discover">Discover</string>

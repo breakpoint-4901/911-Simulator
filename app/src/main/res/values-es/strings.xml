@@ -12,7 +12,8 @@
     <string name="send_survey">Ingrese su correo electrónico para que le envíen la encuesta.</string>
     <string name="send_survey_hint">su correo electrónico aquí</string>
     <string name="submit_email">Envia</string>
-    <string name="survey_file_name">sample_doc.pdf</string>
+    <string name="survey_file_name">9_1_1_Survey.pdf</string>
+    <string name="no_internet">Por favor compruebe su conexión de Internet y reinicie la aplicación.</string>
 
     <!-- Used in the Connect Activity -->
     <string name="discover">Descubre</string>

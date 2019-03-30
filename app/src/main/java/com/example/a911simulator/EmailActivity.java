@@ -6,8 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +33,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 
 public class EmailActivity extends AppCompatActivity {
@@ -38,7 +47,7 @@ public class EmailActivity extends AppCompatActivity {
 
         //grab necessary ui elements
         final EditText emailEditText = findViewById(R.id.emailEditText);
-        Button submitEmailButton = findViewById(R.id.submitEmailButton);
+        final Button submitEmailButton = findViewById(R.id.submitEmailButton);
 
         //handle email submission logic
         submitEmailButton.setOnClickListener(new View.OnClickListener() {
@@ -73,12 +82,10 @@ public class EmailActivity extends AppCompatActivity {
 
                             //attach survey and subject to intent
                             emailIntent.putExtra(Intent.EXTRA_STREAM, surveyUri);
-                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Sim");
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "9-1-1 Survey");
 
                             //send email
                             try{
-                                //TODO: no wifi
-                                //TODO: no email account logged-in?
                                 startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 
                                 //handle correct email sending
@@ -101,7 +108,7 @@ public class EmailActivity extends AppCompatActivity {
 
                     }
                     catch(java.io.IOException ex){
-                        Toast.makeText(EmailActivity.this, "There file does not exist.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EmailActivity.this, "The file does not exist.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -111,6 +118,54 @@ public class EmailActivity extends AppCompatActivity {
                     //show alert
                     alert.show(getSupportFragmentManager(), "Error");
                 }
+            }
+        });
+
+        //check if internet is available in async thread
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                final boolean hasInternetConnection = hasActiveInternetConnection();
+
+                //run on ui thread since we update UI
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //if there is no internet connection
+                        if(!hasInternetConnection){
+                            //make buttons not clickable and alert user they need internet connection
+                            AlertDialog.Builder builder = new AlertDialog.Builder(EmailActivity.this);
+
+                            //build a dialog
+                            builder.setTitle("No Internet");
+                            builder.setMessage("This functionality requires an internet connection.");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // User clicked OK button
+                                }
+                            });
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#002066"));
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(20);
+
+                            //make email edit text not clickable
+                            emailEditText.setFocusable(false);
+                            emailEditText.setClickable(false);
+                            emailEditText.setVisibility(View.GONE);
+
+                            //make submit button not clickable
+                            submitEmailButton.setClickable(false);
+                            submitEmailButton.setVisibility(View.GONE);
+
+                            //modify prompt
+                            TextView prompt = findViewById(R.id.surveyPromptTextView);
+                            prompt.setText(getString(R.string.no_internet));
+                        }
+                    }
+                });
+
             }
         });
     }
@@ -156,5 +211,37 @@ public class EmailActivity extends AppCompatActivity {
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         return emailIntent;
+    }
+
+    //checks if we are connected to a network (internet access or not)
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null;
+    }
+
+    //tries to access a website with high uptime to determine whether we have internet connection
+    public boolean hasActiveInternetConnection() {
+        if (isNetworkAvailable()) {
+            try {
+                HttpsURLConnection urlc = (HttpsURLConnection)
+                        (new URL("https://clients3.google.com/generate_204")
+                                .openConnection());
+                urlc.setRequestProperty("User-Agent", "Android");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+
+                //checks if we are able to get min version of webpage
+                return (urlc.getResponseCode() == 204 &&
+                        urlc.getContentLength() == 0);
+            } catch (IOException e) {
+                Log.e("internet check", "exception", e);
+            }
+        }
+        return false;
     }
 }
