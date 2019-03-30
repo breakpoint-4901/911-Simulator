@@ -39,6 +39,9 @@ public class HomeActivity extends AppCompatActivity {
         Button settingsButton = findViewById(R.id.settingsButton);
         final Button surveyButton = findViewById(R.id.surveyButton);
 
+        //TODO: remove this temp button
+        Button studentShortCutBtn = findViewById(R.id.studentBtn);
+
         //increases the 'hit area' for the survey button
         increaseHitAreaOfBy(surveyButton, 30);
 
@@ -53,8 +56,6 @@ public class HomeActivity extends AppCompatActivity {
                // dialog box informing user the permissions are required
                permissionsAlert(); //popup box which informs user they need to accept the permissions
            }
-
-
         };
 
         //this does the process of actually requesting the permissions
@@ -98,6 +99,16 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v){
                 //shows AlertDialog to display list of languages, only one can be selected
                 showChangeLanguageDialog();
+            }
+        });
+
+        //TODO: remove this temp shortcut
+        studentShortCutBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent scenario = new Intent(HomeActivity.this, StudentScenarioActivity.class);
+
+                startActivity(scenario);
             }
         });
     }

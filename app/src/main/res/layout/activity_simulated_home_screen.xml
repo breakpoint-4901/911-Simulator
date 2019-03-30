@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SimulatedHomeScreenActivity">
+
+    <ImageButton
+        android:id="@+id/phoneIconButton"
+        android:layout_width="87dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/phone_description"
+        android:cropToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/phone_icon" />
+</android.support.constraint.ConstraintLayout>

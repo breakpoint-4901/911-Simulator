@@ -1,5 +1,6 @@
 package com.example.a911simulator;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +24,9 @@ public class StudentScenarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_scenario);
 
-        scenarioText = (TextView) findViewById(R.id.scenarioText);
-        studentScenarioButton = (Button) findViewById(R.id.studentScenarioButton);
-        regenScenario = (Button) findViewById(R.id.regenScenario);
+        scenarioText = findViewById(R.id.scenarioText);
+        studentScenarioButton = findViewById(R.id.studentScenarioButton);
+        regenScenario = findViewById(R.id.regenScenario);
         generateScenerio();
 
         scenario = scenarioGen.getRandomScenario();
@@ -33,10 +34,13 @@ public class StudentScenarioActivity extends AppCompatActivity {
         scenarioText.setMovementMethod(new ScrollingMovementMethod());
         scenarioText.setText(scenario.getText());
 
+        //sets listener for start of simulation
         studentScenarioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //move to homescreen simulation
+                Intent simulatedHomeScreen = new Intent(StudentScenarioActivity.this, SimulatedHomeScreenActivity.class);
+
+                startActivity(simulatedHomeScreen);
             }
         });
 
@@ -44,7 +48,6 @@ public class StudentScenarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // regenerate a new scenario
-
                 scenario = scenarioGen.getRandomScenario();
                 scenarioText.scrollTo(0,0); //scroll back to the top
                 scenarioText.setMovementMethod(new ScrollingMovementMethod());

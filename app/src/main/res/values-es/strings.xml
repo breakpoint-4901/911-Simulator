@@ -7,6 +7,7 @@
     <string name="start_app">Empezar</string>
     <string name="settings">Cambiar Idioma</string>
     <string name="survey"><u>¿Necesitas la encuesta?</u></string>
+    <string name="temp_student">Estudiante</string>
 
     <!-- Used in the Email activity -->
     <string name="send_survey">Ingrese su correo electrónico para que le envíen la encuesta.</string>
@@ -22,6 +23,8 @@
     <string name="connection_status2">Dispositivo no pareado</string>
     <string name="choose_language">Elige Lengua…</string>
 
+    <!-- Used in the SimulatedHomeScreen Activity -->
+    <string name="phone_description">foto_de_telefono</string>
 
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
