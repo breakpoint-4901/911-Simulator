@@ -24,7 +24,14 @@
     <string name="connection_status2">Unpaired Device</string>
 
     <!-- Used in the SimulatedHomeScreen Activity -->
-    <string name="phone_description">phone_icon</string>
+    <string name="phone_description">phone icon</string>
+
+    <!-- Used in SimulatedDialpad Activity -->
+    <string name="number_description">number dial icon</string>
+    <string name="symbol_description">symbol dial icon</string>
+    <string name="call_description">call icon</string>
+    <string name="backspace">backspace image</string>
+
 
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
