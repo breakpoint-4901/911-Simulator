@@ -12,7 +12,7 @@
         android:layout_width="333dp"
         android:layout_height="66dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="204dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/backspaceBtn"
@@ -22,19 +22,18 @@
 
     <ImageButton
         android:id="@+id/backspaceBtn"
-        android:layout_width="34dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="248dp"
+        android:layout_width="41dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="216dp"
         android:layout_marginEnd="4dp"
-        android:background="@android:color/transparent"
 
+
+        android:background="@android:color/transparent"
         android:contentDescription="@string/backspace"
         android:cropToPadding="false"
 
-        android:minWidth="34dp"
-        android:minHeight="34dp"
-        android:scaleType="fitXY"
-
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +47,8 @@
         android:layout_marginTop="20dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
@@ -65,6 +66,7 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
@@ -81,6 +83,7 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
@@ -97,6 +100,7 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/symbol_description"
         android:cropToPadding="false"
 
@@ -112,11 +116,11 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/poundImageBtn"
         app:layout_constraintStart_toEndOf="@+id/asteriskImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/eightImageBtn"
         app:srcCompat="@drawable/number0" />
@@ -126,14 +130,16 @@
         android:layout_width="131dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginEnd="8dp"
-
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/symbol_description"
-        android:cropToPadding="false"
 
+        android:cropToPadding="false"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/zeroImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/nineImageBtn"
         app:srcCompat="@drawable/pound" />
 
@@ -142,15 +148,16 @@
         android:layout_width="184dp"
         android:layout_height="96dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
 
+        android:layout_marginEnd="60dp"
+
+
+        android:layout_marginBottom="40dp"
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/call_description"
         android:cropToPadding="false"
-
-
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -165,13 +172,12 @@
         android:layout_marginTop="20dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
 
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/threeImageBtn"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/oneImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/numberTextView"
         app:srcCompat="@drawable/number2" />
@@ -181,15 +187,17 @@
         android:layout_width="131dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
+
         android:layout_marginEnd="8dp"
-
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
+
+
         android:cropToPadding="false"
-
-
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/twoImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/numberTextView"
         app:srcCompat="@drawable/number3" />
 
@@ -200,12 +208,12 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
 
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/sixImageBtn"
         app:layout_constraintStart_toEndOf="@+id/fourImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/twoImageBtn"
         app:srcCompat="@drawable/number5" />
@@ -215,15 +223,17 @@
         android:layout_width="131dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginEnd="8dp"
-
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
+
+
         android:cropToPadding="false"
-
-
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fiveImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/threeImageBtn"
         app:srcCompat="@drawable/number6" />
 
@@ -234,12 +244,12 @@
         android:layout_marginTop="8dp"
 
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
         android:cropToPadding="false"
 
 
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/nineImageBtn"
         app:layout_constraintStart_toEndOf="@+id/sevenImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/fiveImageBtn"
         app:srcCompat="@drawable/number8" />
@@ -249,15 +259,17 @@
         android:layout_width="131dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
+
         android:layout_marginEnd="8dp"
-
         android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/number_description"
+
+
         android:cropToPadding="false"
-
-
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/eightImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/sixImageBtn"
         app:srcCompat="@drawable/number9" />
 
