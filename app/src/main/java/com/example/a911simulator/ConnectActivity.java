@@ -203,7 +203,7 @@ public class ConnectActivity extends AppCompatActivity {
 
             // Convert Prefix to Mask
             int mask = 0xffffffff << (32 - netPrefix);
-            return mask;
+            return Integer.reverseBytes(mask);
         }
         catch (IOException e) {
             Log.e(LOG_TAG, e.getMessage());
@@ -227,7 +227,8 @@ public class ConnectActivity extends AppCompatActivity {
             byte[] quads = new byte[4];
             for (int k = 0; k < 4; k++)
                 quads[k] = (byte) (broadcast >> (k * 8));
-            return InetAddress.getByAddress(quads);
+            InetAddress out = InetAddress.getByAddress(quads);
+            return out;
         }
         catch(UnknownHostException e) {
 
