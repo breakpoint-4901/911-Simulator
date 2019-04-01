@@ -8,6 +8,7 @@
     tools:context=".TeacherActivity">
 
     <!--Not sure if i can keep reusing the same ID for the logo.-->
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="376dp"
@@ -35,6 +36,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/waitingForCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/waiting_for_call"
+        android:textColor="@color/colorBlack"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teacherTitle" />
+
+    <Button
+        android:id="@+id/homeButton"
+        android:layout_width="281dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/return_to_home"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waitingForCall" />
 
 
 </android.support.constraint.ConstraintLayout>

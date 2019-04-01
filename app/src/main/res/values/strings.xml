@@ -61,5 +61,8 @@
 
     <!--Teacher student-->
     <string name="teacher_toolbar">Teacher</string>
+    <string name="waiting_for_call">Waiting for Student</string>
+    <string name="return_to_home">Return to Home</string>
+
 
 </resources>
