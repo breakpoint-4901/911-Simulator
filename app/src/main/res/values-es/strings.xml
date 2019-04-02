@@ -45,6 +45,10 @@
 
     <!-- Used in receive call activity & make a call -->
     <string name="end_call">Finalizar llamada</string>
+    <string name="receive_call_callerid">Student\'s Phone ID</string>
+    <string name="receive_call_simulation">THIS IS A SIMULATION</string>
+    <string name="receive_call_date">Feb 17</string>
+    <string name="receive_call_placeholder">Placeholder</string>
 
     <!--activty_connect -->
     <string name="connect_start">Comienzo</string>

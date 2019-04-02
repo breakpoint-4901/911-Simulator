@@ -27,4 +27,8 @@
         <item name="android:textColor">@color/NCTBlue</item>
     </style>
 
+    <!--Used for the receive call activity -->
+    <style name="AppTheme.coloredBar">
+        <item name="android:statusBarColor">@color/CallScreenGreen</item>
+    </style>
 </resources>

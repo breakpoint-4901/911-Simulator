@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
@@ -16,6 +18,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ReceiveCallActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ReceiveCall";
@@ -37,16 +41,22 @@ public class ReceiveCallActivity extends AppCompatActivity {
         contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
         contactIp = intent.getStringExtra(ConnectActivity.EXTRA_IP);
 
-        TextView textView = (TextView) findViewById(R.id.textViewIncomingCall);
-        textView.setText("Incoming call: " + contactName);
+        TextView textView = findViewById(R.id.textViewCallerID);
+        TextView textDate = findViewById(R.id.recieveCallDate);
+        String curDate = getMMDD();
 
-        final Button endButton = (Button) findViewById(R.id.buttonEndCall1);
+        textDate.setText(curDate); //sets our placeholder date to the current date. (does not update if it hits 12:00am
+        textView.setText(""+contactName); //ensures we treat our object as a string
+
+
+
+        final Button endButton = findViewById(R.id.buttonEndCall1);
         endButton.setVisibility(View.INVISIBLE);
 
         startListener();
 
         // ACCEPT BUTTON
-        Button acceptButton = (Button) findViewById(R.id.buttonAccept);
+        ImageView acceptButton = findViewById(R.id.buttonAccept);
         acceptButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -61,10 +71,10 @@ public class ReceiveCallActivity extends AppCompatActivity {
                     call = new AudioCall(address);
                     call.startCall();
                     // Hide the buttons as they're not longer required
-                    Button accept = (Button) findViewById(R.id.buttonAccept);
+                    ImageView accept = findViewById(R.id.buttonAccept);
                     accept.setEnabled(false);
 
-                    Button reject = (Button) findViewById(R.id.buttonReject);
+                    ImageView reject = findViewById(R.id.buttonReject);
                     reject.setEnabled(false);
 
                     endButton.setVisibility(View.VISIBLE);
@@ -81,7 +91,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         });
 
         // REJECT BUTTON
-        Button rejectButton = (Button) findViewById(R.id.buttonReject);
+        ImageView rejectButton = (ImageView) findViewById(R.id.buttonReject);
         rejectButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -101,6 +111,18 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 endCall();
             }
         });
+    }
+
+    //returns a string formatted as: "MM DD" or "Feb 17"
+    private String getMMDD() {
+        Date date = new Date();
+        String mmdd = "MMM dd"; //the format we wish to return
+        String result;
+
+        SimpleDateFormat sdf = new SimpleDateFormat(mmdd); //pass in our desired format
+        result = sdf.format(date); //formats the information using the current date
+
+        return result;
     }
 
     private void endCall() {

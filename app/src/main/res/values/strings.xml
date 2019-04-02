@@ -32,7 +32,6 @@
     <string name="call_description">call icon</string>
     <string name="backspace">backspace image</string>
 
-
     <!--menu directory (connections) -->
     <string name="action_settings">Settings</string>
 
@@ -40,10 +39,16 @@
     <string name="incoming_call">Incoming call</string>
     <string name="accept_call">Accept</string>
     <string name="reject_call">Reject</string>
+
     <!-- Used in receive call activity -->
     <string name="calling">Calling</string>
+
     <!-- Used in receive call activity & make a call -->
     <string name="end_call">End call</string>
+    <string name="receive_call_callerid">Student\'s Phone ID</string>
+    <string name="receive_call_simulation">THIS IS A SIMULATION</string>
+    <string name="receive_call_date">Feb 17</string>
+    <string name="receive_call_placeholder">Placeholder</string>
 
     <!-- Activity Connect  -->
     <string name="connect_start">Start</string>

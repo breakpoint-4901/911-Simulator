@@ -48,7 +48,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReceiveCallActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.coloredBar"/>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">

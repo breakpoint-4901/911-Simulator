@@ -1,57 +1,136 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    tools:context=".ReceiveCallActivity" >
 
-    <TextView
-        android:id="@+id/textViewIncomingCall"
+    tools:context=".ReceiveCallActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topHalf"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/CallScreenGreen"
+
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="234dp">
+
+        <TextView
+            android:id="@+id/textViewIncomingCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+
+            android:text="@string/incoming_call"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="30dp"
+            tools:layout_conversion_absoluteWidth="132dp" />
+
+        <TextView
+            android:id="@+id/textViewCallerID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+
+            android:text="@string/receive_call_callerid"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_conversion_absoluteWidth="59dp" />
+
+        <TextView
+            android:id="@+id/textViewSimulation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorWhite"
+
+            android:text="@string/receive_call_simulation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCallerID" />
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/incoming_call"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="330dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonEndCall1"
+        style="@android:style/Widget.Holo.Light.Button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal" >
+        android:layout_marginBottom="140dp"
+        android:text="@string/end_call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/buttonAccept"
-            style="@android:style/Widget.Holo.Light.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/accept_call" />
+    <ImageView
+        android:id="@+id/buttonAccept"
+        android:layout_width="87dp"
+        android:layout_height="77dp"
 
-        <Button
-            android:id="@+id/buttonReject"
-            style="@android:style/Widget.Holo.Light.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reject_call" />
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@drawable/answer_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/answer_button" />
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/buttonReject"
+        android:layout_width="87dp"
+        android:layout_height="77dp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="64dp"
+        android:contentDescription="@drawable/reject_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/reject_button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/receive_call_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-        <Button
-            android:id="@+id/buttonEndCall1"
-            style="@android:style/Widget.Holo.Light.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/end_call" />
+    <TextView
+        android:id="@+id/recieveCallDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/receive_call_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
