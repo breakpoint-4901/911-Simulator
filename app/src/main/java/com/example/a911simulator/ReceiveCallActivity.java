@@ -50,8 +50,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
 
 
-        final Button endButton = findViewById(R.id.buttonEndCall1);
-        endButton.setVisibility(View.INVISIBLE);
+        final ImageView endButton = findViewById(R.id.buttonEndCall1);
 
         startListener();
 
@@ -77,7 +76,8 @@ public class ReceiveCallActivity extends AppCompatActivity {
                     ImageView reject = findViewById(R.id.buttonReject);
                     reject.setEnabled(false);
 
-                    endButton.setVisibility(View.VISIBLE);
+                    //change the layout
+                    setContentView(R.layout.activity_answer_call);
                 }
                 catch(UnknownHostException e) {
 
@@ -91,7 +91,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         });
 
         // REJECT BUTTON
-        ImageView rejectButton = (ImageView) findViewById(R.id.buttonReject);
+        ImageView rejectButton = findViewById(R.id.buttonReject);
         rejectButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -99,6 +99,10 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 // Send a reject notification and end the call
                 sendMessage("REJ:");
                 endCall();
+
+                //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
+                Intent connect = new Intent(ReceiveCallActivity.this, HomeActivity.class);
+                startActivity(connect);
             }
         });
 
@@ -108,6 +112,9 @@ public class ReceiveCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //move to revert to a previous intent after a call ends. TODO Change this logic (where do we want the user to be taken)
+                Intent connect = new Intent(ReceiveCallActivity.this, HomeActivity.class);
+                startActivity(connect);
                 endCall();
             }
         });

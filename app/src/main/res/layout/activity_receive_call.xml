@@ -78,17 +78,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="330dp" />
 
-    <Button
-        android:id="@+id/buttonEndCall1"
-        style="@android:style/Widget.Holo.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:text="@string/end_call"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
         android:id="@+id/buttonAccept"
         android:layout_width="87dp"

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".ReceiveCallActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topHalf"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+
+        android:background="@color/CallScreenGreen"
+
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/makeCallContactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/make_call_contact_name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/makeCallipAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/make_call_ip_address"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+
+
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeCallContactName" />
+
+        <TextView
+            android:id="@+id/makeCallSimulation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/receive_call_simulation"
+
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/timeElapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/make_call_time_elapased"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="265dp" />
+
+    <ImageView
+        android:id="@+id/buttonEndCall1"
+        android:layout_width="87dp"
+        android:layout_height="77dp"
+
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@drawable/android_end_call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/android_end_call" />
+
+    <!--On screen buttons-->
+
+    <!--Add Call-->
+    <LinearLayout
+        android:id="@+id/addCallLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/SpeakerLayout"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/addCall"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_add_call"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_add_call" />
+
+        <TextView
+            android:id="@+id/addCallText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_add_call"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addCall" />
+    </LinearLayout>
+
+    <!-- Video Call-->
+    <LinearLayout
+        android:id="@+id/VideoLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/DialpadLayout"
+        app:layout_constraintEnd_toStartOf="@+id/BluetoothLayout"
+        app:layout_constraintStart_toEndOf="@+id/addCallLayout">
+
+        <ImageView
+            android:id="@+id/videoCall"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_video_call"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_video_call" />
+
+        <TextView
+            android:id="@+id/videoCallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_video_call"
+            app:layout_constraintEnd_toStartOf="@+id/bluetoothText" />
+    </LinearLayout>
+
+    <!--Bluetooth-->
+    <LinearLayout
+        android:id="@+id/BluetoothLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginEnd="12dp"
+
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/muteLayout"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/bluetooth"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_bluetooth"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_bluetooth" />
+
+        <TextView
+            android:id="@+id/bluetoothText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_bluetooth" />
+    </LinearLayout>
+
+    <!--Speaker-->
+    <LinearLayout
+        android:id="@+id/SpeakerLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginStart="12dp"
+
+        android:layout_marginBottom="172dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/speakerphone"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_speaker"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_speaker" />
+
+        <TextView
+            android:id="@+id/speakerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_speaker" />
+    </LinearLayout>
+
+    <!--Dialpad-->
+    <LinearLayout
+        android:id="@+id/DialpadLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginStart="12dp"
+
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="172dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/muteLayout"
+        app:layout_constraintStart_toEndOf="@+id/SpeakerLayout">
+
+        <ImageView
+            android:id="@+id/dialpad"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_dialpad"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_dialpad" />
+
+        <TextView
+            android:id="@+id/dialpadText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_dialpad" />
+    </LinearLayout>
+
+    <!--Speaker-->
+    <LinearLayout
+        android:id="@+id/muteLayout"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="172dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/muteMic"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:contentDescription="@drawable/android_mute_microphone"
+            android:gravity="center"
+            app:srcCompat="@drawable/android_mute_microphone" />
+
+        <TextView
+            android:id="@+id/muteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/make_call_mute" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

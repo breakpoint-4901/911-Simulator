@@ -49,6 +49,17 @@
     <string name="receive_call_simulation">THIS IS A SIMULATION</string>
     <string name="receive_call_date">Feb 17</string>
     <string name="receive_call_placeholder">Placeholder</string>
+    <string name="make_call_contact_name">Contact Name</string>
+    <string name="make_call_ip_address">IP Address</string>
+    <string name="make_call_time_elapased">00:00</string>
+    <string name="make_call_add_call">Add Call</string>
+    <string name="make_call_bluetooth">Bluetooth</string>
+    <string name="make_call_video_call">Video Call</string>
+    <string name="make_call_speaker">Speaker</string>
+    <string name="make_call_mute">Mute</string>
+    <string name="make_call_dialpad">Dialpad</string>
+
+
 
     <!--activty_connect -->
     <string name="connect_start">Comienzo</string>
