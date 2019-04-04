@@ -66,7 +66,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         textDate.setText(curDate); //sets our placeholder date to the current date. (does not update if it hits 12:00am
         textView.setText(""+contactName); //ensures we treat our object as a string (prevents NULL from crashing)
 
-        //startListener();
+        startListener();
 
         // ACCEPT BUTTON
         ImageView acceptButton = findViewById(R.id.buttonAccept);
@@ -77,15 +77,15 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
                 try {
                     // Accepting call. Send a notification and start the call
-//                    sendMessage("ACC:");
-//                    InetAddress address = InetAddress.getByName(contactIp);
-//                    Log.i(LOG_TAG, "Calling " + address.toString());
-//                    IN_CALL = true;
-//                    call = new AudioCall(address);
-//                    call.startCall();
-//                    // Hide the buttons as they're not longer required
-//                    ImageView accept = findViewById(R.id.buttonAccept);
-//                    accept.setEnabled(false);
+                    sendMessage("ACC:");
+                    InetAddress address = InetAddress.getByName(contactIp);
+                    Log.i(LOG_TAG, "Calling " + address.toString());
+                    IN_CALL = true;
+                    call = new AudioCall(address);
+                    call.startCall();
+                    // Hide the buttons as they're not longer required
+                    ImageView accept = findViewById(R.id.buttonAccept);
+                    accept.setEnabled(false);
 
                     ImageView reject = findViewById(R.id.buttonReject);
                     reject.setEnabled(false);
@@ -93,10 +93,10 @@ public class ReceiveCallActivity extends AppCompatActivity {
                     //change the layout
                     answerCallXML();
                 }
-//                catch(UnknownHostException e) {
-//
-//                    Log.e(LOG_TAG, "UnknownHostException in acceptButton: " + e);
-//                }
+                catch(UnknownHostException e) {
+
+                    Log.e(LOG_TAG, "UnknownHostException in acceptButton: " + e);
+                }
                 catch(Exception e) {
 
                     Log.e(LOG_TAG, "Exception in acceptButton: " + e);
