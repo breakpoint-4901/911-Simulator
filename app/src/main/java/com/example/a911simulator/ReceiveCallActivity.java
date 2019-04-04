@@ -1,13 +1,16 @@
 package com.example.a911simulator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,11 +37,23 @@ public class ReceiveCallActivity extends AppCompatActivity {
     private boolean IN_CALL = false;
     private AudioCall call;
 
+    LayoutInflater inflater;
+    View view;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive_call);
+
+        inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //initialize our layout
+        ConstraintLayout layout=findViewById(R.id.parentLayout); //grab the container for our current view.
+        view=inflater.inflate(R.layout.activity_answer_call,layout, false);  //convert our XML into an object
+        layout.addView(view); //import the xml into our activity
+
+        view.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
+
 
         Intent intent = getIntent();
         contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
@@ -49,9 +64,9 @@ public class ReceiveCallActivity extends AppCompatActivity {
         String curDate = getMMDD();
 
         textDate.setText(curDate); //sets our placeholder date to the current date. (does not update if it hits 12:00am
-        textView.setText(""+contactName); //ensures we treat our object as a string
+        textView.setText(""+contactName); //ensures we treat our object as a string (prevents NULL from crashing)
 
-        startListener();
+        //startListener();
 
         // ACCEPT BUTTON
         ImageView acceptButton = findViewById(R.id.buttonAccept);
@@ -62,26 +77,26 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
                 try {
                     // Accepting call. Send a notification and start the call
-                    sendMessage("ACC:");
-                    InetAddress address = InetAddress.getByName(contactIp);
-                    Log.i(LOG_TAG, "Calling " + address.toString());
-                    IN_CALL = true;
-                    call = new AudioCall(address);
-                    call.startCall();
-                    // Hide the buttons as they're not longer required
-                    ImageView accept = findViewById(R.id.buttonAccept);
-                    accept.setEnabled(false);
+//                    sendMessage("ACC:");
+//                    InetAddress address = InetAddress.getByName(contactIp);
+//                    Log.i(LOG_TAG, "Calling " + address.toString());
+//                    IN_CALL = true;
+//                    call = new AudioCall(address);
+//                    call.startCall();
+//                    // Hide the buttons as they're not longer required
+//                    ImageView accept = findViewById(R.id.buttonAccept);
+//                    accept.setEnabled(false);
 
                     ImageView reject = findViewById(R.id.buttonReject);
                     reject.setEnabled(false);
 
                     //change the layout
-                    setContentView(R.layout.activity_answer_call);
+                    answerCallXML();
                 }
-                catch(UnknownHostException e) {
-
-                    Log.e(LOG_TAG, "UnknownHostException in acceptButton: " + e);
-                }
+//                catch(UnknownHostException e) {
+//
+//                    Log.e(LOG_TAG, "UnknownHostException in acceptButton: " + e);
+//                }
                 catch(Exception e) {
 
                     Log.e(LOG_TAG, "Exception in acceptButton: " + e);
@@ -106,11 +121,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         });
 
         // END BUTTON
-        //TODO THIS IS NOT WORKING IDK WHY
-        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-        final View inflatedView = inflater.inflate(R.layout.activity_answer_call, null);
-        ImageView endButton = inflatedView.findViewById(R.id.buttonEndCall1);
-
+        ImageView endButton = findViewById(R.id.buttonEndCall1);
         endButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -123,6 +134,21 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 startActivity(connect);
             }
         });
+    }
+
+    private void answerCallXML() {
+
+        View receive= findViewById(R.id.receiveView); //grab view from XML
+        receive.setVisibility(ConstraintLayout.GONE); //banish the activity_receive_call.xml
+        view.setVisibility(LinearLayout.VISIBLE); // bring the activity_answer_call.xml to the foreground.
+
+        TextView textContactName = findViewById(R.id.makeCallContactName);
+        textContactName.setText(""+contactName);
+
+        TextView textContactIP = findViewById(R.id.makeCallipAddress);
+        textContactIP.setText(""+contactIp);
+
+        //start an async function call for changing the time on our textview
     }
 
     //returns a string formatted as: "MM DD" or "Feb 17"
