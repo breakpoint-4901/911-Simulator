@@ -26,7 +26,10 @@ import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
     final String [] supportedLanguages = {"English","Español"};
+    String [] supportedRoles = {};
     PermissionManager permissionManager; //used to requesting/checking permissions
+
+    public final static String ROLE = "ROLE"; //used for passing in for future states
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                 //creates an intent for the ConnectActivity class
                 ArrayList<String> denied = permissionManager.getStatus().get(0).denied; //queries a list of denied permissions
                 if( denied.size() == 0) {
-                    Intent connect = new Intent(HomeActivity.this, ConnectActivity.class);
-
-                    startActivity(connect);
+                    showRoleDialog();
                 }
                 else {
                     // TODO Remove this when we link the UI together. (testing purposes)
@@ -199,6 +200,42 @@ public class HomeActivity extends AppCompatActivity {
         //show alert dialog
         mDialog.show();
     }
+
+    private void showRoleDialog(){
+        //create alert dialog and pass in list of languages
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeActivity.this);
+        mBuilder.setTitle(R.string.choose_role);
+
+        supportedRoles = getResources().getStringArray(R.array.device_roles);
+
+        mBuilder.setSingleChoiceItems(supportedRoles, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //set locale
+                Intent connect = new Intent(HomeActivity.this, ConnectActivity.class);
+                if(which == 0){
+                    connect.putExtra(ROLE, "teacher");
+                    startActivity(connect);
+                }
+                else if(which == 1){ //TODO Remove this part
+                    connect.putExtra(ROLE, "student");
+                    startActivity(connect);
+                }
+
+                //recreate view
+                recreate();
+
+                //dismiss alert dialog
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+
+        //show alert dialog
+        mDialog.show();
+    }
+
 
     //sets the locale
     private void setLocale(String lang) {

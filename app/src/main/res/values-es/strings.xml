@@ -6,8 +6,13 @@
     <string name="welcome">¡Bienvenidos a la aplicación de simulación NCT9–1–1!</string>
     <string name="start_app">Empezar</string>
     <string name="settings">Cambiar Idioma</string>
+    <string name="choose_role">Choose Device Role…</string>
     <string name="survey"><u>¿Necesitas la encuesta?</u></string>
     <string name="temp_student">Estudiante</string>
+    <string-array name="device_roles">
+        <item>Maestro</item>
+        <item>Estudiante</item>
+    </string-array>
 
     <!-- Used in the Email activity -->
     <string name="send_survey">Ingrese su correo electrónico para que le envíen la encuesta.</string>

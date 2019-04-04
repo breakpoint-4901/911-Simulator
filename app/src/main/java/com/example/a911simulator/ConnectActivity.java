@@ -40,13 +40,15 @@ public class ConnectActivity extends AppCompatActivity {
     private static final int BUF_SIZE = 1024;
     private ContactManager contactManager;
     private String displayName;
+    private String role;
     private boolean STARTED = false;
     private boolean IN_CALL = false;
     private boolean LISTEN = false;
 
-    public final static String EXTRA_CONTACT = "hw.dt83.udpchat.CONTACT";
-    public final static String EXTRA_IP = "hw.dt83.udpchat.IP";
-    public final static String EXTRA_DISPLAYNAME = "hw.dt83.udpchat.DISPLAYNAME";
+    public final static String EXTRA_CONTACT = "CONTACT_NAME";
+    public final static String EXTRA_IP = "IP_ADDRESS";
+    public final static String EXTRA_DISPLAYNAME = "PHONE_NAME";
+    public final static String ROLE = "DEVICE_ROLE"; //i think this is redundant considering the
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +63,15 @@ public class ConnectActivity extends AppCompatActivity {
         displayName = displayNameText.getText().toString();
         displayNameText.setEnabled(false);
 
+        //set device role
+        Intent intent = getIntent();
+        role = intent.getStringExtra(HomeActivity.ROLE);
+
         Log.i(LOG_TAG, "UDPChat started");
 
         // START BUTTON
         // Pressing this buttons initiates the main functionality
-        final Button btnStart = (Button) findViewById(R.id.buttonStart);
+        final Button btnStart = findViewById(R.id.buttonStart);
         btnStart.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -76,16 +82,16 @@ public class ConnectActivity extends AppCompatActivity {
 
                 btnStart.setEnabled(false);
 
-                TextView text = (TextView) findViewById(R.id.textViewSelectContact);
+                TextView text = findViewById(R.id.textViewSelectContact);
                 text.setVisibility(View.VISIBLE);
 
-                Button updateButton = (Button) findViewById(R.id.buttonUpdate);
+                Button updateButton = findViewById(R.id.buttonUpdate);
                 updateButton.setVisibility(View.VISIBLE);
 
-                Button callButton = (Button) findViewById(R.id.buttonCall);
+                Button callButton = findViewById(R.id.buttonCall);
                 callButton.setVisibility(View.VISIBLE);
 
-                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+                ScrollView scrollView = findViewById(R.id.scrollView);
                 scrollView.setVisibility(View.VISIBLE);
 
                 contactManager = new ContactManager(displayName, getBroadcastIp());
@@ -157,6 +163,7 @@ public class ConnectActivity extends AppCompatActivity {
                 // Send this information to the MakeCallActivity and start that activity
                 Intent intent = new Intent(ConnectActivity.this, MakeCallActivity.class);
                 intent.putExtra(EXTRA_CONTACT, contact);
+                intent.putExtra(ROLE, role);
                 String address = ip.toString();
                 address = address.substring(1, address.length());
                 intent.putExtra(EXTRA_IP, address);
@@ -267,6 +274,7 @@ public class ConnectActivity extends AppCompatActivity {
                                 String name = data.substring(4, packet.getLength());
 
                                 Intent intent = new Intent(ConnectActivity.this, ReceiveCallActivity.class);
+                                intent.putExtra(ROLE, role);
                                 intent.putExtra(EXTRA_CONTACT, name);
                                 intent.putExtra(EXTRA_IP, address.substring(1, address.length()));
                                 IN_CALL = true;

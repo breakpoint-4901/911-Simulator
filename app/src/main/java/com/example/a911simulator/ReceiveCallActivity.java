@@ -26,7 +26,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+//TEACHER
 public class ReceiveCallActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ReceiveCall";
     private static final int BROADCAST_PORT = 50002;
@@ -167,7 +167,6 @@ public class ReceiveCallActivity extends AppCompatActivity {
         // End the call and send a notification
         stopListener();
         if(IN_CALL) {
-
             call.endCall();
         }
         sendMessage("END:");

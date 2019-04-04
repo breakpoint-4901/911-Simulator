@@ -8,7 +8,14 @@
     <string name="settings">Change Language</string>
     <string name="survey"><u>Need the survey?</u></string>
     <string name="choose_language">Choose Language…</string>
+    <string name="choose_role">Choose Device Role…</string>
     <string name="temp_student">Student</string>
+    <string-array name="device_roles">
+        <item>Teacher</item>
+        <item>Student</item>
+    </string-array>
+
+
 
     <!-- Used in the Email Activity -->
     <string name="send_survey">Enter your email to have the survey sent to you.</string>
