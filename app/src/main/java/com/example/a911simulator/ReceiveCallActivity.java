@@ -1,14 +1,17 @@
 package com.example.a911simulator;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
@@ -47,10 +50,6 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
         textDate.setText(curDate); //sets our placeholder date to the current date. (does not update if it hits 12:00am
         textView.setText(""+contactName); //ensures we treat our object as a string
-
-
-
-        final ImageView endButton = findViewById(R.id.buttonEndCall1);
 
         startListener();
 
@@ -107,15 +106,21 @@ public class ReceiveCallActivity extends AppCompatActivity {
         });
 
         // END BUTTON
+        //TODO THIS IS NOT WORKING IDK WHY
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        final View inflatedView = inflater.inflate(R.layout.activity_answer_call, null);
+        ImageView endButton = inflatedView.findViewById(R.id.buttonEndCall1);
+
         endButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
+                Log.i(LOG_TAG, "Student hangup ");
                 //move to revert to a previous intent after a call ends. TODO Change this logic (where do we want the user to be taken)
+                endCall();
                 Intent connect = new Intent(ReceiveCallActivity.this, HomeActivity.class);
                 startActivity(connect);
-                endCall();
             }
         });
     }
