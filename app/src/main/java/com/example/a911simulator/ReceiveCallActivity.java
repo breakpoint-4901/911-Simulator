@@ -2,7 +2,6 @@ package com.example.a911simulator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +29,8 @@ public class ReceiveCallActivity extends AppCompatActivity {
     private static final int BUF_SIZE = 1024;
     private String contactIp;
     private String contactName;
+    private InetAddress broadcastIP;
+    private String displayName;
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
     private AudioCall call;
@@ -54,10 +52,13 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
         view.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
 
-
+        //pull the display name from the previous intent.
         Intent intent = getIntent();
-        contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
-        contactIp = intent.getStringExtra(ConnectActivity.EXTRA_IP);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
+
+        broadcastIP = (InetAddress)intent.getSerializableExtra(ConnectActivity.BROADCAST);
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
 
         TextView textView = findViewById(R.id.textViewCallerID);
         TextView textDate = findViewById(R.id.recieveCallDate);
@@ -115,8 +116,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 endCall();
 
                 //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
-                Intent connect = new Intent(ReceiveCallActivity.this, HomeActivity.class);
-                startActivity(connect);
+                returnToWaitingOnStudent();
             }
         });
 
@@ -130,10 +130,17 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 Log.i(LOG_TAG, "Student hangup ");
                 //move to revert to a previous intent after a call ends. TODO Change this logic (where do we want the user to be taken)
                 endCall();
-                Intent connect = new Intent(ReceiveCallActivity.this, HomeActivity.class);
-                startActivity(connect);
+                returnToWaitingOnStudent();
             }
         });
+    }
+
+    private void returnToWaitingOnStudent() {
+        finish();
+        Intent tIntent = new Intent(ReceiveCallActivity.this, TeacherActivity.class);
+        tIntent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+        tIntent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
+        startActivity(tIntent);
     }
 
     private void answerCallXML() {

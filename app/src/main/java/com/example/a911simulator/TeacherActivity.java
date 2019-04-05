@@ -1,21 +1,16 @@
 package com.example.a911simulator;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
 
 public class TeacherActivity extends AppCompatActivity {
 
@@ -45,7 +40,7 @@ public class TeacherActivity extends AppCompatActivity {
         broadcastIP = (InetAddress)intent.getSerializableExtra(ConnectActivity.BROADCAST);
 
         //pull the display name from the previous intent.
-        displayName = intent.getStringExtra(ConnectActivity.DISPLAYNAME);
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
 
         contactManager = new ContactManager(displayName, broadcastIP);
 
@@ -81,6 +76,7 @@ public class TeacherActivity extends AppCompatActivity {
                     socket.setSoTimeout(1000);
                     byte[] buffer = new byte[BUF_SIZE];
                     DatagramPacket packet = new DatagramPacket(buffer, BUF_SIZE);
+
                     while(LISTEN) {
                         // Listen for incoming call requests
                         try {
@@ -88,18 +84,21 @@ public class TeacherActivity extends AppCompatActivity {
                             socket.receive(packet);
                             String data = new String(buffer, 0, packet.getLength());
                             Log.i(LOG_TAG, "Packet received from "+ packet.getAddress() +" with contents: " + data);
+
                             String action = data.substring(0, 4);
                             if(action.equals("CAL:")) {
                                 // Received a call request. Start the ReceiveCallActivity
                                 String address = packet.getAddress().toString();
                                 String name = data.substring(4, packet.getLength());
                                 Log.i(LOG_TAG, "RING RING:");
-                                Intent intent = new Intent(getApplicationContext(), ReceiveCallActivity.class);
-                                intent.putExtra(ConnectActivity.EXTRA_CONTACT, name);
-                                intent.putExtra(ConnectActivity.EXTRA_IP, address.substring(1, address.length()));
+
                                 IN_CALL = true;
-                                //LISTEN = false;
-                                //stopCallListener();
+
+                                Intent intent = new Intent(getApplicationContext(), ReceiveCallActivity.class);
+                                intent.putExtra(ConnectActivity.CONTACT_NAME, name);
+                                intent.putExtra(ConnectActivity.CONTACT_IP, address.substring(1, address.length()));
+                                intent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+                                intent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
                                 startActivity(intent);
                             }
                             else {
@@ -114,7 +113,6 @@ public class TeacherActivity extends AppCompatActivity {
                     socket.close();
                 }
                 catch(SocketException e) {
-
                     Log.e(LOG_TAG, "SocketException in listener " + e);
                 }
             }
@@ -126,7 +124,6 @@ public class TeacherActivity extends AppCompatActivity {
         // Ends the listener thread
         LISTEN = false;
     }
-
 
     @Override
     public void onPause() {
@@ -144,19 +141,23 @@ public class TeacherActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
+        //tells the broadcaster the device is no longer available.
+        if(STARTED) {
 
+            contactManager.bye(displayName);
+            contactManager.stopBroadcasting();
+            contactManager.stopListening();
+            //STARTED = false;
+        }
         super.onStop();
         Log.i(LOG_TAG, "App stopped!");
         stopCallListener();
         if(!IN_CALL) {
-
             finish();
         }
     }
-
     @Override
     public void onRestart() {
-
         super.onRestart();
         Log.i(LOG_TAG, "App restarted!");
         IN_CALL = false;

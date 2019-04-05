@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
+import java.net.InetAddress;
 
 public class StudentScenarioActivity extends AppCompatActivity {
 
@@ -18,6 +19,11 @@ public class StudentScenarioActivity extends AppCompatActivity {
     Button studentScenarioButton, regenScenario;
     ScenarioGenerator scenarioGen;
     ScenarioGenerator.Scenario scenario;
+
+    private String displayName;
+    private String contactName;
+    private String contactIp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +40,26 @@ public class StudentScenarioActivity extends AppCompatActivity {
         scenarioText.setMovementMethod(new ScrollingMovementMethod());
         scenarioText.setText(scenario.getText());
 
+        //get data from previous intent.
+        Intent intent = getIntent();
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
+
         //sets listener for start of simulation
         studentScenarioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent simulatedHomeScreen = new Intent(StudentScenarioActivity.this, SimulatedHomeScreenActivity.class);
 
+
+                Intent simulatedHomeScreen = new Intent(StudentScenarioActivity.this, SimulatedHomeScreenActivity.class);
+                // Send this information to the SimulatedHomeScreen and start that activity
+                simulatedHomeScreen.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+                simulatedHomeScreen.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+                simulatedHomeScreen.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
                 startActivity(simulatedHomeScreen);
             }
         });
-
         regenScenario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,6 +27,15 @@
     <string name="connection_status">Estado de conexión</string>
     <string name="connection_status2">Dispositivo no pareado</string>
     <string name="choose_language">Elige Lengua…</string>
+    <string name="device_name">Device Identity</string>
+    <string name="pair_devices">Pair Devices</string>
+
+    <!--activty_connect -->
+    <string name="connect_start">Comienzo</string>
+    <string name="display_name">Ingrese el nombre para mostrar:</string>
+    <string name="select_contacts">Seleccione un contacto para llamar</string>
+    <string name="update_contacts">Actualizar Contactos</string>
+    <string name="call_contacts">Llamar a Contactos</string>
 
     <!-- Used in the SimulatedHomeScreen Activity -->
     <string name="phone_description">foto de telefono</string>
@@ -63,15 +72,6 @@
     <string name="make_call_speaker">Speaker</string>
     <string name="make_call_mute">Mute</string>
     <string name="make_call_dialpad">Dialpad</string>
-
-
-
-    <!--activty_connect -->
-    <string name="connect_start">Comienzo</string>
-    <string name="display_name">Ingrese el nombre para mostrar:</string>
-    <string name="select_contacts">Seleccione un contacto para llamar</string>
-    <string name="update_contacts">Actualizar Contactos</string>
-    <string name="call_contacts">Llamar a Contactos</string>
 
     <!-- Student scenario-->
     <string name="scenario_toolbar">Escenario</string>

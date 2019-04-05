@@ -15,8 +15,6 @@
         <item>Student</item>
     </string-array>
 
-
-
     <!-- Used in the Email Activity -->
     <string name="send_survey">Enter your email to have the survey sent to you.</string>
     <string name="send_survey_hint">enter your email here</string>
@@ -29,6 +27,15 @@
     <string name="disconnect">Disconnect</string>
     <string name="connection_status">Connection Status</string>
     <string name="connection_status2">Unpaired Device</string>
+    <string name="device_name">Device Identity</string>
+    <string name="pair_devices">Pair Devices</string>
+
+    <!-- Activity Connect  -->
+    <string name="connect_start">Searching for nearby devices</string>
+    <string name="display_name">Enter a display name:</string>
+    <string name="select_contacts">Select a contact to call</string>
+    <string name="update_contacts">Update Contacts</string>
+    <string name="call_contacts">Call Contacts</string>
 
     <!-- Used in the SimulatedHomeScreen Activity -->
     <string name="phone_description">phone icon</string>
@@ -47,7 +54,7 @@
     <string name="accept_call">Accept</string>
     <string name="reject_call">Reject</string>
 
-    <!-- Used in receive call activity -->
+    <!-- Used in make call activity -->
     <string name="calling">Calling</string>
 
     <!-- Used in receive call activity & make a call -->
@@ -65,13 +72,6 @@
     <string name="make_call_speaker">Speaker</string>
     <string name="make_call_mute">Mute</string>
     <string name="make_call_dialpad">Dialpad</string>
-
-    <!-- Activity Connect  -->
-    <string name="connect_start">Start</string>
-    <string name="display_name">Enter a display name:</string>
-    <string name="select_contacts">Select a contact to call</string>
-    <string name="update_contacts">Update Contacts</string>
-    <string name="call_contacts">Call Contacts</string>
 
     <!-- Student scenario-->
     <string name="scenario_toolbar">The Scenario</string>

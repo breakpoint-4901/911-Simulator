@@ -1,16 +1,28 @@
 package com.example.a911simulator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SimulatedDialpadActivity extends AppCompatActivity {
 
+    private String displayName;
+    private String contactName;
+    private String contactIp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulated_dialpad);
+
+        //get data from previous intent.
+        Intent intent = getIntent();
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
         //set up variables
         ImageButton number1Btn = findViewById(R.id.oneImageBtn);
@@ -29,6 +41,16 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
         ImageButton backspaceBtn = findViewById(R.id.backspaceBtn);
         TextView numberDialedTextView = findViewById(R.id.numberTextView);
 
-
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent makeCall = new Intent(SimulatedDialpadActivity.this, MakeCallActivity.class);
+                // Send this information to the SimulatedDialpad and start that activity
+                makeCall.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+                makeCall.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+                makeCall.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+                startActivity(makeCall);
+            }
+        });
     }
 }

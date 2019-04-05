@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -34,28 +34,31 @@ public class MakeCallActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_call);
+        setContentView(R.layout.activity_answer_call);
 
         Log.i(LOG_TAG, "MakeCallActivity started!");
 
         Intent intent = getIntent();
-        displayName = intent.getStringExtra(ConnectActivity.DISPLAYNAME);
-        contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
-        contactIp = intent.getStringExtra(ConnectActivity.EXTRA_IP);
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
-        TextView textView = (TextView) findViewById(R.id.textViewCalling);
+        TextView textView = findViewById(R.id.makeCallContactName);
         textView.setText("Calling: " + contactName);
 
         startListener();
         makeCall();
 
-        Button endButton = (Button) findViewById(R.id.buttonEndCall);
+        ImageView endButton = findViewById(R.id.buttonEndCall1);
         endButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Button to end the call has been pressed
                 endCall();
+                //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
+                Intent connect = new Intent(MakeCallActivity.this, HomeActivity.class);
+                startActivity(connect);
             }
         });
     }
@@ -74,6 +77,7 @@ public class MakeCallActivity extends AppCompatActivity {
         }
         sendMessage("END:", BROADCAST_PORT);
         finish();
+        returnHome();
     }
 
     private void startListener() {
@@ -85,10 +89,9 @@ public class MakeCallActivity extends AppCompatActivity {
             public void run() {
 
                 try {
-
                     Log.i(LOG_TAG, "Listener started!");
                     DatagramSocket socket = new DatagramSocket(BROADCAST_PORT);
-                    socket.setSoTimeout(15000);
+                    socket.setSoTimeout(15000); //i believe this is our timeout for the user to answer the call.
                     byte[] buffer = new byte[BUF_SIZE];
                     DatagramPacket packet = new DatagramPacket(buffer, BUF_SIZE);
                     while(LISTEN) {
@@ -124,7 +127,6 @@ public class MakeCallActivity extends AppCompatActivity {
 
                                 Log.i(LOG_TAG, "No reply from contact. Ending call");
                                 endCall();
-                                return;
                             }
                         }
                         catch(IOException e) {
@@ -134,7 +136,7 @@ public class MakeCallActivity extends AppCompatActivity {
                     Log.i(LOG_TAG, "Listener ending");
                     socket.disconnect();
                     socket.close();
-                    return;
+                    returnHome();
                 }
                 catch(SocketException e) {
 
@@ -144,6 +146,12 @@ public class MakeCallActivity extends AppCompatActivity {
             }
         });
         listenThread.start();
+    }
+
+    private void returnHome() {
+        //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
+        Intent connect = new Intent(MakeCallActivity.this, HomeActivity.class);
+        startActivity(connect);
     }
 
     private void stopListener() {
