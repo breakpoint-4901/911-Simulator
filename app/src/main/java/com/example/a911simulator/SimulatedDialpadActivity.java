@@ -44,6 +44,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent makeCall = new Intent(SimulatedDialpadActivity.this, MakeCallActivity.class);
                 // Send this information to the SimulatedDialpad and start that activity
                 makeCall.putExtra(ConnectActivity.CONTACT_NAME, contactName);

@@ -28,6 +28,7 @@ public class SimulatedHomeScreenActivity extends AppCompatActivity {
         phoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent dialpad = new Intent(SimulatedHomeScreenActivity.this, SimulatedDialpadActivity.class);
                 // Send this information to the SimulatedDialpad and start that activity
                 dialpad.putExtra(ConnectActivity.CONTACT_NAME, contactName);

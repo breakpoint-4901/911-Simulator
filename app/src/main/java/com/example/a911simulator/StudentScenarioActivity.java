@@ -50,8 +50,7 @@ public class StudentScenarioActivity extends AppCompatActivity {
         studentScenarioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                finish();
                 Intent simulatedHomeScreen = new Intent(StudentScenarioActivity.this, SimulatedHomeScreenActivity.class);
                 // Send this information to the SimulatedHomeScreen and start that activity
                 simulatedHomeScreen.putExtra(ConnectActivity.CONTACT_NAME, contactName);

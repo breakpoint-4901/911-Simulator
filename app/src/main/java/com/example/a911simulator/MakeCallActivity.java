@@ -149,9 +149,14 @@ public class MakeCallActivity extends AppCompatActivity {
     }
 
     private void returnHome() {
-        //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
-        Intent connect = new Intent(MakeCallActivity.this, HomeActivity.class);
-        startActivity(connect);
+        //move to revert to a previous intent when a call is rejected.
+        finish();
+        Intent scenario = new Intent(MakeCallActivity.this, StudentScenarioActivity.class);
+        scenario.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+        scenario.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+        scenario.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+
+        startActivity(scenario);
     }
 
     private void stopListener() {

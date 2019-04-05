@@ -65,6 +65,7 @@ public class ConnectActivity extends AppCompatActivity {
         //the teacher should never need to press a button.
         broadcastIP = getBroadcastIp();
         if("teacher".equals(role)) {
+            finish();
             Intent tIntent = new Intent(ConnectActivity.this, TeacherActivity.class);
             tIntent.putExtra(CONTACT_DISPLAYNAME, displayName);
             tIntent.putExtra(BROADCAST, broadcastIP);
@@ -79,6 +80,7 @@ public class ConnectActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                finish();
                 //creates an intent for the ConnectActivity class
                 //do we need to close anything? destroy current operation for memory management?
                 Intent connect = new Intent(ConnectActivity.this, HomeActivity.class);
