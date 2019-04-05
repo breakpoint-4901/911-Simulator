@@ -4,7 +4,6 @@ import android.view.View.OnClickListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.wifi.WifiInfo;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AlertDialog;
@@ -36,18 +35,19 @@ public class ConnectActivity extends AppCompatActivity {
 
 
     static final String LOG_TAG = "UDPchat";
-    private static final int LISTENER_PORT = 50003;
-    private static final int BUF_SIZE = 1024;
     private ContactManager contactManager;
     private String displayName;
     private String role;
+    private InetAddress broadcastIP;
     private boolean STARTED = false;
     private boolean IN_CALL = false;
-    private boolean LISTEN = false;
 
+
+    //used for passing values between intents.
+    public final static String BROADCAST = "BROADCAST";
     public final static String EXTRA_CONTACT = "CONTACT_NAME";
     public final static String EXTRA_IP = "IP_ADDRESS";
-    public final static String EXTRA_DISPLAYNAME = "PHONE_NAME";
+    public final static String DISPLAYNAME = "PHONE_NAME";
     public final static String ROLE = "DEVICE_ROLE"; //i think this is redundant considering the
 
     @Override
@@ -57,9 +57,8 @@ public class ConnectActivity extends AppCompatActivity {
         Random rand = new Random();
 
         // Set Display Name
-        final EditText displayNameText = (EditText) findViewById(R.id.editTextDisplayName);
+        final EditText displayNameText = findViewById(R.id.editTextDisplayName);
         displayNameText.setText(Build.MODEL + " " + Integer.toString(rand.nextInt()));
-        // displayNameText.setText(Build.MODEL);
         displayName = displayNameText.getText().toString();
         displayNameText.setEnabled(false);
 
@@ -67,7 +66,7 @@ public class ConnectActivity extends AppCompatActivity {
         Intent intent = getIntent();
         role = intent.getStringExtra(HomeActivity.ROLE);
 
-        Log.i(LOG_TAG, "UDPChat started");
+       // Log.i(LOG_TAG, "UDPChat started"); //i commented this out
 
         // START BUTTON
         // Pressing this buttons initiates the main functionality
@@ -78,42 +77,48 @@ public class ConnectActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Log.i(LOG_TAG, "Start button pressed");
-                STARTED = true;
 
-                btnStart.setEnabled(false);
+                broadcastIP = getBroadcastIp();
+                if("teacher".equals(role)) {
+                    Intent intent = new Intent(ConnectActivity.this, TeacherActivity.class);
+                    intent.putExtra(DISPLAYNAME, displayName);
+                    intent.putExtra(BROADCAST, broadcastIP);
+                    startActivity(intent);
+                }
+                else {
+                    STARTED = true;
+                    btnStart.setEnabled(false);
 
-                TextView text = findViewById(R.id.textViewSelectContact);
-                text.setVisibility(View.VISIBLE);
+                    TextView text = findViewById(R.id.textViewSelectContact);
+                    text.setVisibility(View.VISIBLE);
 
-                Button updateButton = findViewById(R.id.buttonUpdate);
-                updateButton.setVisibility(View.VISIBLE);
+                    Button updateButton = findViewById(R.id.buttonUpdate);
+                    updateButton.setVisibility(View.VISIBLE);
 
-                Button callButton = findViewById(R.id.buttonCall);
-                callButton.setVisibility(View.VISIBLE);
+                    Button callButton = findViewById(R.id.buttonCall);
+                    callButton.setVisibility(View.VISIBLE);
 
-                ScrollView scrollView = findViewById(R.id.scrollView);
-                scrollView.setVisibility(View.VISIBLE);
-
-                contactManager = new ContactManager(displayName, getBroadcastIp());
-                startCallListener();
+                    ScrollView scrollView = findViewById(R.id.scrollView);
+                    scrollView.setVisibility(View.VISIBLE);
+                    contactManager = new ContactManager(displayName, broadcastIP);
+                }
             }
         });
 
         // UPDATE BUTTON
         // Updates the list of reachable devices
-        final Button btnUpdate = (Button) findViewById(R.id.buttonUpdate);
+        final Button btnUpdate = findViewById(R.id.buttonUpdate);
         btnUpdate.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 updateContactList();
             }
         });
 
         // CALL BUTTON
         // Attempts to initiate an audio chat session with the selected device
-        final Button btnCall = (Button) findViewById(R.id.buttonCall);
+        final Button btnCall = findViewById(R.id.buttonCall);
         btnCall.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -167,7 +172,7 @@ public class ConnectActivity extends AppCompatActivity {
                 String address = ip.toString();
                 address = address.substring(1, address.length());
                 intent.putExtra(EXTRA_IP, address);
-                intent.putExtra(EXTRA_DISPLAYNAME, displayName);
+                intent.putExtra(DISPLAYNAME, displayName);
                 startActivity(intent);
             }
         });
@@ -177,7 +182,7 @@ public class ConnectActivity extends AppCompatActivity {
         // Create a copy of the HashMap used by the ContactManager
         HashMap<String, InetAddress> contacts = contactManager.getContacts();
         // Create a radio button for each contact in the HashMap
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.contactList);
+        RadioGroup radioGroup = findViewById(R.id.contactList);
         radioGroup.removeAllViews();
 
         for (String name : contacts.keySet()) {
@@ -191,6 +196,7 @@ public class ConnectActivity extends AppCompatActivity {
         radioGroup.clearCheck();
     }
 
+    //getBroadcastIp helper
     private int getNetmask(int ipAddress) {
         try {
 
@@ -242,74 +248,11 @@ public class ConnectActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "UnknownHostException in getBroadcastIP: " + e);
             return null;
         }
-
     }
 
-    private void startCallListener() {
-        // Creates the listener thread
-        LISTEN = true;
-        Thread listener = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                try {
-                    // Set up the socket and packet to receive
-                    Log.i(LOG_TAG, "Incoming call listener started");
-                    DatagramSocket socket = new DatagramSocket(LISTENER_PORT);
-                    socket.setSoTimeout(1000);
-                    byte[] buffer = new byte[BUF_SIZE];
-                    DatagramPacket packet = new DatagramPacket(buffer, BUF_SIZE);
-                    while(LISTEN) {
-                        // Listen for incoming call requests
-                        try {
-                            Log.i(LOG_TAG, "Listening for incoming calls");
-                            socket.receive(packet);
-                            String data = new String(buffer, 0, packet.getLength());
-                            Log.i(LOG_TAG, "Packet received from "+ packet.getAddress() +" with contents: " + data);
-                            String action = data.substring(0, 4);
-                            if(action.equals("CAL:")) {
-                                // Received a call request. Start the ReceiveCallActivity
-                                String address = packet.getAddress().toString();
-                                String name = data.substring(4, packet.getLength());
-
-                                Intent intent = new Intent(ConnectActivity.this, ReceiveCallActivity.class);
-                                intent.putExtra(ROLE, role);
-                                intent.putExtra(EXTRA_CONTACT, name);
-                                intent.putExtra(EXTRA_IP, address.substring(1, address.length()));
-                                IN_CALL = true;
-                                //LISTEN = false;
-                                //stopCallListener();
-                                startActivity(intent);
-                            }
-                            else {
-                                // Received an invalid request
-                                Log.w(LOG_TAG, packet.getAddress() + " sent invalid message: " + data);
-                            }
-                        }
-                        catch(Exception e) {}
-                    }
-                    Log.i(LOG_TAG, "Call Listener ending");
-                    socket.disconnect();
-                    socket.close();
-                }
-                catch(SocketException e) {
-
-                    Log.e(LOG_TAG, "SocketException in listener " + e);
-                }
-            }
-        });
-        listener.start();
-    }
-
-    private void stopCallListener() {
-        // Ends the listener thread
-        LISTEN = false;
-    }
 
     @Override
     public void onPause() {
-
         super.onPause();
         if(STARTED) {
 
@@ -318,7 +261,7 @@ public class ConnectActivity extends AppCompatActivity {
             contactManager.stopListening();
             //STARTED = false;
         }
-        stopCallListener();
+       // stopCallListener(); //me
         Log.i(LOG_TAG, "App paused!");
     }
 
@@ -327,7 +270,6 @@ public class ConnectActivity extends AppCompatActivity {
 
         super.onStop();
         Log.i(LOG_TAG, "App stopped!");
-        stopCallListener();
         if(!IN_CALL) {
 
             finish();
@@ -342,7 +284,6 @@ public class ConnectActivity extends AppCompatActivity {
         IN_CALL = false;
         STARTED = true;
         contactManager = new ContactManager(displayName, getBroadcastIp());
-        startCallListener();
     }
 }
 

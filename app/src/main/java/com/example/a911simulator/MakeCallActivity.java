@@ -39,7 +39,7 @@ public class MakeCallActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "MakeCallActivity started!");
 
         Intent intent = getIntent();
-        displayName = intent.getStringExtra(ConnectActivity.EXTRA_DISPLAYNAME);
+        displayName = intent.getStringExtra(ConnectActivity.DISPLAYNAME);
         contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
         contactIp = intent.getStringExtra(ConnectActivity.EXTRA_IP);
 
