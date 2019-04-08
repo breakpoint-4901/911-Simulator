@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -42,6 +43,8 @@ public class TeacherActivity extends AppCompatActivity {
         //pull the display name from the previous intent.
         displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
 
+        TextView deviceName = findViewById(R.id.deviceIdentity);
+        deviceName.setText(displayName + "");
         contactManager = new ContactManager(displayName, broadcastIP);
 
         STARTED = true;

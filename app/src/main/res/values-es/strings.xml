@@ -62,7 +62,7 @@
     <string name="receive_call_callerid">Student\'s Phone ID</string>
     <string name="receive_call_simulation">THIS IS A SIMULATION</string>
     <string name="receive_call_date">Feb 17</string>
-    <string name="receive_call_placeholder">Placeholder</string>
+    <string name="receive_call_placeholder">Estudiante</string>
     <string name="make_call_contact_name">Contact Name</string>
     <string name="make_call_ip_address">IP Address</string>
     <string name="make_call_time_elapased">00:00</string>

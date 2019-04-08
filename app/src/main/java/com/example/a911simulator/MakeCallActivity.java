@@ -29,7 +29,8 @@ public class MakeCallActivity extends AppCompatActivity {
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
     private AudioCall call;
-
+    TextView textView;
+    TextView ipAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,8 +44,11 @@ public class MakeCallActivity extends AppCompatActivity {
         contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
         contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
-        TextView textView = findViewById(R.id.makeCallContactName);
+        textView = findViewById(R.id.makeCallContactName);
         textView.setText("Calling: " + contactName);
+
+        ipAddress = findViewById(R.id.makeCallipAddress);
+        ipAddress.setText("Their IP: " + contactIp);
 
         startListener();
         makeCall();
@@ -108,6 +112,13 @@ public class MakeCallActivity extends AppCompatActivity {
                                 call = new AudioCall(packet.getAddress());
                                 call.startCall();
                                 IN_CALL = true;
+
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        textView.setText(contactName +"");
+                                    }
+                                });
+
                             }
                             else if(action.equals("REJ:")) {
                                 // Reject notification received. End call

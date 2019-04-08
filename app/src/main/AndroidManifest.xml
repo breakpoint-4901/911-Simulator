@@ -26,8 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SimulatedDialpadActivity"></activity>
-        <activity android:name=".SimulatedHomeScreenActivity" /> <!-- Removes index warning -->
+        <activity
+            android:name=".SimulatedDialpadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SimulatedHomeScreenActivity"
+            android:screenOrientation="portrait" /> <!-- Removes index warning -->
         <activity
             android:name=".TeacherActivity"
             android:screenOrientation="portrait" />
@@ -45,7 +49,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MakeCallActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.coloredBar"/>
         <activity
             android:name=".ReceiveCallActivity"
             android:screenOrientation="portrait"
