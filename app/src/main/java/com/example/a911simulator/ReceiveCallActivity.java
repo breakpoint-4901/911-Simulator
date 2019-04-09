@@ -1,14 +1,16 @@
 package com.example.a911simulator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
@@ -20,16 +22,22 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+//TEACHER
 public class ReceiveCallActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ReceiveCall";
     private static final int BROADCAST_PORT = 50002;
     private static final int BUF_SIZE = 1024;
     private String contactIp;
     private String contactName;
+    private InetAddress broadcastIP;
+    private String displayName;
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
     private AudioCall call;
+
+    LayoutInflater inflater;
+    View view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +45,27 @@ public class ReceiveCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive_call);
 
+        inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //initialize our layout
+        ConstraintLayout layout=findViewById(R.id.parentLayout); //grab the container for our current view.
+        view=inflater.inflate(R.layout.activity_answer_call,layout, false);  //convert our XML into an object
+        layout.addView(view); //import the xml into our activity
+
+        view.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
+
+        //pull the display name from the previous intent.
         Intent intent = getIntent();
-        contactName = intent.getStringExtra(ConnectActivity.EXTRA_CONTACT);
-        contactIp = intent.getStringExtra(ConnectActivity.EXTRA_IP);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
+
+        broadcastIP = (InetAddress)intent.getSerializableExtra(ConnectActivity.BROADCAST);
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
 
         TextView textView = findViewById(R.id.textViewCallerID);
         TextView textDate = findViewById(R.id.recieveCallDate);
         String curDate = getMMDD();
 
         textDate.setText(curDate); //sets our placeholder date to the current date. (does not update if it hits 12:00am
-        textView.setText(""+contactName); //ensures we treat our object as a string
-
-
-
-        final Button endButton = findViewById(R.id.buttonEndCall1);
-        endButton.setVisibility(View.INVISIBLE);
+        textView.setText(""+contactName); //ensures we treat our object as a string (prevents NULL from crashing)
 
         startListener();
 
@@ -77,7 +91,8 @@ public class ReceiveCallActivity extends AppCompatActivity {
                     ImageView reject = findViewById(R.id.buttonReject);
                     reject.setEnabled(false);
 
-                    endButton.setVisibility(View.VISIBLE);
+                    //change the layout
+                    answerCallXML();
                 }
                 catch(UnknownHostException e) {
 
@@ -91,7 +106,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         });
 
         // REJECT BUTTON
-        ImageView rejectButton = (ImageView) findViewById(R.id.buttonReject);
+        ImageView rejectButton = findViewById(R.id.buttonReject);
         rejectButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -99,18 +114,48 @@ public class ReceiveCallActivity extends AppCompatActivity {
                 // Send a reject notification and end the call
                 sendMessage("REJ:");
                 endCall();
+
+                //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
+                returnToWaitingOnStudent();
             }
         });
 
         // END BUTTON
+        ImageView endButton = findViewById(R.id.buttonEndCall1);
         endButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
+                Log.i(LOG_TAG, "Student hangup ");
+                //move to revert to a previous intent after a call ends. TODO Change this logic (where do we want the user to be taken)
                 endCall();
+                returnToWaitingOnStudent();
             }
         });
+    }
+
+    private void returnToWaitingOnStudent() {
+        finish();
+        Intent tIntent = new Intent(ReceiveCallActivity.this, TeacherActivity.class);
+        tIntent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+        tIntent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
+        startActivity(tIntent);
+    }
+
+    private void answerCallXML() {
+
+        View receive= findViewById(R.id.receiveView); //grab view from XML
+        receive.setVisibility(ConstraintLayout.GONE); //banish the activity_receive_call.xml
+        view.setVisibility(LinearLayout.VISIBLE); // bring the activity_answer_call.xml to the foreground.
+
+        TextView textContactName = findViewById(R.id.makeCallContactName);
+        textContactName.setText(""+contactName);
+
+        TextView textContactIP = findViewById(R.id.makeCallipAddress);
+        textContactIP.setText("Their IP: "+contactIp);
+
+        //start an async function call for changing the time on our textview
     }
 
     //returns a string formatted as: "MM DD" or "Feb 17"
@@ -129,7 +174,6 @@ public class ReceiveCallActivity extends AppCompatActivity {
         // End the call and send a notification
         stopListener();
         if(IN_CALL) {
-
             call.endCall();
         }
         sendMessage("END:");

@@ -1,15 +1,22 @@
 package com.example.a911simulator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class SimulatedDialpadActivity extends AppCompatActivity {
+
+    private String displayName;
+    private String contactName;
+    private String contactIp;
+
     //private String dialedNumber;
     //create an animation
     public AlphaAnimation blinkAnimation;
@@ -17,6 +24,12 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulated_dialpad);
+
+        //get data from previous intent.
+        Intent intent = getIntent();
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
         //set up variables
         final ImageButton number1Btn = findViewById(R.id.oneImageBtn);
@@ -197,7 +210,13 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
                 }
 
                 if(getTextFromTextView(numberDialedTextView).equals("911")){
-                    //TODO: open up dak's call activity
+                    finish();
+                    Intent makeCall = new Intent(SimulatedDialpadActivity.this, MakeCallActivity.class);
+                    // Send this information to the SimulatedCall and start that activity
+                    makeCall.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+                    makeCall.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+                    makeCall.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+                    startActivity(makeCall);
                 }
             }
         });

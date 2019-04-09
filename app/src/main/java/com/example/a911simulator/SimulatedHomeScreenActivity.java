@@ -8,19 +8,32 @@ import android.widget.ImageButton;
 
 public class SimulatedHomeScreenActivity extends AppCompatActivity {
 
+    private String displayName;
+    private String contactName;
+    private String contactIp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulated_home_screen);
 
-        ImageButton phoneButton = findViewById(R.id.phoneIconButton);
+        //get data from previous intent.
+        Intent intent = getIntent();
+        displayName = intent.getStringExtra(ConnectActivity.CONTACT_DISPLAYNAME);
+        contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
+        contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
         //set listener for correct application (phone app)
+        ImageButton phoneButton = findViewById(R.id.phoneIconButton);
         phoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent dialpad = new Intent(SimulatedHomeScreenActivity.this, SimulatedDialpadActivity.class);
-
+                // Send this information to the SimulatedDialpad and start that activity
+                dialpad.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+                dialpad.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+                dialpad.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
                 startActivity(dialpad);
             }
         });
