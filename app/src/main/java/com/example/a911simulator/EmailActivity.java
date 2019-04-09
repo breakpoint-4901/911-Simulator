@@ -1,7 +1,5 @@
 package com.example.a911simulator;
 
-import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -33,7 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -92,11 +87,6 @@ public class EmailActivity extends AppCompatActivity {
 
                                 //clear text
                                 emailEditText.setText("", TextView.BufferType.EDITABLE);
-
-                                //send to home (unnecessary b.c. we may want multiple emails sent out)
-                                //causes email intent to never showup
-                                //Intent homeIntent = new Intent(EmailActivity.this, HomeActivity.class);
-                                //startActivity(homeIntent);
                             }
                             catch(android.content.ActivityNotFoundException ex) {
                                 Toast.makeText(EmailActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
@@ -176,13 +166,8 @@ public class EmailActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    //returns the package name (e.g. com.example.a911simulator)
-    public String getPackage(){
-        return getApplicationContext().getPackageName();
-    }
-
     //converts an input stream into an intent-ready file
-    public File streamToFile(InputStream in) throws IOException {
+    private File streamToFile(InputStream in) throws IOException {
         final File tempFile = File.createTempFile("survey", ".pdf", EmailActivity.this.getExternalCacheDir());
 
         tempFile.deleteOnExit();
@@ -195,7 +180,7 @@ public class EmailActivity extends AppCompatActivity {
     }
 
     //creates an intent to handle emails and passes-in the appropriate 'TO' address
-    public Intent emailIntent(String[] addresses){
+    private Intent emailIntent(String[] addresses){
         //create email intent
         Intent emailIntent = new Intent();
         emailIntent.setAction(Intent.ACTION_SEND);
@@ -224,7 +209,7 @@ public class EmailActivity extends AppCompatActivity {
     }
 
     //tries to access a website with high uptime to determine whether we have internet connection
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
         if (isNetworkAvailable()) {
             try {
                 HttpsURLConnection urlc = (HttpsURLConnection)

@@ -7,6 +7,7 @@
     <!-- Our colors -->
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#A9A9A9</color>
 
     <!-- Colors from NCT -->
     <color name="NCTBlue">#002066</color>

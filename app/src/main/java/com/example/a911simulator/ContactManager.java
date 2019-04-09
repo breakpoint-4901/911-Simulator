@@ -190,12 +190,12 @@ public class ContactManager {
                     if(action.equals("ADD:")) {
                         // Add notification received. Attempt to add contact
                         Log.i(LOG_TAG, "Listener received ADD request");
-                        addContact(data.substring(4, data.length()), packet.getAddress());
+                        addContact(data.substring(4), packet.getAddress());
                     }
                     else if(action.equals("BYE:")) {
                         // Bye notification received. Attempt to remove contact
                         Log.i(LOG_TAG, "Listener received BYE request");
-                        removeContact(data.substring(4, data.length()));
+                        removeContact(data.substring(4));
                     }
                     else {
                         // Invalid notification received

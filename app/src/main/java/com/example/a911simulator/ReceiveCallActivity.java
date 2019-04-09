@@ -153,7 +153,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
         textContactName.setText(""+contactName);
 
         TextView textContactIP = findViewById(R.id.makeCallipAddress);
-        textContactIP.setText(""+contactIp);
+        textContactIP.setText("Their IP: "+contactIp);
 
         //start an async function call for changing the time on our textview
     }

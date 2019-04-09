@@ -123,7 +123,7 @@ public class ConnectActivity extends AppCompatActivity {
 
                     // Send this information to the ScenarioGenerator and start that activity
                     String address = ip.toString();
-                    address = address.substring(1, address.length());
+                    address = address.substring(1);
                     Intent intent = new Intent(ConnectActivity.this, StudentScenarioActivity.class);
                     intent.putExtra(CONTACT_NAME, contact);
                     intent.putExtra(ROLE, role);
