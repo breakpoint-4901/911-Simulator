@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+
 
 public class SimulatedHomeScreenActivity extends AppCompatActivity {
 
@@ -39,5 +42,11 @@ public class SimulatedHomeScreenActivity extends AppCompatActivity {
         });
 
         //TODO: the other apps and 'correction' functionality
+
+    }
+    public void didTapButton(View view) {
+        ImageButton glow_button = findViewById(R.id.glow_button);
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.glow);
+        glow_button.startAnimation(myAnim);
     }
 }

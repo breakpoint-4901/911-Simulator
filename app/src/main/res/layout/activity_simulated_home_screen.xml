@@ -4,20 +4,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/unt_wallpaper"
     tools:context=".SimulatedHomeScreenActivity">
 
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pin_bar"
+        android:layout_width="443dp"
+        android:layout_height="86dp"
+        android:background="#33FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/glow_button"
+            android:layout_width="56dp"
+            android:layout_height="59dp"
+            android:background="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneIconButton"
+            app:layout_constraintEnd_toEndOf="@+id/phoneIconButton"
+            app:layout_constraintStart_toStartOf="@+id/phoneIconButton"
+            app:layout_constraintTop_toTopOf="@+id/phoneIconButton"
+            app:srcCompat="@drawable/green_glow" />
+
+        <ImageButton
+            android:id="@+id/phoneIconButton"
+            android:layout_width="56dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@string/phone_description"
+            android:cropToPadding="false"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/phone_icon_27" />
+
+        <ImageButton
+            android:id="@+id/messaging_button"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/messaging_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/phoneIconButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/messages_icon" />
+
+        <ImageButton
+            android:id="@+id/mail_button"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/mai_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/messaging_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/main_icon" />
+
+        <ImageButton
+            android:id="@+id/chrome_icon"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/chrome_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mail_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chrome_icon" />
+
+    </android.support.constraint.ConstraintLayout>
+
     <ImageButton
-        android:id="@+id/phoneIconButton"
-        android:layout_width="87dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:minHeight="50dp"
+        android:id="@+id/maps_icon"
+        android:layout_width="54dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="150dp"
+        android:background="@null"
+        android:contentDescription="@strings/maps_icon"
+        android:onClick="didTapButton"
         android:minWidth="50dp"
+        android:minHeight="50dp"
         android:scaleType="fitXY"
-        android:contentDescription="@string/phone_description"
-        android:cropToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/phone_icon" />
+        app:srcCompat="@drawable/maps" />
+
 </android.support.constraint.ConstraintLayout>
