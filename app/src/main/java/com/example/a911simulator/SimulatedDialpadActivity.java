@@ -3,7 +3,6 @@ package com.example.a911simulator;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -19,7 +18,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
 
     //private String dialedNumber;
     //create an animation
-    public AlphaAnimation blinkAnimation;
+    private AlphaAnimation blinkAnimation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,7 +251,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
         });
     }
 
-    public static String getTextFromTextView(TextView tv){
+    private static String getTextFromTextView(TextView tv){
         try{
             return tv.getText().toString();
         }
@@ -263,7 +262,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
 
     //takes in text view to grab string and append
     public static String appendDialed(String dialedNum, String pressedBtn){
-        return dialedNum += pressedBtn;
+        return dialedNum + pressedBtn;
     }
 
     public static String removeLastChar(String s){

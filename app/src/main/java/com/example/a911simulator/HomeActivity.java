@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
-    final String [] supportedLanguages = {"English","Español"};
+    private final String [] supportedLanguages = {"English","Español"};
     String [] supportedRoles = {};
     PermissionManager permissionManager; //used to requesting/checking permissions
 
@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //takes in a button and increases its 'hit box' for ui tapping
-    public void increaseHitAreaOfBy(final Button btn, final int delta){
+    private void increaseHitAreaOfBy(final Button btn, final int delta){
         final View parent = (View) btn.getParent();
         parent.post(new Runnable() {
             @Override
@@ -264,7 +264,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //load language saved in shared preferences
-    public void loadLocale(){
+    private void loadLocale(){
         SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String language = preferences.getString("My_Lang", "");
         setLocale(language);

@@ -99,7 +99,7 @@ public class TeacherActivity extends AppCompatActivity {
 
                                 Intent intent = new Intent(getApplicationContext(), ReceiveCallActivity.class);
                                 intent.putExtra(ConnectActivity.CONTACT_NAME, name);
-                                intent.putExtra(ConnectActivity.CONTACT_IP, address.substring(1, address.length()));
+                                intent.putExtra(ConnectActivity.CONTACT_IP, address.substring(1));
                                 intent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
                                 intent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
                                 startActivity(intent);
