@@ -116,6 +116,7 @@ public class ConnectActivity extends AppCompatActivity {
                         alert.show();
                         return;
                     }
+                    radioGroup.clearCheck();
                     IN_CALL = true;
 
                     // Send this information to the ScenarioGenerator and start that activity
