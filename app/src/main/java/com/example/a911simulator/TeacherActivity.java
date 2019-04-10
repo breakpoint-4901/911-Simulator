@@ -45,7 +45,7 @@ public class TeacherActivity extends AppCompatActivity {
 
         TextView deviceName = findViewById(R.id.deviceIdentity);
         deviceName.setText(displayName + "");
-        contactManager = new ContactManager(displayName, broadcastIP);
+        contactManager = new ContactManager(displayName, broadcastIP, getBaseContext());
 
         STARTED = true;
         //start the listener
@@ -165,7 +165,7 @@ public class TeacherActivity extends AppCompatActivity {
         Log.i(LOG_TAG, "App restarted!");
         IN_CALL = false;
         STARTED = true;
-        contactManager = new ContactManager(displayName, broadcastIP);
+        contactManager = new ContactManager(displayName, broadcastIP, getBaseContext());
         startCallListener();
     }
 }

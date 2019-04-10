@@ -15,6 +15,9 @@
     <uses-permission
         android:name="android.permission.RECORD_AUDIO"
         android:required="true" />
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"
+        android:required="true" />
 
     <uses-feature android:name="android.hardware.screen.portrait" />
 
