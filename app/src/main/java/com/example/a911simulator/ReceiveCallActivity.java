@@ -159,7 +159,7 @@ public class ReceiveCallActivity extends AppCompatActivity {
     }
 
     //returns a string formatted as: "MM DD" or "Feb 17"
-    private String getMMDD() {
+    public static String getMMDD() {
         Date date = new Date();
         String mmdd = "MMM dd"; //the format we wish to return
         String result;
