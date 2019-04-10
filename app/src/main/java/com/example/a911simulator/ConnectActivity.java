@@ -18,10 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InterfaceAddress;
-import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Random;
@@ -33,7 +30,7 @@ public class ConnectActivity extends AppCompatActivity {
     private ContactManager contactManager;
     private String displayName;
     private String role;
-    private InetAddress broadcastIP;
+    private InetAddress deviceIP;
     private boolean STARTED = false;
     private boolean IN_CALL = false; //i believe th is is just used for the ON_STOP and restart methods.
 
@@ -63,12 +60,12 @@ public class ConnectActivity extends AppCompatActivity {
         role = intent.getStringExtra(HomeActivity.ROLE);
 
         //the teacher should never need to press a button.
-        broadcastIP = getBroadcastIp();
+        deviceIP = getThisIP();
         if("teacher".equals(role)) {
             finish();
             Intent tIntent = new Intent(ConnectActivity.this, TeacherActivity.class);
             tIntent.putExtra(CONTACT_DISPLAYNAME, displayName);
-            tIntent.putExtra(BROADCAST, broadcastIP);
+            tIntent.putExtra(BROADCAST, deviceIP);
             startActivity(tIntent);
         }
 
@@ -142,7 +139,7 @@ public class ConnectActivity extends AppCompatActivity {
 
         ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setVisibility(View.VISIBLE);
-        contactManager = new ContactManager(displayName, broadcastIP);
+        contactManager = new ContactManager(displayName, deviceIP, getBaseContext());
 
         //update our contacts [scrollView] every 5 seconds
         handler = new Handler();
@@ -174,36 +171,8 @@ public class ConnectActivity extends AppCompatActivity {
         radioGroup.clearCheck();
     }
 
-    //getBroadcastIp helper
-    private int getNetmask(int ipAddress) {
-        try {
-
-            // Convert device IP address to InetAddress class
-            byte[] quads = new byte[4];
-            for (int k = 0; k < 4; k++)
-                quads[k] = (byte) (ipAddress >> (k * 8));
-            InetAddress inetAddress = InetAddress.getByAddress(quads);
-
-            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
-
-            // Get Network Prefix
-            int netPrefix = 0;
-            for (InterfaceAddress address : networkInterface.getInterfaceAddresses()) {
-                netPrefix = (int)address.getNetworkPrefixLength();
-            }
-
-            // Convert Prefix to Mask
-            int mask = 0xffffffff << (32 - netPrefix);
-            return Integer.reverseBytes(mask);
-        }
-        catch (IOException e) {
-            Log.e(LOG_TAG, e.getMessage());
-            return -1;
-        }
-
-    }
-    private InetAddress getBroadcastIp() {
-        // Function to return the broadcast address, based on the IP address of the device
+    private InetAddress getThisIP() {
+        // Function to return the IP address of the device
         try {
 
             WifiManager wifi = (WifiManager) getSystemService(WIFI_SERVICE);
@@ -211,18 +180,16 @@ public class ConnectActivity extends AppCompatActivity {
 
             // Get device IP address
             int ipAddress = dhcp.ipAddress;
-            int netMask = getNetmask(ipAddress);
-
-            int broadcast = (ipAddress & netMask) | ~netMask;
             byte[] quads = new byte[4];
             for (int k = 0; k < 4; k++)
-                quads[k] = (byte) (broadcast >> (k * 8));
-            InetAddress out = InetAddress.getByAddress(quads);
-            return out;
+                quads[k] = (byte) (ipAddress >> (k * 8));
+            InetAddress IP = InetAddress.getByAddress(quads);
+
+            return IP;
         }
         catch(UnknownHostException e) {
 
-            Log.e(LOG_TAG, "UnknownHostException in getBroadcastIP: " + e);
+            Log.e(LOG_TAG, "UnknownHostException in getThisIP: " + e);
             return null;
         }
     }
@@ -264,7 +231,7 @@ public class ConnectActivity extends AppCompatActivity {
 
         IN_CALL = false;
         STARTED = true;
-        contactManager = new ContactManager(displayName, getBroadcastIp());
+        contactManager = new ContactManager(displayName, getThisIP(), getBaseContext());
         handler = new Handler();
 
         //restart our handler

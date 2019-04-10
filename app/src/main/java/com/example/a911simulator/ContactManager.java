@@ -1,31 +1,41 @@
 package com.example.a911simulator;
 
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
+import java.lang.Object;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class ContactManager {
     private static final String LOG_TAG = "ContactManager";
-    public static final int BROADCAST_PORT = 50001; // Socket on which packets are sent/received
     private static final int BROADCAST_INTERVAL = 10000; // Milliseconds
     private static final int BROADCAST_BUF_SIZE = 1024;
+    private static final int MULTICAST_PORT = 6789;
+    private static final String MULTICAST_GROUP = "228.5.6.7";
     private boolean BROADCAST = true;
     private boolean LISTEN = true;
     private HashMap<String, InetAddress> contacts;
-    private InetAddress broadcastIP;
+    private InetAddress parentIP;
+    private Context context;
 
-    public ContactManager(String name, InetAddress broadcastIP) {
+    public ContactManager(String name, InetAddress parentIP, Context context) {
 
         contacts = new HashMap<String, InetAddress>();
-        this.broadcastIP = broadcastIP;
+        this.parentIP = parentIP;
+        this.context = context;
         listen();
-        broadcastName(name, broadcastIP);
+        broadcastName(name);
     }
 
     public HashMap<String, InetAddress> getContacts() {
@@ -35,7 +45,7 @@ public class ContactManager {
 
     public void addContact(String name, InetAddress address) {
         // If the contact is not already known to us, add it
-        if(!contacts.containsKey(name)) {
+        if(!contacts.containsKey(name) && !address.equals(parentIP)) {
 
             Log.i(LOG_TAG, "Adding contact: " + name);
             contacts.put(name, address);
@@ -43,7 +53,6 @@ public class ContactManager {
             return;
         }
         Log.i(LOG_TAG, "Contact already exists: " + name);
-        return;
     }
 
     public void removeContact(String name) {
@@ -56,7 +65,6 @@ public class ContactManager {
             return;
         }
         Log.i(LOG_TAG, "Cannot remove contact. " + name + " does not exist.");
-        return;
     }
 
     public void bye(final String name) {
@@ -67,17 +75,21 @@ public class ContactManager {
             public void run() {
 
                 try {
+                    MulticastSocket socket = new MulticastSocket(MULTICAST_PORT);
+                    InetAddress group = InetAddress.getByName(MULTICAST_GROUP); // multicast group
+                    socket.joinGroup(group);
+
                     Log.i(LOG_TAG, "Attempting to broadcast BYE notification!");
                     String notification = "BYE:"+name;
                     byte[] message = notification.getBytes();
-                    DatagramSocket socket = new DatagramSocket();
-                    socket.setBroadcast(true);
-                    DatagramPacket packet = new DatagramPacket(message, message.length, broadcastIP, BROADCAST_PORT);
+
+                    DatagramPacket packet = new DatagramPacket(message, message.length, group, MULTICAST_PORT);
                     socket.send(packet);
                     Log.i(LOG_TAG, "Broadcast BYE notification!");
+
+                    socket.leaveGroup(group);
                     socket.disconnect();
                     socket.close();
-                    return;
                 }
                 catch(SocketException e) {
 
@@ -92,7 +104,7 @@ public class ContactManager {
         byeThread.start();
     }
 
-    public void broadcastName(final String name, final InetAddress broadcastIP) {
+    public void broadcastName(final String name) {
         // Broadcasts the name of the device at a regular interval
         Log.i(LOG_TAG, "Broadcasting started!");
         Thread broadcastThread = new Thread(new Runnable() {
@@ -100,45 +112,57 @@ public class ContactManager {
             @Override
             public void run() {
 
+                WifiManager manager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+                WifiInfo wifiInfo = manager.getConnectionInfo();
+
+                WifiManager.MulticastLock multicastLock = manager.createMulticastLock(String.valueOf(System.currentTimeMillis()));
+                multicastLock.setReferenceCounted(true);
+                multicastLock.acquire();
+
                 try {
 
+                    InetAddress group = InetAddress.getByName(MULTICAST_GROUP); // multicast group
                     String request = "ADD:"+name;
                     byte[] message = request.getBytes();
-                    DatagramSocket socket = new DatagramSocket();
-                    socket.setBroadcast(true);
-                    DatagramPacket packet = new DatagramPacket(message, message.length, broadcastIP, BROADCAST_PORT);
-                    while(BROADCAST) {
 
-                        socket.send(packet);
+                    // join multicast group
+                    MulticastSocket s = new MulticastSocket(MULTICAST_PORT);
+                    s.joinGroup(group);
+                    DatagramPacket packet = new DatagramPacket(message, message.length, group, MULTICAST_PORT);
+                    while(BROADCAST) {
+                        s.send(packet);
                         Log.i(LOG_TAG, "Broadcast packet sent: " + packet.getAddress().toString());
                         Thread.sleep(BROADCAST_INTERVAL);
                     }
                     Log.i(LOG_TAG, "Broadcaster ending!");
-                    socket.disconnect();
-                    socket.close();
-                    return;
+                    s.leaveGroup(group);
+                    s.disconnect();
+                    s.close();
                 }
                 catch(SocketException e) {
 
-                    Log.e(LOG_TAG, "SocketExceltion in broadcast: " + e);
+                    Log.e(LOG_TAG, "SocketException in broadcast: " + e);
                     Log.i(LOG_TAG, "Broadcaster ending!");
-                    return;
                 }
                 catch(IOException e) {
 
                     Log.e(LOG_TAG, "IOException in broadcast: " + e);
                     Log.i(LOG_TAG, "Broadcaster ending!");
-                    return;
                 }
                 catch(InterruptedException e) {
 
                     Log.e(LOG_TAG, "InterruptedException in broadcast: " + e);
                     Log.i(LOG_TAG, "Broadcaster ending!");
-                    return;
+                }
+
+                if (multicastLock != null) {
+                    multicastLock.release();
+                    multicastLock = null;
                 }
             }
         });
         broadcastThread.start();
+
     }
 
     public void stopBroadcasting() {
@@ -153,15 +177,31 @@ public class ContactManager {
 
             @Override
             public void run() {
+                WifiManager manager = (WifiManager) context.getSystemService(WIFI_SERVICE);
+                WifiInfo wifiInfo = manager.getConnectionInfo();
 
-                DatagramSocket socket;
+                WifiManager.MulticastLock multicastLock = manager.createMulticastLock(String.valueOf(System.currentTimeMillis()));
+                multicastLock.setReferenceCounted(true);
+                multicastLock.acquire();
+
+                MulticastSocket socket;
+
                 try {
 
-                    socket = new DatagramSocket(BROADCAST_PORT);
+                    socket = new MulticastSocket(MULTICAST_PORT);
+                    socket.setReuseAddress(true);
+                    // Join multicast group
+                    InetAddress group = InetAddress.getByName(MULTICAST_GROUP); // multicast group
+                    socket.joinGroup(group);
                 }
                 catch (SocketException e) {
 
-                    Log.e(LOG_TAG, "SocketExcepion in listener: " + e);
+                    Log.e(LOG_TAG, "SocketException in listener: " + e);
+                    return;
+                }
+                catch(IOException e) {
+
+                    Log.e(LOG_TAG, "IOException in listener: " + e);
                     return;
                 }
                 byte[] buffer = new byte[BROADCAST_BUF_SIZE];
@@ -171,14 +211,21 @@ public class ContactManager {
                     listen(socket, buffer);
                 }
                 Log.i(LOG_TAG, "Listener ending!");
+
+                if (multicastLock != null) {
+                    multicastLock.release();
+                    multicastLock = null;
+                }
+
                 socket.disconnect();
                 socket.close();
-                return;
             }
 
-            public void listen(DatagramSocket socket, byte[] buffer) {
+            public void listen(MulticastSocket socket, byte[] buffer) {
 
                 try {
+
+
                     //Listen in for new notifications
                     Log.i(LOG_TAG, "Listening for a packet!");
                     DatagramPacket packet = new DatagramPacket(buffer, BROADCAST_BUF_SIZE);
@@ -187,6 +234,7 @@ public class ContactManager {
                     String data = new String(buffer, 0, packet.getLength());
                     Log.i(LOG_TAG, "Packet received: " + data);
                     String action = data.substring(0, 4);
+
                     if(action.equals("ADD:")) {
                         // Add notification received. Attempt to add contact
                         Log.i(LOG_TAG, "Listener received ADD request");
@@ -210,19 +258,16 @@ public class ContactManager {
 
                         listen(socket, buffer);
                     }
-                    return;
                 }
                 catch(SocketException e) {
 
                     Log.e(LOG_TAG, "SocketException in listen: " + e);
                     Log.i(LOG_TAG, "Listener ending!");
-                    return;
                 }
                 catch(IOException e) {
 
                     Log.e(LOG_TAG, "IOException in listen: " + e);
                     Log.i(LOG_TAG, "Listener ending!");
-                    return;
                 }
             }
         });
