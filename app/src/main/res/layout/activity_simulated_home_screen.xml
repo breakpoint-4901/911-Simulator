@@ -4,9 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/unt_wallpaper"
-    tools:context=".SimulatedHomeScreenActivity">
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background2"
+    tools:context=".SimulatedHomeScreenActivity"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+
+    <ImageButton
+        android:id="@+id/fortnite_icon"
+        android:layout_width="54dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="148dp"
+        android:background="@null"
+        android:contentDescription="@strings/maps_icon"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:onClick="didTapButton"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/fortnite" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/pin_bar"
@@ -18,7 +36,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/glow_button"
             android:layout_width="56dp"
             android:layout_height="59dp"
@@ -122,4 +140,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/maps" />
 
+    <TextView
+        android:id="@+id/simulation_text"
+        android:layout_width="410dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:rotation="65"
+        android:text="SIMULATION"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toTopOf="@+id/pin_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/maps_text"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:text="Maps"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="@+id/maps_icon"
+        app:layout_constraintStart_toStartOf="@+id/maps_icon"
+        app:layout_constraintTop_toBottomOf="@+id/maps_icon" />
+
+    <TextView
+        android:id="@+id/fortnite_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fortnite"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/fortnite_icon"
+        app:layout_constraintStart_toStartOf="@+id/fortnite_icon"
+        app:layout_constraintTop_toBottomOf="@+id/fortnite_icon" />
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month" />
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="193dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
