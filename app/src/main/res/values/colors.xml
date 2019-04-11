@@ -17,4 +17,5 @@
 
     <!--Colors for Android Call screen-->
     <color name="CallScreenGreen">#6BBE4B</color>
+    <color name="WatermarkGrey">#40A9A9A9</color>
 </resources>

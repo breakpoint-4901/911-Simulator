@@ -273,4 +273,22 @@
         app:layout_constraintTop_toBottomOf="@+id/sixImageBtn"
         app:srcCompat="@drawable/number9" />
 
+    <TextView
+        android:id="@+id/simulation_text"
+        android:layout_width="410dp"
+        android:layout_height="490dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:rotation="65"
+        android:text="@string/receive_call_simulation"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        android:textColor="@color/WatermarkGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
