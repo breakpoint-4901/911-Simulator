@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class ReceiveCallActivityTest {
 
     @Test
-    public static void isValidDate_Equals() {
+    public void isValidDate_Equals() {
         assertTrue(ReceiveCallActivity.getMMDD() != null);
         assertTrue(ReceiveCallActivity.getMMDD().length() > 3);
     }
