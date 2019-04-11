@@ -1,12 +1,17 @@
 package com.example.a911simulator;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.time.OffsetDateTime;
 
 
 public class SimulatedHomeScreenActivity extends AppCompatActivity {
@@ -40,12 +45,28 @@ public class SimulatedHomeScreenActivity extends AppCompatActivity {
                 startActivity(dialpad);
             }
         });
-
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        //getWindow().setNavigationBarColor(Color.TRANSPARENT);
         //TODO: the other apps and 'correction' functionality
 
+        TextView textView = findViewById(R.id.day_of_week);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            OffsetDateTime offset = OffsetDateTime.now();
+            textView.setText(String.valueOf(offset.getDayOfWeek() + ", " + offset.getYear()));
+        }
+
+        TextView textViewMonth = findViewById(R.id.month);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            OffsetDateTime offset = OffsetDateTime.now();
+            textViewMonth.setText(String.valueOf(offset.getMonth() + " " + offset.getDayOfMonth()));
+        }
     }
+
     public void didTapButton(View view) {
-        ImageButton glow_button = findViewById(R.id.glow_button);
+        ImageView glow_button = findViewById(R.id.glow_button);
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.glow);
         glow_button.startAnimation(myAnim);
     }
