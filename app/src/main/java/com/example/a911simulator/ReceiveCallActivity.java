@@ -2,6 +2,13 @@ package com.example.a911simulator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -23,7 +32,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //TEACHER
-public class ReceiveCallActivity extends AppCompatActivity {
+public class ReceiveCallActivity extends AppCompatActivity implements SensorEventListener {
     private static final String LOG_TAG = "ReceiveCall";
     private static final int BROADCAST_PORT = 50002;
     private static final int BUF_SIZE = 1024;
@@ -35,6 +44,9 @@ public class ReceiveCallActivity extends AppCompatActivity {
     private boolean IN_CALL = false;
     private AudioCall call;
 
+    //used for to enable/disable the screen for the proximity sensor.
+    private SensorManager sensorManager;
+    private Sensor proximity;
     LayoutInflater inflater;
     View view;
 
@@ -69,6 +81,8 @@ public class ReceiveCallActivity extends AppCompatActivity {
 
         startListener();
 
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        proximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         // ACCEPT BUTTON
         ImageView acceptButton = findViewById(R.id.buttonAccept);
         acceptButton.setOnClickListener(new OnClickListener() {
@@ -274,6 +288,27 @@ public class ReceiveCallActivity extends AppCompatActivity {
     }
 
     @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+    }
+
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        float distance = event.values[0];
+
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (distance < event.sensor.getMaximumRange()) { //near
+                //dim screen
+               
+                //disable touch
+            } else {
+                //far
+
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.receive_call, menu);
@@ -283,5 +318,26 @@ public class ReceiveCallActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //do nothing.
+    }
+
+    //TODO: how do we handle the call if the phone state changes.
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener((SensorEventListener) this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener((SensorEventListener) this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener((SensorEventListener) this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 }
