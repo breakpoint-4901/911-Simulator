@@ -130,30 +130,30 @@ public class TeacherActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         if(STARTED) {
 
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            STARTED = false;
+            //STARTED = false;
         }
-        stopCallListener();
+       // stopCallListener();
         Log.i(LOG_TAG, "App paused!");
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         //tells the broadcaster the device is no longer available.
+        super.onStop();
         if(STARTED) {
 
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            STARTED = false;
+            //STARTED = false;
         }
-        super.onStop();
         Log.i(LOG_TAG, "App stopped!");
         stopCallListener();
         if(!IN_CALL) {
@@ -161,7 +161,7 @@ public class TeacherActivity extends AppCompatActivity {
         }
     }
     @Override
-    public void onRestart() {
+    protected void onRestart() {
         super.onRestart();
         Log.i(LOG_TAG, "App restarted!");
         IN_CALL = false;

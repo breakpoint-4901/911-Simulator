@@ -1,5 +1,12 @@
 package com.example.a911simulator;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.support.constraint.ConstraintLayout;
+import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,7 +27,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 //STUDENT
-public class MakeCallActivity extends AppCompatActivity {
+public class MakeCallActivity extends AppCompatActivity implements SensorEventListener {
 
     private static final String LOG_TAG = "MakeCall";
     private static final int BROADCAST_PORT = 50002;
@@ -31,6 +40,12 @@ public class MakeCallActivity extends AppCompatActivity {
     private AudioCall call;
     TextView textView;
     TextView ipAddress;
+
+    private boolean DIMSCREEN = false;
+    private SensorManager sensorManager;
+    private Sensor proximity;
+    View dimScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,6 +65,18 @@ public class MakeCallActivity extends AppCompatActivity {
         ipAddress = findViewById(R.id.makeCallipAddress);
         ipAddress.setText("Their IP: " + contactIp);
 
+        //prepare the view
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //initialize our layout
+        ConstraintLayout layout=findViewById(R.id.parentLayoutAnswer); //grab the container for our current view.
+
+        dimScreen=inflater.inflate(R.layout.activity_dim_screen,layout, false);  //convert our XML into an object
+        layout.addView(dimScreen); //import the xml into our activity
+        dimScreen.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
+
+        //used for prximity sensors
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        proximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+
         startListener();
         makeCall();
 
@@ -59,10 +86,12 @@ public class MakeCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Button to end the call has been pressed
-                endCall();
-                //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
-                Intent connect = new Intent(MakeCallActivity.this, HomeActivity.class);
-                startActivity(connect);
+               if(!DIMSCREEN) {
+                   endCall();
+                   //move to revert to a previous intent when a call is rejected.
+                   Intent connect = new Intent(MakeCallActivity.this, HomeActivity.class);
+                   startActivity(connect);
+               }
             }
         });
     }
@@ -220,5 +249,60 @@ public class MakeCallActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //do nothing.
+    }
+
+    @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+    }
+
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        float distance = event.values[0];
+
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY && IN_CALL) {
+            if (distance < event.sensor.getMaximumRange()) { //near
+                //dim screen
+                dimScreen.setVisibility(LinearLayout.VISIBLE); // bring the activity_answer_call.xml to the foreground.
+
+                //disable touch
+                DIMSCREEN = true;
+
+                //disable status bar
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            } else {
+                //far
+                //un-dim screen
+                dimScreen.setVisibility(LinearLayout.GONE); // bring the activity_answer_call.xml to the foreground.
+
+                //enable touch
+                DIMSCREEN = false;
+
+                //enable status bar
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+        }
+    }
+
+    //TODO: how do we handle the call if the phone state changes.
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 }

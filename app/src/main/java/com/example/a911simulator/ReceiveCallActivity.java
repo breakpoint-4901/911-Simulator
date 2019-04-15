@@ -9,8 +9,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +45,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     private String displayName;
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
+    private boolean DIMSCREEN = false;
     private AudioCall call;
 
     //used for to enable/disable the screen for the proximity sensor.
@@ -49,6 +53,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     private Sensor proximity;
     LayoutInflater inflater;
     View view;
+    View dimScreen;
 
 
     @Override
@@ -63,6 +68,10 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
         layout.addView(view); //import the xml into our activity
 
         view.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
+
+        dimScreen=inflater.inflate(R.layout.activity_dim_screen,layout, false);  //convert our XML into an object
+        layout.addView(dimScreen); //import the xml into our activity
+        dimScreen.setVisibility(ConstraintLayout.GONE); //hide the XML for when a user accepts a call.
 
         //pull the display name from the previous intent.
         Intent intent = getIntent();
@@ -129,7 +138,8 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
                 sendMessage("REJ:");
                 endCall();
 
-                //move to revert to a previous intent when a call is rejected. TODO Change this logic (where do we want the user to be taken)
+                //move to revert to a previous intent when a call is rejected.
+
                 returnToWaitingOnStudent();
             }
         });
@@ -140,11 +150,12 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
 
             @Override
             public void onClick(View v) {
-
-                Log.i(LOG_TAG, "Student hangup ");
-                //move to revert to a previous intent after a call ends. TODO Change this logic (where do we want the user to be taken)
-                endCall();
-                returnToWaitingOnStudent();
+                if(!DIMSCREEN) {
+                    Log.i(LOG_TAG, "Student hangup ");
+                    //move to revert to a previous intent after a call ends.
+                    endCall();
+                    returnToWaitingOnStudent();
+                }
             }
         });
     }
@@ -154,6 +165,8 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
         Intent tIntent = new Intent(ReceiveCallActivity.this, TeacherActivity.class);
         tIntent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
         tIntent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
+        Log.d(LOG_TAG, "Return to waiting on student");
+
         startActivity(tIntent);
     }
 
@@ -221,6 +234,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
                             if(action.equals("END:")) {
                                 // End call notification received. End call
                                 endCall();
+                                returnToWaitingOnStudent(); //allow the student to be the one to hang up the call.
                             }
                             else {
                                 // Invalid notification received.
@@ -296,14 +310,27 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     public final void onSensorChanged(SensorEvent event) {
         float distance = event.values[0];
 
-        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY && IN_CALL) {
             if (distance < event.sensor.getMaximumRange()) { //near
                 //dim screen
-               
+                dimScreen.setVisibility(LinearLayout.VISIBLE); // bring the activity_answer_call.xml to the foreground.
+
                 //disable touch
+                DIMSCREEN = true;
+
+                //disable status bar
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             } else {
                 //far
+                //un-dim screen
+                dimScreen.setVisibility(LinearLayout.GONE); // bring the activity_answer_call.xml to the foreground.
 
+                //enable touch
+                DIMSCREEN = false;
+
+                //enable status bar
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
         }
     }
@@ -324,20 +351,20 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener((SensorEventListener) this);
+        sensorManager.unregisterListener(this);
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sensorManager.unregisterListener((SensorEventListener) this);
+        sensorManager.unregisterListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener((SensorEventListener) this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
 }

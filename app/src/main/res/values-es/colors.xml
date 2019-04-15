@@ -16,4 +16,7 @@
 
     <!--Colors for Android Call screen-->
     <color name="CallScreenGreen">#6BBE4B</color>
+
+    <!--Colors for DimScreen-->
+    <color name="dimScreen">#dd000000</color>
 </resources>
