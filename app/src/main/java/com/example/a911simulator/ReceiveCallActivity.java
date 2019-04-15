@@ -45,7 +45,6 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     private String displayName;
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
-    private boolean DIMSCREEN = false;
     private AudioCall call;
 
     //used for to enable/disable the screen for the proximity sensor.
@@ -150,24 +149,24 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
 
             @Override
             public void onClick(View v) {
-                if(!DIMSCREEN) {
-                    Log.i(LOG_TAG, "Student hangup ");
-                    //move to revert to a previous intent after a call ends.
-                    endCall();
-                    returnToWaitingOnStudent();
-                }
+
+                Log.i(LOG_TAG, "Teacher hangup ");
+                //move to revert to a previous intent after a call ends.
+                endCall();
+                returnToWaitingOnStudent();
+
             }
         });
     }
 
     private void returnToWaitingOnStudent() {
-        finish();
+
         Intent tIntent = new Intent(ReceiveCallActivity.this, TeacherActivity.class);
         tIntent.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
         tIntent.putExtra(ConnectActivity.BROADCAST, broadcastIP);
         Log.d(LOG_TAG, "Return to waiting on student");
-
         startActivity(tIntent);
+        finish();
     }
 
     private void answerCallXML() {
@@ -249,7 +248,6 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
                     Log.i(LOG_TAG, "Listener ending");
                     socket.disconnect();
                     socket.close();
-                    return;
                 }
                 catch(SocketException e) {
 
@@ -309,6 +307,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     @Override
     public final void onSensorChanged(SensorEvent event) {
         float distance = event.values[0];
+        ImageView endButton = findViewById(R.id.buttonEndCall1);
 
         if (event.sensor.getType() == Sensor.TYPE_PROXIMITY && IN_CALL) {
             if (distance < event.sensor.getMaximumRange()) { //near
@@ -316,7 +315,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
                 dimScreen.setVisibility(LinearLayout.VISIBLE); // bring the activity_answer_call.xml to the foreground.
 
                 //disable touch
-                DIMSCREEN = true;
+                endButton.setEnabled(false);
 
                 //disable status bar
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -327,8 +326,7 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
                 dimScreen.setVisibility(LinearLayout.GONE); // bring the activity_answer_call.xml to the foreground.
 
                 //enable touch
-                DIMSCREEN = false;
-
+                endButton.setEnabled(true);
                 //enable status bar
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }

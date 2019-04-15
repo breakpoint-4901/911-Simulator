@@ -155,7 +155,7 @@ public class TeacherActivity extends AppCompatActivity {
             //STARTED = false;
         }
         Log.i(LOG_TAG, "App stopped!");
-        stopCallListener();
+        //stopCallListener();
         if(!IN_CALL) {
             finish();
         }
