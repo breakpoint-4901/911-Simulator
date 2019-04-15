@@ -117,7 +117,6 @@ public class ConnectActivity extends AppCompatActivity {
                         }
                         radioGroup.clearCheck();
                         IN_CALL = true;
-                        STARTED = false;
                         // Send this information to the ScenarioGenerator and start that activity
                         String address = ip.toString();
                         address = address.substring(1);

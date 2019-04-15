@@ -2,12 +2,15 @@ package com.example.a911simulator;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -66,14 +69,17 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //creates an intent for the ConnectActivity class
-                ArrayList<String> denied = permissionManager.getStatus().get(0).denied; //queries a list of denied permissions
-                if( denied.size() == 0) {
-                    showRoleDialog();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"Please enable the permissions under app preferences.",Toast.LENGTH_LONG).show();
-                }
 
+                if(!checkWifiOnAndConnected()) { //we do not allow anyone to move forward unless wifi connection is enabled.
+                    Toast.makeText(getApplicationContext(),"Please connect to a hotspot or wireless network.",Toast.LENGTH_LONG).show();
+                } else {
+                    ArrayList<String> denied = permissionManager.getStatus().get(0).denied; //queries a list of denied permissions
+                    if (denied.size() == 0) {
+                        showRoleDialog();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enable the permissions under app preferences.", Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
 
@@ -155,6 +161,22 @@ public class HomeActivity extends AppCompatActivity {
         ArrayList<String> denied = permissionManager.getStatus().get(0).denied; //a container holding all of the granted permissions for this application
     }
 
+    private boolean checkWifiOnAndConnected() {
+        WifiManager wifiMgr = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiMgr.isWifiEnabled()) { // Wi-Fi adapter is ON
+
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+
+            if( wifiInfo.getNetworkId() == -1 ){
+                return false; // Not connected to an access point
+            }
+            return true; // Connected to an access point
+        }
+        else {
+            return false; // Wi-Fi adapter is OFF
+        }
+    }
     private void showChangeLanguageDialog(){
         //create alert dialog and pass in list of languages
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(HomeActivity.this);

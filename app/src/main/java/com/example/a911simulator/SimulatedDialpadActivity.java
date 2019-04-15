@@ -1,6 +1,9 @@
 package com.example.a911simulator;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
@@ -9,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SimulatedDialpadActivity extends AppCompatActivity {
 
@@ -209,13 +213,20 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
                 }
 
                 if(getTextFromTextView(numberDialedTextView).equals("911")){
-                    finish();
-                    Intent makeCall = new Intent(SimulatedDialpadActivity.this, MakeCallActivity.class);
-                    // Send this information to the SimulatedCall and start that activity
-                    makeCall.putExtra(ConnectActivity.CONTACT_NAME, contactName);
-                    makeCall.putExtra(ConnectActivity.CONTACT_IP, contactIp);
-                    makeCall.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
-                    startActivity(makeCall);
+                    if(!checkWifiOnAndConnected()) { //we do not allow anyone to move forward unless wifi connection is enabled.
+                        Toast.makeText(getApplicationContext(),"Please connect to a hotspot or wireless network.",Toast.LENGTH_LONG).show();
+                        finish();
+                        Intent homeActivity = new Intent(SimulatedDialpadActivity.this, HomeActivity.class);
+                        startActivity(homeActivity);
+                    } else {
+                        finish();
+                        Intent makeCall = new Intent(SimulatedDialpadActivity.this, MakeCallActivity.class);
+                        // Send this information to the SimulatedCall and start that activity
+                        makeCall.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+                        makeCall.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+                        makeCall.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+                        startActivity(makeCall);
+                    }
                 }
             }
         });
@@ -293,6 +304,22 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
                 return !btn.equals("call");
             default:
                 return true;
+        }
+    }
+    private boolean checkWifiOnAndConnected() {
+        WifiManager wifiMgr = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiMgr.isWifiEnabled()) { // Wi-Fi adapter is ON
+
+            WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+
+            if( wifiInfo.getNetworkId() == -1 ){
+                return false; // Not connected to an access point
+            }
+            return true; // Connected to an access point
+        }
+        else {
+            return false; // Wi-Fi adapter is OFF
         }
     }
 
