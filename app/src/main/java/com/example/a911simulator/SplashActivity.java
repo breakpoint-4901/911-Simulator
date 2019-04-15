@@ -25,4 +25,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, SPLASH_TIMEOUT);
     }
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

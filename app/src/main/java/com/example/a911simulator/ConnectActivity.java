@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class ConnectActivity extends AppCompatActivity {
 
-    static final String LOG_TAG = "UDPchat";
+    static final String LOG_TAG = "ConnectActivity";
     private ContactManager contactManager;
     private String displayName;
     private String role;
@@ -67,70 +67,71 @@ public class ConnectActivity extends AppCompatActivity {
             tIntent.putExtra(CONTACT_DISPLAYNAME, displayName);
             tIntent.putExtra(BROADCAST, deviceIP);
             startActivity(tIntent);
-        }
+        } else {
 
-        // START searching upon activity creation
-        startPeerSearch();
+            // START searching upon activity creation
+            startPeerSearch();
 
-        //return home button
-        Button homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                finish();
-                //creates an intent for the ConnectActivity class
-                //do we need to close anything? destroy current operation for memory management?
-                Intent connect = new Intent(ConnectActivity.this, HomeActivity.class);
-                startActivity(connect);
-            }
-        });
-
-
-        RadioGroup contactList = findViewById(R.id.contactList);
-        contactList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                // checkedId is the RadioButton selected
-
-                // Collect details about the selected contact
-                if (checkedId != -1) { //when the view updates, the state "changes" and -1 represents nothing clicked.
-                    Log.w(LOG_TAG, "" + checkedId);
-                    RadioButton radioButton = findViewById(checkedId);
-                    String contact = radioButton.getText().toString();
-                    InetAddress ip = contactManager.getContacts().get(contact);
-
-                    // Same Device, don't try to call itself
-                    if (contact.equals(displayName)) {
-                        // present an error message to the user
-                        Log.w(LOG_TAG, "Warning: Cannot Call Yourself");
-                        final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
-                        alert.setTitle("Oops");
-                        alert.setMessage("Cannot Call Yourself. Please Select Another Contact");
-                        alert.setButton(-1, "OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                alert.dismiss();
-                            }
-                        });
-                        alert.show();
-                        return;
-                    }
-                    radioGroup.clearCheck();
-                    IN_CALL = true;
-
-                    // Send this information to the ScenarioGenerator and start that activity
-                    String address = ip.toString();
-                    address = address.substring(1);
-                    Intent intent = new Intent(ConnectActivity.this, StudentScenarioActivity.class);
-                    intent.putExtra(CONTACT_NAME, contact);
-                    intent.putExtra(ROLE, role);
-                    intent.putExtra(CONTACT_IP, address);
-                    intent.putExtra(CONTACT_DISPLAYNAME, displayName);
-                    startActivity(intent);
+            //return home button
+            Button homeButton = findViewById(R.id.homeButton);
+            homeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    //creates an intent for the ConnectActivity class
+                    //do we need to close anything? destroy current operation for memory management?
+                    Intent connect = new Intent(ConnectActivity.this, HomeActivity.class);
+                    startActivity(connect);
                 }
-            }
-        });
+            });
+
+
+            RadioGroup contactList = findViewById(R.id.contactList);
+            contactList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                    // checkedId is the RadioButton selected
+
+                    // Collect details about the selected contact
+                    if (checkedId != -1) { //when the view updates, the state "changes" and -1 represents nothing clicked.
+                        Log.w(LOG_TAG, "" + checkedId);
+                        RadioButton radioButton = findViewById(checkedId);
+                        String contact = radioButton.getText().toString();
+                        InetAddress ip = contactManager.getContacts().get(contact);
+
+                        // Same Device, don't try to call itself
+                        if (contact.equals(displayName)) {
+                            // present an error message to the user
+                            Log.w(LOG_TAG, "Warning: Cannot Call Yourself");
+                            final AlertDialog alert = new AlertDialog.Builder(ConnectActivity.this).create();
+                            alert.setTitle("Oops");
+                            alert.setMessage("Cannot Call Yourself. Please Select Another Contact");
+                            alert.setButton(-1, "OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    alert.dismiss();
+                                }
+                            });
+                            alert.show();
+                            return;
+                        }
+                        radioGroup.clearCheck();
+                        IN_CALL = true;
+                        STARTED = false;
+                        // Send this information to the ScenarioGenerator and start that activity
+                        String address = ip.toString();
+                        address = address.substring(1);
+                        finish();
+                        Intent intent = new Intent(ConnectActivity.this, StudentScenarioActivity.class);
+                        intent.putExtra(CONTACT_NAME, contact);
+                        intent.putExtra(ROLE, role);
+                        intent.putExtra(CONTACT_IP, address);
+                        intent.putExtra(CONTACT_DISPLAYNAME, displayName);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
     }
 
     private void startPeerSearch() {
@@ -147,9 +148,11 @@ public class ConnectActivity extends AppCompatActivity {
         final int delay = 5000; //milliseconds
         handler.postDelayed(new Runnable(){
             public void run(){
-                Log.i(LOG_TAG, "Updating contacts list");
-                updateContactList();
-                handler.postDelayed(this, delay);
+                if(STARTED) {
+                    Log.i(LOG_TAG, "Updating contacts list .");
+                    updateContactList();
+                    handler.postDelayed(this, delay);
+                }
             }
         }, delay);
     }
@@ -196,27 +199,27 @@ public class ConnectActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         if(STARTED) {
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            //STARTED = false;
+            STARTED = false;
         }
         handler.removeCallbacksAndMessages(null);
         Log.i(LOG_TAG, "App paused!");
     }
 
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
 
         if(STARTED) {
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            //STARTED = false;
+            STARTED = false;
         }
         if(!IN_CALL) {
             finish();
@@ -226,7 +229,7 @@ public class ConnectActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestart() {
+    protected void onRestart() {
 
         super.onRestart();
 
@@ -239,11 +242,18 @@ public class ConnectActivity extends AppCompatActivity {
         final int delay = 5000; //milliseconds
         handler.postDelayed(new Runnable(){
             public void run(){
-                Log.i(LOG_TAG, "Updating contacts list");
-                updateContactList();
-                handler.postDelayed(this, delay);
+                if(STARTED) {
+                    Log.i(LOG_TAG, "Updating contacts list");
+                    updateContactList();
+                    handler.postDelayed(this, delay);
+                }
             }
         }, delay);
         Log.i(LOG_TAG, "App restarted!");
+    }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing.
     }
 }

@@ -30,7 +30,7 @@ public class TeacherActivity extends AppCompatActivity {
     private boolean STARTED = false;
 
     //logging
-    static final String LOG_TAG = "UDPchat";
+    static final String LOG_TAG = "TeacherActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,7 @@ public class TeacherActivity extends AppCompatActivity {
 
                                 IN_CALL = true;
 
+                                finish();
                                 Intent intent = new Intent(getApplicationContext(), ReceiveCallActivity.class);
                                 intent.putExtra(ConnectActivity.CONTACT_NAME, name);
                                 intent.putExtra(ConnectActivity.CONTACT_IP, address.substring(1));
@@ -136,7 +137,7 @@ public class TeacherActivity extends AppCompatActivity {
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            //STARTED = false;
+            STARTED = false;
         }
         stopCallListener();
         Log.i(LOG_TAG, "App paused!");
@@ -150,7 +151,7 @@ public class TeacherActivity extends AppCompatActivity {
             contactManager.bye(displayName);
             contactManager.stopBroadcasting();
             contactManager.stopListening();
-            //STARTED = false;
+            STARTED = false;
         }
         super.onStop();
         Log.i(LOG_TAG, "App stopped!");
@@ -167,5 +168,9 @@ public class TeacherActivity extends AppCompatActivity {
         STARTED = true;
         contactManager = new ContactManager(displayName, broadcastIP, getBaseContext());
         startCallListener();
+    }
+    @Override
+    public void onBackPressed() {
+        //do nothing.
     }
 }

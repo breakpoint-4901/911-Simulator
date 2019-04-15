@@ -253,4 +253,9 @@ public class HomeActivity extends AppCompatActivity {
         String language = preferences.getString("My_Lang", "");
         setLocale(language);
     }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

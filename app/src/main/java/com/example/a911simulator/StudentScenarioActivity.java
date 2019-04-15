@@ -87,4 +87,8 @@ public class StudentScenarioActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

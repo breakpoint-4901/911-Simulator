@@ -217,4 +217,8 @@ public class MakeCallActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

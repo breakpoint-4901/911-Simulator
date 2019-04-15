@@ -280,4 +280,8 @@ public class ReceiveCallActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

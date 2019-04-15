@@ -295,4 +295,9 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
                 return true;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //do nothing.
+    }
 }

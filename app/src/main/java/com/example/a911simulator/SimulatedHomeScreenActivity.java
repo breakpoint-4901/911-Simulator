@@ -70,4 +70,16 @@ public class SimulatedHomeScreenActivity extends AppCompatActivity {
         final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.glow);
         glow_button.startAnimation(myAnim);
     }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+        Intent simulatedScenario = new Intent(SimulatedHomeScreenActivity.this, StudentScenarioActivity.class);
+        // Send this information to the SimulatedDialpad and start that activity
+        simulatedScenario.putExtra(ConnectActivity.CONTACT_NAME, contactName);
+        simulatedScenario.putExtra(ConnectActivity.CONTACT_IP, contactIp);
+        simulatedScenario.putExtra(ConnectActivity.CONTACT_DISPLAYNAME, displayName);
+        startActivity(simulatedScenario);
+    }
 }
