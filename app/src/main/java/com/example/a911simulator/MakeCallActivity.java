@@ -59,8 +59,11 @@ public class MakeCallActivity extends AppCompatActivity implements SensorEventLi
         contactName = intent.getStringExtra(ConnectActivity.CONTACT_NAME);
         contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
+
+        int resId = getResources().getIdentifier("calling", "string", getPackageName());
+        String calling = getString(resId);
         textView = findViewById(R.id.makeCallContactName);
-        textView.setText("Calling: " + contactName);
+        textView.setText(calling +": " + contactName);
 
         ipAddress = findViewById(R.id.makeCallipAddress);
         ipAddress.setText("Their IP: " + contactIp);

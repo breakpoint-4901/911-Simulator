@@ -6,7 +6,8 @@
     <string name="welcome">¡Bienvenidos a la aplicación de simulación NCT9–1–1!</string>
     <string name="start_app">Empezar</string>
     <string name="settings">Cambiar Idioma</string>
-    <string name="choose_role">Choose Device Role…</string>
+    <!--Check-->
+    <string name="choose_role">Elegir un Aparato...</string>
     <string name="survey"><u>¿Necesitas la encuesta?</u></string>
     <string name="temp_student">Estudiante</string>
     <string-array name="device_roles">
@@ -27,11 +28,13 @@
     <string name="connection_status">Estado de conexión</string>
     <string name="connection_status2">Dispositivo no pareado</string>
     <string name="choose_language">Elige Lengua…</string>
-    <string name="device_name">Device Identity</string>
-    <string name="pair_devices">Pair Devices</string>
+    <!--Check-->
+    <string name="device_name">Identificatión de Aparato</string>
+    <!--Check-->
+    <string name="pair_devices">Emparejar los Aparatos</string>
 
     <!--activty_connect -->
-    <string name="connect_start">Comienzo</string>
+    <string name="connect_start">Buscando aparatos cercanos</string>
     <string name="display_name">Ingrese el nombre para mostrar:</string>
     <string name="select_contacts">Seleccione un contacto para llamar</string>
     <string name="update_contacts">Actualizar Contactos</string>
@@ -47,7 +50,7 @@
     <string name="backspace">backspace image</string>
 
     <!--menu directory (connections) -->
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
 
     <!-- Used in Make call activity -->
     <string name="incoming_call">Llamada entrante</string>
@@ -55,33 +58,33 @@
     <string name="reject_call">Rechazar</string>
 
     <!-- Used in receive call activity -->
-    <string name="calling">Vocación</string>
+    <string name="calling">Llamando</string>
 
     <!-- Used in receive call activity & make a call -->
     <string name="end_call">Finalizar llamada</string>
-    <string name="receive_call_callerid">Student\'s Phone ID</string>
-    <string name="receive_call_simulation">THIS IS A SIMULATION</string>
+    <string name="receive_call_callerid">Estudiantes identificatión del aparato___</string>
+    <string name="receive_call_simulation">ESTO ES UNA SIMULACIÓN</string>
     <string name="receive_call_date">Feb 17</string>
     <string name="receive_call_placeholder">Estudiante</string>
-    <string name="make_call_contact_name">Contact Name</string>
-    <string name="make_call_ip_address">IP Address</string>
+    <string name="make_call_contact_name">Nombre de contacto</string>
+    <string name="make_call_ip_address">Dirección IP</string>
     <string name="make_call_time_elapased">00:00</string>
-    <string name="make_call_add_call">Add Call</string>
+    <string name="make_call_add_call">Añadir Llamada</string>
     <string name="make_call_bluetooth">Bluetooth</string>
-    <string name="make_call_video_call">Video Call</string>
-    <string name="make_call_speaker">Speaker</string>
-    <string name="make_call_mute">Mute</string>
-    <string name="make_call_dialpad">Dialpad</string>
+    <string name="make_call_video_call">Video Llamada</string>
+    <string name="make_call_speaker">Altavoz</string>
+    <string name="make_call_mute">Silenciar</string>
+    <string name="make_call_dialpad">Teclado</string>
 
     <!-- Student scenario-->
     <string name="scenario_toolbar">Escenario</string>
-    <string name="scenario_start">Start Simulation</string>
-    <string name="scenario_default_text">Default Text</string>
-    <string name="scenario_file_name">scenarios.txt</string>
-    <string name="scenario_regen">New Scenario</string>
+    <string name="scenario_start">Iniciar Simulación</string>
+    <string name="scenario_default_text">Texto Predeterminado</string>
+    <string name="scenario_file_name">scenariosES.txt</string>
+    <string name="scenario_regen">Nuevo Escenario</string>
 
     <!--Teacher student-->
-    <string name="teacher_toolbar">Teacher</string>
-    <string name="waiting_for_call">Waiting for Student</string>
-    <string name="return_to_home">Return to Home</string>
+    <string name="teacher_toolbar">Maestro</string>
+    <string name="waiting_for_call">Esparando a Estudiante</string>
+    <string name="return_to_home">Volver a Inicio</string>
 </resources>
