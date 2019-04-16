@@ -81,4 +81,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scenarioTitle" />
 
+    <ImageButton
+        android:id="@+id/textToSpeechBtn"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+
+        android:background="@android:color/transparent"
+        android:cropToPadding="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scenarioText"
+        app:srcCompat="@android:drawable/presence_audio_online" />
+
 </android.support.constraint.ConstraintLayout>

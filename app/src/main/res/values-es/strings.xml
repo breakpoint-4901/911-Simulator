@@ -82,6 +82,7 @@
     <string name="scenario_default_text">Texto Predeterminado</string>
     <string name="scenario_file_name">scenariosES.txt</string>
     <string name="scenario_regen">Nuevo Escenario</string>
+    <string name="ttsIcon">Text To Speech Icon</string>
 
     <!--Teacher student-->
     <string name="teacher_toolbar">Maestro</string>
