@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Window;
 
 public class SplashActivity extends AppCompatActivity {
-    private static int SPLASH_TIMEOUT = 1500;
+    private static final int SPLASH_TIMEOUT = 1500;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_splash);
 
@@ -27,5 +24,9 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIMEOUT);
+    }
+    @Override
+    public void onBackPressed() {
+        //do nothing.
     }
 }

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SimulatedDialpadActivity"
+    android:background="#ffffff">
+
+    <TextView
+        android:id="@+id/numberTextView"
+        android:layout_width="333dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="204dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/backspaceBtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backspaceBtn"
+        android:layout_width="41dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginEnd="4dp"
+
+
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/backspace"
+        android:cropToPadding="false"
+
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backspace_grey_192x192" />
+
+    <ImageButton
+        android:id="@+id/oneImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numberTextView"
+        app:srcCompat="@drawable/number1" />
+
+    <ImageButton
+        android:id="@+id/fourImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oneImageBtn"
+        app:srcCompat="@drawable/number4" />
+
+    <ImageButton
+        android:id="@+id/sevenImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fourImageBtn"
+        app:srcCompat="@drawable/number7" />
+
+    <ImageButton
+        android:id="@+id/asteriskImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/symbol_description"
+        android:cropToPadding="false"
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sevenImageBtn"
+        app:srcCompat="@drawable/asterisk" />
+
+    <ImageButton
+        android:id="@+id/zeroImageBtn"
+        android:layout_width="132dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/asteriskImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/eightImageBtn"
+        app:srcCompat="@drawable/number0" />
+
+    <ImageButton
+        android:id="@+id/poundImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/symbol_description"
+
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/zeroImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/nineImageBtn"
+        app:srcCompat="@drawable/pound" />
+
+    <ImageButton
+        android:id="@+id/callImageBtn"
+        android:layout_width="184dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="32dp"
+
+        android:layout_marginEnd="60dp"
+
+
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/call_description"
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zeroImageBtn"
+        app:srcCompat="@drawable/call" />
+
+    <ImageButton
+        android:id="@+id/twoImageBtn"
+        android:layout_width="132dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/oneImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/numberTextView"
+        app:srcCompat="@drawable/number2" />
+
+    <ImageButton
+        android:id="@+id/threeImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+
+
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/twoImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/numberTextView"
+        app:srcCompat="@drawable/number3" />
+
+    <ImageButton
+        android:id="@+id/fiveImageBtn"
+        android:layout_width="132dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/fourImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/twoImageBtn"
+        app:srcCompat="@drawable/number5" />
+
+    <ImageButton
+        android:id="@+id/sixImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+
+
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fiveImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/threeImageBtn"
+        app:srcCompat="@drawable/number6" />
+
+    <ImageButton
+        android:id="@+id/eightImageBtn"
+        android:layout_width="132dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+        android:cropToPadding="false"
+
+
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toEndOf="@+id/sevenImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/fiveImageBtn"
+        app:srcCompat="@drawable/number8" />
+
+    <ImageButton
+        android:id="@+id/nineImageBtn"
+        android:layout_width="131dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/number_description"
+
+
+        android:cropToPadding="false"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/eightImageBtn"
+        app:layout_constraintTop_toBottomOf="@+id/sixImageBtn"
+        app:srcCompat="@drawable/number9" />
+
+    <TextView
+        android:id="@+id/simulation_text"
+        android:layout_width="410dp"
+        android:layout_height="490dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:rotation="65"
+        android:text="@string/receive_call_simulation"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        android:textColor="@color/WatermarkGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
