@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">911 Simulator</string>
+    <string name="logo_description">NCT911 logo</string>
+
+    <!-- Used in the Home Activity -->
+    <string name="welcome">¡Bienvenidos a la aplicación de simulación NCT9–1–1!</string>
+    <string name="start_app">Empezar</string>
+    <string name="settings">Cambiar Idioma</string>
+    <!--Check-->
+    <string name="choose_role">Elegir un Aparato...</string>
+    <string name="survey"><u>¿Necesitas la encuesta?</u></string>
+    <string name="temp_student">Estudiante</string>
+    <string-array name="device_roles">
+        <item>Maestro</item>
+        <item>Estudiante</item>
+    </string-array>
+
+    <!-- Used in the Email activity -->
+    <string name="send_survey">Ingrese su correo electrónico para que le envíen la encuesta.</string>
+    <string name="send_survey_hint">su correo electrónico aquí</string>
+    <string name="submit_email">Envia</string>
+    <string name="survey_file_name">9_1_1_Survey.pdf</string>
+    <string name="no_internet">Por favor compruebe su conexión de Internet y reinicie la aplicación.</string>
+
+    <!-- Used in the Connect Activity -->
+    <string name="discover">Descubre</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="connection_status">Estado de conexión</string>
+    <string name="connection_status2">Dispositivo no pareado</string>
+    <string name="choose_language">Elige Lengua…</string>
+    <!--Check-->
+    <string name="device_name">Identificatión de Aparato</string>
+    <!--Check-->
+    <string name="pair_devices">Emparejar los Aparatos</string>
+
+    <!--activty_connect -->
+    <string name="connect_start">Buscando aparatos cercanos</string>
+    <string name="display_name">Ingrese el nombre para mostrar:</string>
+    <string name="select_contacts">Seleccione un contacto para llamar</string>
+    <string name="update_contacts">Actualizar Contactos</string>
+    <string name="call_contacts">Llamar a Contactos</string>
+
+    <!-- Used in the SimulatedHomeScreen Activity -->
+    <string name="phone_description">foto de telefono</string>
+
+    <!-- Used in SimulatedDialpad Activity -->
+    <string name="number_description">number dial icon</string>
+    <string name="symbol_description">symbol dial icon</string>
+    <string name="call_description">call icon</string>
+    <string name="backspace">backspace image</string>
+
+    <!--menu directory (connections) -->
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Used in Make call activity -->
+    <string name="incoming_call">Llamada entrante</string>
+    <string name="accept_call">Aceptar</string>
+    <string name="reject_call">Rechazar</string>
+
+    <!-- Used in receive call activity -->
+    <string name="calling">Llamando</string>
+
+    <!-- Used in receive call activity & make a call -->
+    <string name="end_call">Finalizar llamada</string>
+    <string name="receive_call_callerid">Estudiantes identificatión del aparato___</string>
+    <string name="receive_call_simulation">ESTO ES UNA SIMULACIÓN</string>
+    <string name="receive_call_date">Feb 17</string>
+    <string name="receive_call_placeholder">Estudiante</string>
+    <string name="make_call_contact_name">Nombre de contacto</string>
+    <string name="make_call_ip_address">Dirección IP</string>
+    <string name="make_call_time_elapased">00:00</string>
+    <string name="make_call_add_call">Añadir Llamada</string>
+    <string name="make_call_bluetooth">Bluetooth</string>
+    <string name="make_call_video_call">Video Llamada</string>
+    <string name="make_call_speaker">Altavoz</string>
+    <string name="make_call_mute">Silenciar</string>
+    <string name="make_call_dialpad">Teclado</string>
+
+    <!-- Student scenario-->
+    <string name="scenario_toolbar">Escenario</string>
+    <string name="scenario_start">Iniciar Simulación</string>
+    <string name="scenario_default_text">Texto Predeterminado</string>
+    <string name="scenario_file_name">scenariosES.txt</string>
+    <string name="scenario_regen">Nuevo Escenario</string>
+
+    <!--Teacher student-->
+    <string name="teacher_toolbar">Maestro</string>
+    <string name="waiting_for_call">Esparando a Estudiante</string>
+    <string name="return_to_home">Volver a Inicio</string>
+</resources>

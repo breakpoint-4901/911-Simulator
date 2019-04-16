@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/background2"
+    tools:context=".SimulatedHomeScreenActivity"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <ImageButton
+        android:id="@+id/fortnite_icon"
+        android:layout_width="54dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="148dp"
+        android:background="@null"
+        android:contentDescription="@strings/maps_icon"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:onClick="didTapButton"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/fortnite" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pin_bar"
+        android:layout_width="443dp"
+        android:layout_height="86dp"
+        android:background="#33FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/glow_button"
+            android:layout_width="56dp"
+            android:layout_height="59dp"
+            android:background="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneIconButton"
+            app:layout_constraintEnd_toEndOf="@+id/phoneIconButton"
+            app:layout_constraintStart_toStartOf="@+id/phoneIconButton"
+            app:layout_constraintTop_toTopOf="@+id/phoneIconButton"
+            app:srcCompat="@drawable/green_glow" />
+
+        <ImageButton
+            android:id="@+id/phoneIconButton"
+            android:layout_width="56dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@string/phone_description"
+            android:cropToPadding="false"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/phone_icon_27" />
+
+        <ImageButton
+            android:id="@+id/messaging_button"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/messaging_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/phoneIconButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/messages_icon" />
+
+        <ImageButton
+            android:id="@+id/mail_button"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/mai_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/messaging_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/main_icon" />
+
+        <ImageButton
+            android:id="@+id/chrome_icon"
+            android:layout_width="54dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@strings/chrome_icon"
+            android:onClick="didTapButton"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mail_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chrome_icon" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/maps_icon"
+        android:layout_width="54dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="150dp"
+        android:background="@null"
+        android:contentDescription="@strings/maps_icon"
+        android:onClick="didTapButton"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/maps" />
+
+    <TextView
+        android:id="@+id/simulation_text"
+        android:layout_width="410dp"
+        android:layout_height="222dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:rotation="65"
+        android:text="SIMULATION"
+        android:textAlignment="center"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toTopOf="@+id/pin_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/maps_text"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:text="Maps"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="@+id/maps_icon"
+        app:layout_constraintStart_toStartOf="@+id/maps_icon"
+        app:layout_constraintTop_toBottomOf="@+id/maps_icon" />
+
+    <TextView
+        android:id="@+id/fortnite_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fortnite"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/fortnite_icon"
+        app:layout_constraintStart_toStartOf="@+id/fortnite_icon"
+        app:layout_constraintTop_toBottomOf="@+id/fortnite_icon" />
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month" />
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="193dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+

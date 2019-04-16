@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- Our colors -->
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#A9A9A9</color>
+
+    <!-- Colors from NCT -->
+    <color name="NCTBlue">#002066</color>
+    <color name="NCTRed"> #ff0000</color>
+    <color name="NCTGold">#f5d472</color>
+
+    <!--Colors for Android Call screen-->
+    <color name="CallScreenGreen">#6BBE4B</color>
+
+    <!--Colors for DimScreen-->
+    <color name="dimScreen">#dd000000</color>
+</resources>
