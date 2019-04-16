@@ -43,6 +43,7 @@ public class AudioCall {
         muteSpeakers();
     }
 
+    //TODO: make these togglable? mic != mic, etc
     public void muteMic() {
 
         mic = false;
