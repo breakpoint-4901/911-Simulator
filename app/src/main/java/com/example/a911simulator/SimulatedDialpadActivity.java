@@ -20,6 +20,11 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
     private String contactName;
     private String contactIp;
 
+    //class objects to allow for method functions to access without passing-in as params
+    ImageButton number1Btn, number2Btn, number3Btn, number4Btn, number5Btn, number6Btn;
+    ImageButton  number7Btn, number8Btn, number9Btn, number0Btn;
+    ImageButton asteriskBtn, poundBtn, callBtn, backspaceBtn;
+
     //private String dialedNumber;
     //create an animation
     private AlphaAnimation blinkAnimation;
@@ -35,20 +40,20 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
         contactIp = intent.getStringExtra(ConnectActivity.CONTACT_IP);
 
         //set up variables
-        final ImageButton number1Btn = findViewById(R.id.oneImageBtn);
-        ImageButton number2Btn = findViewById(R.id.twoImageBtn);
-        ImageButton number3Btn = findViewById(R.id.threeImageBtn);
-        ImageButton number4Btn = findViewById(R.id.fourImageBtn);
-        ImageButton number5Btn = findViewById(R.id.fiveImageBtn);
-        ImageButton number6Btn = findViewById(R.id.sixImageBtn);
-        ImageButton number7Btn = findViewById(R.id.sevenImageBtn);
-        ImageButton number8Btn = findViewById(R.id.eightImageBtn);
-        final ImageButton number9Btn = findViewById(R.id.nineImageBtn);
-        ImageButton number0Btn = findViewById(R.id.zeroImageBtn);
-        ImageButton asteriskBtn = findViewById(R.id.asteriskImageBtn);
-        ImageButton poundBtn = findViewById(R.id.poundImageBtn);
-        final ImageButton callBtn = findViewById(R.id.callImageBtn);
-        final ImageButton backspaceBtn = findViewById(R.id.backspaceBtn);
+        number1Btn = findViewById(R.id.oneImageBtn);
+        number2Btn = findViewById(R.id.twoImageBtn);
+        number3Btn = findViewById(R.id.threeImageBtn);
+        number4Btn = findViewById(R.id.fourImageBtn);
+        number5Btn = findViewById(R.id.fiveImageBtn);
+        number6Btn = findViewById(R.id.sixImageBtn);
+        number7Btn = findViewById(R.id.sevenImageBtn);
+        number8Btn = findViewById(R.id.eightImageBtn);
+        number9Btn = findViewById(R.id.nineImageBtn);
+        number0Btn = findViewById(R.id.zeroImageBtn);
+        asteriskBtn = findViewById(R.id.asteriskImageBtn);
+        poundBtn = findViewById(R.id.poundImageBtn);
+        callBtn = findViewById(R.id.callImageBtn);
+        backspaceBtn = findViewById(R.id.backspaceBtn);
         final TextView numberDialedTextView = findViewById(R.id.numberTextView);
 
         //setup animation
@@ -62,6 +67,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "1")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -74,6 +80,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "2")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -85,6 +92,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "3")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -96,6 +104,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "4")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -107,6 +116,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "5")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -118,6 +128,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "6")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -129,6 +140,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "7")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -140,6 +152,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "8")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -151,6 +164,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "9")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -162,6 +176,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "0")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -173,6 +188,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "*")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -184,6 +200,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "#")){
+                    clearAnimations();
                     backspaceBtn.startAnimation(blinkAnimation);
                 }
 
@@ -195,6 +212,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isWrongBtn(getTextFromTextView(numberDialedTextView), "call")){
+                    clearAnimations();
                     switch (getTextFromTextView(numberDialedTextView)){
                         case "":
                             number9Btn.startAnimation(blinkAnimation);
@@ -238,7 +256,7 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
                 //correct button to press next logic
                 if(getTextFromTextView(numberDialedTextView) != null){
                     numberDialedTextView.setText(removeLastChar(getTextFromTextView(numberDialedTextView)));
-
+                    clearAnimations();
                     switch (getTextFromTextView(numberDialedTextView)){
                         case "":
                             number9Btn.startAnimation(blinkAnimation);
@@ -322,6 +340,24 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
             return false; // Wi-Fi adapter is OFF
         }
     }
+
+    private void clearAnimations(){
+        number1Btn.clearAnimation();
+        number2Btn.clearAnimation();
+        number3Btn.clearAnimation();
+        number4Btn.clearAnimation();
+        number5Btn.clearAnimation();
+        number6Btn.clearAnimation();
+        number7Btn.clearAnimation();
+        number8Btn.clearAnimation();
+        number9Btn.clearAnimation();
+        number0Btn.clearAnimation();
+        asteriskBtn.clearAnimation();
+        poundBtn.clearAnimation();
+        callBtn.clearAnimation();
+        backspaceBtn.clearAnimation();
+    }
+
 
     @Override
     public void onBackPressed() {
