@@ -11,14 +11,24 @@ CSCE 4901 Course Project
 ### Instructor Advisor
 - Dr. Bill Buckles
 
+### Sponsor
+- Amelia Mueller, NCT9-1-1
+
 ### Wireframe Walkthrough
 
 <img src="https://i.imgur.com/Et0sivV.gif">
 
-### Spring 1 App Demo
+### Sprint 1 App Demo
 
-[Imgur .gifv](https://i.imgur.com/rbEwcCY.gifv)
+<img src="demos/demo.gif?raw=true">
 
-### Class Diagram
+### Sprint 2 App Demo
+
+<img src="demos/sprint2Demo.gif?raw=true">
+
+### Class Diagram v1
 
 <img src="https://i.imgur.com/w7yrW0s.png">
+
+### Class Diagram v2
+<img src="https://i.imgur.com/dPjm4hO.png">
