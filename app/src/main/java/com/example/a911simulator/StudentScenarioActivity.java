@@ -1,11 +1,18 @@
 package com.example.a911simulator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.os.ConfigurationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.util.Locale;
 
 public class StudentScenarioActivity extends AppCompatActivity {
@@ -29,40 +35,51 @@ public class StudentScenarioActivity extends AppCompatActivity {
     private String contactIp;
 
     TextToSpeech tts;
+    AudioManager audio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_scenario);
 
+        //grab ui elements
         scenarioText = findViewById(R.id.scenarioText);
         studentScenarioButton = findViewById(R.id.studentScenarioButton);
         regenScenario = findViewById(R.id.regenScenario);
         ttsBtn = findViewById(R.id.textToSpeechBtn);
 
+        //give the regenerate scenario button a larger 'hit box'
+        increaseHitAreaOfBy(regenScenario, 20);
+
         //initiate text-to-speech and verify usage for current locale
-        tts = new TextToSpeech(StudentScenarioActivity.this, new TextToSpeech.OnInitListener() {
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS){
-                    int result = tts.setLanguage(getResources().getConfiguration().locale);
+                    int result = tts.setLanguage(ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0));
 
                     //if tts cannot work, show on screen and hide tts button
                     if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
                         ttsBtn.setVisibility(View.GONE);
-
-                        Toast.makeText(getApplicationContext(), "Text to speech functionality will not work for the set language.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Text to speech language is not supported", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
                     ttsBtn.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Text to speech functionality will not work for the set language.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Text to speech functionality is not supported.", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        //set media volume to 50%
+        audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float percent = 0.5f;
+        int halfVolume = (int) (maxVolume * percent);
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, halfVolume, 0);
+
         //grab scenario
-        generateScenerio();
+        generateScenario();
         scenario = scenarioGen.getRandomScenario();
         scenarioText.setMovementMethod(new ScrollingMovementMethod());
         scenarioText.setText(scenario.getText());
@@ -91,6 +108,7 @@ public class StudentScenarioActivity extends AppCompatActivity {
                 startActivity(simulatedHomeScreen);
             }
         });
+
         regenScenario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,12 +139,12 @@ public class StudentScenarioActivity extends AppCompatActivity {
         });
     }
 
-    private void generateScenerio() {
+    private void generateScenario() {
 
         AssetManager assetManager = getAssets(); //we store our files into the assets folder.
         String filename = getString(R.string.scenario_file_name); //scalability.
 
-        InputStream in = null;
+        InputStream in;
         try {
             //attempt to open the file.
             in = assetManager.open(filename);
@@ -140,5 +158,27 @@ public class StudentScenarioActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //do nothing.
+    }
+
+    //takes in a button and increases its 'hit box' for ui tapping
+    private void increaseHitAreaOfBy(final Button btn, final int delta){
+        final View parent = (View) btn.getParent();
+        parent.post(new Runnable() {
+            @Override
+            public void run() {
+                //create new rectangular hit box
+                final Rect rect = new Rect();
+                btn.getHitRect(rect);
+
+                //increase bounds of shape
+                rect.top -= delta;
+                rect.left -= delta;
+                rect.right += delta;
+                rect.bottom += delta;
+
+                //set button 'hit area' as new rect
+                parent.setTouchDelegate( new TouchDelegate(rect, btn));
+            }
+        });
     }
 }
