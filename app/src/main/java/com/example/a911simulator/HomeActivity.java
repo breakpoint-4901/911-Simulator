@@ -1,22 +1,18 @@
 package com.example.a911simulator;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
@@ -29,8 +25,8 @@ import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
     private final String [] supportedLanguages = {"English","Español"};
-    String [] supportedRoles = {};
-    PermissionManager permissionManager; //used to requesting/checking permissions
+    private String [] supportedRoles = {};
+    private PermissionManager permissionManager; //used to requesting/checking permissions
 
     public final static String ROLE = "ROLE"; //used for passing in for future states
 

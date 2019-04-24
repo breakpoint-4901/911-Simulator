@@ -21,9 +21,20 @@ public class SimulatedDialpadActivity extends AppCompatActivity {
     private String contactIp;
 
     //class objects to allow for method functions to access without passing-in as params
-    ImageButton number1Btn, number2Btn, number3Btn, number4Btn, number5Btn, number6Btn;
-    ImageButton  number7Btn, number8Btn, number9Btn, number0Btn;
-    ImageButton asteriskBtn, poundBtn, callBtn, backspaceBtn;
+    private ImageButton number1Btn;
+    private ImageButton number2Btn;
+    private ImageButton number3Btn;
+    private ImageButton number4Btn;
+    private ImageButton number5Btn;
+    private ImageButton number6Btn;
+    private ImageButton  number7Btn;
+    private ImageButton number8Btn;
+    private ImageButton number9Btn;
+    private ImageButton number0Btn;
+    private ImageButton asteriskBtn;
+    private ImageButton poundBtn;
+    private ImageButton callBtn;
+    private ImageButton backspaceBtn;
 
     //private String dialedNumber;
     //create an animation

@@ -3,11 +3,9 @@ package com.example.a911simulator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.os.ConfigurationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,22 +18,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
-import java.util.Locale;
 
 public class StudentScenarioActivity extends AppCompatActivity {
 
-    TextView scenarioText;
-    Button studentScenarioButton, regenScenario;
-    ImageButton ttsBtn;
-    ScenarioGenerator scenarioGen;
-    ScenarioGenerator.Scenario scenario;
+    private TextView scenarioText;
+    private Button studentScenarioButton;
+    private Button regenScenario;
+    private ImageButton ttsBtn;
+    private ScenarioGenerator scenarioGen;
+    private ScenarioGenerator.Scenario scenario;
 
     private String displayName;
     private String contactName;
     private String contactIp;
 
-    TextToSpeech tts;
-    AudioManager audio;
+    private TextToSpeech tts;
+    private AudioManager audio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

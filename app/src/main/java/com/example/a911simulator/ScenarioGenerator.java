@@ -1,5 +1,7 @@
 package com.example.a911simulator;
 
+import android.util.Log;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,16 +10,16 @@ import java.util.Scanner;
 
 public class ScenarioGenerator {
 
-    public ArrayList<Scenario> scenarios;
-    public Random randIndex;
-    public int prevIndex;
-    public InputStream scenarioFile;
+    private final ArrayList<Scenario> scenarios;
+    private final Random randIndex;
+    private int prevIndex;
+    private final InputStream scenarioFile;
 
     public class Scenario {
 
-        private String text; //the line pulled from the .txt file
+        private final String text; //the line pulled from the .txt file
 
-        public Scenario(String text){
+        Scenario(String text){
             this.text = text; //constructor
         }
         public String getText() {
@@ -44,7 +46,7 @@ public class ScenarioGenerator {
         return newScenario;
     }
 
-    public void readScenarioFile(){
+    private void readScenarioFile(){
         Scanner in;
         try {
             in = new Scanner(scenarioFile);
@@ -52,7 +54,7 @@ public class ScenarioGenerator {
                 scenarios.add(new Scenario(in.nextLine())); //fill up our datastructure with each new line.
             }
         }catch(Exception e){
-            System.out.println(e);
+            Log.i("Scenario_GEN", e.toString());
         }
     }
 

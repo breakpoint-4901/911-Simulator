@@ -38,13 +38,13 @@ public class MakeCallActivity extends AppCompatActivity implements SensorEventLi
     private boolean LISTEN = true;
     private boolean IN_CALL = false;
     private AudioCall call;
-    TextView textView;
-    TextView ipAddress;
+    private TextView textView;
+    private TextView ipAddress;
 
     private boolean DIMSCREEN = false;
     private SensorManager sensorManager;
     private Sensor proximity;
-    View dimScreen;
+    private View dimScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

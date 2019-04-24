@@ -2,7 +2,6 @@ package com.example.a911simulator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.matchers.Null;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.*;

@@ -7,17 +7,15 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
-import java.lang.Object;
 
 import static android.content.Context.WIFI_SERVICE;
 
-public class ContactManager {
+class ContactManager {
     private static final String LOG_TAG = "ContactManager";
     private static final int BROADCAST_INTERVAL = 10000; // Milliseconds
     private static final int BROADCAST_BUF_SIZE = 1024;
@@ -25,9 +23,9 @@ public class ContactManager {
     private static final String MULTICAST_GROUP = "228.5.6.7";
     private boolean BROADCAST = true;
     private boolean LISTEN = true;
-    private HashMap<String, InetAddress> contacts;
-    private InetAddress parentIP;
-    private Context context;
+    private final HashMap<String, InetAddress> contacts;
+    private final InetAddress parentIP;
+    private final Context context;
 
     public ContactManager(String name, InetAddress parentIP, Context context) {
 
@@ -43,7 +41,7 @@ public class ContactManager {
         return contacts;
     }
 
-    public void addContact(String name, InetAddress address) {
+    private void addContact(String name, InetAddress address) {
         // If the contact is not already known to us, add it
         if(!contacts.containsKey(name) && !address.equals(parentIP)) {
 
@@ -55,7 +53,7 @@ public class ContactManager {
         Log.i(LOG_TAG, "Contact already exists: " + name);
     }
 
-    public void removeContact(String name) {
+    private void removeContact(String name) {
         // If the contact is known to us, remove it
         if(contacts.containsKey(name)) {
 
@@ -104,7 +102,7 @@ public class ContactManager {
         byeThread.start();
     }
 
-    public void broadcastName(final String name) {
+    private void broadcastName(final String name) {
         // Broadcasts the name of the device at a regular interval
         Log.i(LOG_TAG, "Broadcasting started!");
         Thread broadcastThread = new Thread(new Runnable() {
@@ -170,7 +168,7 @@ public class ContactManager {
         BROADCAST = false;
     }
 
-    public void listen() {
+    private void listen() {
         // Create the listener thread
         Log.i(LOG_TAG, "Listening started!");
         Thread listenThread = new Thread(new Runnable() {
@@ -221,7 +219,7 @@ public class ContactManager {
                 socket.close();
             }
 
-            public void listen(MulticastSocket socket, byte[] buffer) {
+            void listen(MulticastSocket socket, byte[] buffer) {
 
                 try {
 

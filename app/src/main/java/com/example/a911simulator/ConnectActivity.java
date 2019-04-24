@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class ConnectActivity extends AppCompatActivity {
 
-    static final String LOG_TAG = "ConnectActivity";
+    private static final String LOG_TAG = "ConnectActivity";
     private ContactManager contactManager;
     private String displayName;
     private String role;
@@ -34,14 +34,14 @@ public class ConnectActivity extends AppCompatActivity {
     private boolean STARTED = false;
     private boolean IN_CALL = false; //i believe th is is just used for the ON_STOP and restart methods.
 
-    Handler handler;
+    private Handler handler;
 
     //used for passing values between intents.
     public final static String BROADCAST = "BROADCAST";
     public final static String CONTACT_NAME = "CONTACT_NAME";
     public final static String CONTACT_IP = "IP_ADDRESS";
     public final static String CONTACT_DISPLAYNAME = "PHONE_NAME";
-    public final static String ROLE = "DEVICE_ROLE"; //i think this is redundant considering the
+    private final static String ROLE = "DEVICE_ROLE"; //i think this is redundant considering the
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

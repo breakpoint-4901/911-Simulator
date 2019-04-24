@@ -30,7 +30,7 @@ public class TeacherActivity extends AppCompatActivity {
     private boolean STARTED = false;
 
     //logging
-    static final String LOG_TAG = "TeacherActivity";
+    private static final String LOG_TAG = "TeacherActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

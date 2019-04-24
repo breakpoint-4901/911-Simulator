@@ -2,18 +2,12 @@ package com.example.a911simulator;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -50,9 +43,9 @@ public class ReceiveCallActivity extends AppCompatActivity implements SensorEven
     //used for to enable/disable the screen for the proximity sensor.
     private SensorManager sensorManager;
     private Sensor proximity;
-    LayoutInflater inflater;
-    View view;
-    View dimScreen;
+    private LayoutInflater inflater;
+    private View view;
+    private View dimScreen;
 
 
     @Override
