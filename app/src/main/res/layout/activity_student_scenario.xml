@@ -66,7 +66,7 @@
     <TextView
         android:id="@+id/scenarioText"
         android:layout_width="379dp"
-        android:layout_height="333dp"
+        android:layout_height="309dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -85,15 +85,15 @@
         android:layout_height="40dp"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/ttsIcon"
         android:cropToPadding="false"
         android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/studentScenarioButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scenarioTitle"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/speech_circle_nct_blue" />
 
 </android.support.constraint.ConstraintLayout>
