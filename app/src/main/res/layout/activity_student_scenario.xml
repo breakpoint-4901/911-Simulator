@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/scenario_regen"
         android:textColor="@color/NCTBlue"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentScenarioButton" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/logo"
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/scenarioTitle"
-        android:layout_width="331dp"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
@@ -55,7 +55,7 @@
         android:layout_height="51dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/button_selector"
         android:text="@string/scenario_start"
         android:textSize="30sp"
@@ -70,28 +70,30 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:fadeScrollbars="false"
         android:scrollbarStyle="outsideInset"
         android:scrollbars="vertical"
         android:text="@string/scenario_default_text"
         android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/studentScenarioButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scenarioTitle" />
 
     <ImageButton
         android:id="@+id/textToSpeechBtn"
-        android:layout_width="45dp"
+        android:layout_width="35dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="16dp"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/ttsIcon"
         android:cropToPadding="false"
-
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scenarioText"
-        app:srcCompat="@android:drawable/presence_audio_online" />
+        app:layout_constraintStart_toEndOf="@+id/scenarioTitle"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:srcCompat="@drawable/speech_circle_nct_blue" />
 
 </android.support.constraint.ConstraintLayout>
