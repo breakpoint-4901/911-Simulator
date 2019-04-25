@@ -56,8 +56,8 @@ public class StudentScenarioActivity extends AppCompatActivity {
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS){
                     //FIXME: toggle comment for each one pls
-                    int result = tts.setLanguage(ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0));
-                    //int result = tts.setLanguage(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
+                    //int result = tts.setLanguage(ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0));
+                    int result = tts.setLanguage(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
 
                     //if tts cannot work, show on screen and hide tts button
                     if(result == TextToSpeech.LANG_NOT_SUPPORTED){
