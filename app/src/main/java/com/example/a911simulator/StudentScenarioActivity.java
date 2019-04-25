@@ -3,6 +3,7 @@ package com.example.a911simulator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -54,12 +55,18 @@ public class StudentScenarioActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS){
+                    //FIXME: toggle comment for each one pls
                     int result = tts.setLanguage(ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0));
+                    //int result = tts.setLanguage(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
 
                     //if tts cannot work, show on screen and hide tts button
-                    if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                    if(result == TextToSpeech.LANG_NOT_SUPPORTED){
                         ttsBtn.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Text to speech language is not supported", Toast.LENGTH_LONG).show();
+                    }
+                    else if(result == TextToSpeech.LANG_MISSING_DATA){
+                        ttsBtn.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), "Text to speech missing data on language.", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
