@@ -39,6 +39,15 @@
 
     <!-- Used in the SimulatedHomeScreen Activity -->
     <string name="phone_description">phone icon</string>
+    <string name="maps_icon_title">Maps</string>
+    <string name="simulation_warning">SIMULATION</string>
+    <string name="fortnite_icon_title">Fortnite</string>
+    <string name="button_glow">Indication glow</string>
+    <string name="fornite_description">Simulated fortnite button</string>
+    <string name="messaging_button_description">Simulated messaging button</string>
+    <string name="mail_icon_description">Simulated mail button</string>
+    <string name="chrome_icon_description">Simulated Chrome button</string>
+    <string name="maps_icon_description">Simulated maps button</string>
 
     <!-- Used in SimulatedDialpad Activity -->
     <string name="number_description">number dial icon</string>
