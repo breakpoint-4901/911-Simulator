@@ -88,4 +88,5 @@
     <string name="teacher_toolbar">Maestro</string>
     <string name="waiting_for_call">Esparando a Estudiante</string>
     <string name="return_to_home">Volver a Inicio</string>
+    <string name="connect_wait_message">Espere a que aparezca el ID del otro telefono y, a continuación, selecciónelo para conectarse.</string>
 </resources>

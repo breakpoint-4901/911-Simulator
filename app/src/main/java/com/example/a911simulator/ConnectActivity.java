@@ -42,6 +42,9 @@ public class ConnectActivity extends AppCompatActivity {
     public final static String CONTACT_IP = "IP_ADDRESS";
     public final static String CONTACT_DISPLAYNAME = "PHONE_NAME";
     private final static String ROLE = "DEVICE_ROLE"; //i think this is redundant considering the
+    private static String loadingString;
+    private int i;
+    private TextView loadingTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,10 @@ public class ConnectActivity extends AppCompatActivity {
         //pull the device role from the previous activity [user defined]
         Intent intent = getIntent();
         role = intent.getStringExtra(HomeActivity.ROLE);
+
+        //grab the loading string from the text view
+        loadingTV = findViewById(R.id.loadingTextView);
+        loadingString = loadingTV.getText().toString();
 
         //the teacher should never need to press a button.
         deviceIP = getThisIP();
@@ -142,9 +149,9 @@ public class ConnectActivity extends AppCompatActivity {
         scrollView.setVisibility(View.VISIBLE);
         contactManager = new ContactManager(displayName, deviceIP, getBaseContext());
 
-        //update our contacts [scrollView] every 5 seconds
+        //update our contacts [scrollView] every 3 seconds
         handler = new Handler();
-        final int delay = 5000; //milliseconds
+        final int delay = 3000; //milliseconds
         handler.postDelayed(new Runnable(){
             public void run(){
                 if(STARTED) {
@@ -154,6 +161,40 @@ public class ConnectActivity extends AppCompatActivity {
                 }
             }
         }, delay);
+
+        //update our loading text view every second
+        i = 0;
+        final Handler animHandler = new Handler();
+        final int animDelay = 1000; //milliseconds
+        animHandler.postDelayed(new Runnable(){
+            public void run(){
+                Log.i(LOG_TAG, "Updating loading string.");
+                updateLoading();
+                animHandler.postDelayed(this, animDelay);
+
+            }
+        }, animDelay);
+    }
+
+    //used to create an animated-like text view
+    private void updateLoading(){
+        //we have four states
+        int value = i % 400;
+
+        //find which state we are in and set appropriate dot amount
+        if(value >= 0 && value < 100){
+            loadingTV.setText(loadingString);
+        }
+        if(value >= 100 && value < 200){
+            loadingTV.setText(loadingString + ".");
+        }else if(value >= 200 && value < 300){
+            loadingTV.setText(loadingString + "..");
+        }else if(value >= 300){
+            loadingTV.setText(loadingString + "...");
+        }
+
+        //update global value
+        i = i + 100;
     }
 
     private void updateContactList() {
@@ -238,7 +279,7 @@ public class ConnectActivity extends AppCompatActivity {
         handler = new Handler();
 
         //restart our handler
-        final int delay = 5000; //milliseconds
+        final int delay = 3000; //milliseconds
         handler.postDelayed(new Runnable(){
             public void run(){
                 if(STARTED) {

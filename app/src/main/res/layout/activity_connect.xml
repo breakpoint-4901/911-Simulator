@@ -49,32 +49,34 @@
         android:id="@+id/scrollView"
         style="@android:style/Widget.Holo.Light.ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="233dp"
+        android:layout_height="152dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="184dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deviceIdentity">
+        app:layout_constraintTop_toBottomOf="@+id/loadingInfoTextView"
+        app:layout_constraintVertical_bias="0.208">
 
-    <RadioGroup
-        android:id="@+id/contactList"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/logo2"/>
+        <RadioGroup
+            android:id="@+id/contactList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/logo2" />
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/loadingTextView"
+        android:layout_width="368dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
 
         android:text="@string/connect_start"
+        android:textAlignment="center"
         android:textColor="@color/NCTBlue"
-        android:textSize="30sp"
 
 
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView" />
@@ -93,5 +95,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo2" />
+
+    <TextView
+        android:id="@+id/loadingInfoTextView"
+        android:layout_width="387dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/connect_wait_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deviceIdentity" />
 
 </android.support.constraint.ConstraintLayout>

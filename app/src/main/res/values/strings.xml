@@ -85,6 +85,7 @@
     <string name="teacher_toolbar">Teacher</string>
     <string name="waiting_for_call">Waiting for Student</string>
     <string name="return_to_home">Return to Home</string>
+    <string name="connect_wait_message">Please wait for the other device\'s ID to appear below and then select it to connect.</string>
 
 
 </resources>
