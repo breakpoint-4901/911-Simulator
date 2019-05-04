@@ -55,7 +55,7 @@ public class StudentScenarioActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS){
-                    //FIXME: toggle comment for each one pls
+                    //FIXME: will only ever use english voice. AndroidCompat makes it difficult to get current locale
                     //int result = tts.setLanguage(ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0));
                     int result = tts.setLanguage(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
 

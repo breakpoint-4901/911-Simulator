@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">911 Simulator</string>
+    <string name="app_name">9–1–1 Test</string>
     <string name="logo_description">NCT911 logo</string>
 
     <!-- Used in the Home Activity -->

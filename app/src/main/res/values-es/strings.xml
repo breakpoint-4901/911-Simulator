@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">911 Simulator</string>
+    <string name="app_name">9–1–1 Test</string>
     <string name="logo_description">NCT911 logo</string>
 
     <!-- Used in the Home Activity -->
@@ -7,7 +7,7 @@
     <string name="start_app">Empezar</string>
     <string name="settings">Cambiar Idioma</string>
     <!--Check-->
-    <string name="choose_role">Elegir un Aparato...</string>
+    <string name="choose_role">Elegir un Aparato…</string>
     <string name="survey"><u>¿Necesitas la encuesta?</u></string>
     <string name="temp_student">Estudiante</string>
     <string-array name="device_roles">
@@ -80,7 +80,7 @@
     <string name="scenario_toolbar">Escenario</string>
     <string name="scenario_start">Iniciar Simulación</string>
     <string name="scenario_default_text">Texto Predeterminado</string>
-    <string name="scenario_file_name">scenariosES.txt</string>
+    <string name="scenario_file_name">scenarios_es.txt</string>
     <string name="scenario_regen">Nuevo Escenario</string>
     <string name="ttsIcon">Text To Speech Icon</string>
 
